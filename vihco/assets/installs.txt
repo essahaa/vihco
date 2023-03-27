@@ -4,6 +4,8 @@ npm install @react-native-async-storage/async-storage
 // BOTTOM TAB
 npm install @react-navigation/native
 
+npx expo install react-native-screens react-native-safe-area-context
+
 npm install @react-navigation/bottom-tabs
 
 npm i @expo/vector-icons

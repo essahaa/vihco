@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
+import Bottomtab from './components/Bottomtab';
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>App.js</Text>
+      <Bottomtab />
     </View>
   );
 }
