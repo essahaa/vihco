@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 
-export default function Account() {
+export default function Sheets() {
   return (
     <View >
-      <Text>Account</Text>
+      <Text>Sheets</Text>
     </View>
   );
 }
