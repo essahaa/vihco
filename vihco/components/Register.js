@@ -6,14 +6,14 @@ import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 // import styles from '../style/style';
 
 export default Register = ({navigation}) => {
-    const [nickname, setNickname] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handlePress = () => {
         if(!nickname) {
-            Alert.alert('Nickname is required');
+            Alert.alert('Username is required');
         }
         else if(!email) {
             Alert.alert('Email is required');
@@ -29,7 +29,7 @@ export default Register = ({navigation}) => {
             Alert.alert('Passwords do not match!')
         }
         else {
-            // signUp(nickname,email, password);
+            // signUp(username,email, password);
             // onAuthStateChanged(auth, (user) => {
             //     if(user) {
             //         navigation.navigate('Todo', {userUid: user.uid});
@@ -44,9 +44,9 @@ export default Register = ({navigation}) => {
             <Text >Create an account</Text>
             <TextInput 
                 
-                placeholder='Nickname'
-                value={nickname}
-                onChangeText={(nickname) => setNickname(nickname.trim())}
+                placeholder='Username'
+                value={username}
+                onChangeText={(username) => setUsername(username.trim())}
             />
             <TextInput 
                 
