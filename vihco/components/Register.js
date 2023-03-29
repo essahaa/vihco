@@ -1,25 +1,35 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
-// import { signIn, signUp } from "./Auth";
+// import { signUp } from "./Auth";
 // import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from "../firebase/Config";
 // import styles from '../style/style';
 
-
-export default Login = ({navigation}) => {
+export default Register = ({navigation}) => {
+    const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handlePress = () => {
-        
-        if(!email) {
+        if(!nickname) {
+            Alert.alert('Nickname is required');
+        }
+        else if(!email) {
             Alert.alert('Email is required');
         }
         else if(!password) {
             Alert.alert('Password is required');
         }
+        else if(!confirmPassword) {
+            setPassword('');
+            Alert.alert('Confirming password is required')
+        }
+        else if(password !== confirmPassword) {
+            Alert.alert('Passwords do not match!')
+        }
         else {
-            // signIn(nickname,email, password);
+            // signUp(nickname,email, password);
             // onAuthStateChanged(auth, (user) => {
             //     if(user) {
             //         navigation.navigate('Todo', {userUid: user.uid});
@@ -30,11 +40,17 @@ export default Login = ({navigation}) => {
 
     return (
         <View >
-            <Text >Login</Text>
-            <Text >Login to your account</Text>
+            <Text >Register</Text>
+            <Text >Create an account</Text>
             <TextInput 
                 
-                placeholder='Enter your email*'
+                placeholder='Nickname'
+                value={nickname}
+                onChangeText={(nickname) => setNickname(nickname.trim())}
+            />
+            <TextInput 
+                
+                placeholder='Enter your email'
                 value={email}
                 onChangeText={(email) => setEmail(email.trim())}
                 keyboardType='email-address'
@@ -47,17 +63,24 @@ export default Login = ({navigation}) => {
                 onChangeText={(password) => setPassword(password)}
                 secureTextEntry={true}
             />
-            <Pressable >
-                <Button 
-                    title="Login"
-                    onPress={handlePress}
-                />
-            </Pressable>
-            <Text >Not having account yet?</Text>
+            <TextInput 
+                
+                placeholder='Confirm password*'
+                value={confirmPassword}
+                onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+                secureTextEntry={true}
+            />
             <Pressable >
                 <Button 
                     title="Register"
-                    onPress={() => navigation.navigate('Register')}
+                    onPress={handlePress}
+                />
+            </Pressable>
+            <Text >Already have an account?</Text>
+            <Pressable >
+                <Button 
+                    title="Login"
+                    onPress={() => navigation.navigate('Login')}
                 />
             </Pressable>
         </View>
