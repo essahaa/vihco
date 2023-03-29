@@ -7,6 +7,8 @@ import Sheets from './Sheets';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'; 
 import Login from './Login';
 import Register from './Register';
+import Yatzi from './Yatzi';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -21,6 +23,7 @@ export default Bottomtab = () => {
       <Tab.Screen name="Account"  component={Account} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="black" />}}/>
       <Tab.Screen name="Login"  component={Login} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="black" />}}/>
       <Tab.Screen name="Register"  component={Register} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="black" />}}/>
+      <Tab.Screen name="Yatzi"  component={Yatzi} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="black" />}}/>
     </Tab.Navigator>
     </NavigationContainer>
   );
