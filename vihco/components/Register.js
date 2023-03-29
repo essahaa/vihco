@@ -12,7 +12,7 @@ export default Register = ({navigation}) => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handlePress = () => {
-        if(!nickname) {
+        if(!username) {
             Alert.alert('Username is required');
         }
         else if(!email) {
