@@ -1,31 +1,23 @@
 import { Alert } from 'react-native';
-import { ref, set } from 'firebase/database';
 import { collection, addDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth, db, USERS_REF } from '../firebase/Config';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { db, USERS_REF } from '../firebase/Config';
 
 export const signUp = async (username, email, password) => {
-    try {
-        await createUserWithEmailAndPassword(auth,email,password)
-        .then((userCredential) => {
-            set(ref(db, USERS_REF + userCredential.user.uid), {
-                name: username, 
-                email: userCredential.user.email
-            });
-        })    
-    }
-    catch (error) {
-        console.log('Registration failed. ', error.message);
-        Alert.alert('Registration completed!');
-    }
-    await addNewDoc(username, email)
+const auth = getAuth();
+createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+         addNewDoc(username, userCredential.user.email)
+        })  
+    .catch ((error) => {
+    console.log('Registration failed. ', error.message);
+    Alert.alert('Registration failed. ', error.message);
+})
 }
-
-
 
 const addNewDoc = async(username, email) => {
     try {
-        const docRef = await addDoc(collection(db, "users"), {
+        const docRef = await addDoc(collection(db, USERS_REF), {
           name: username, 
           email: email
         });
