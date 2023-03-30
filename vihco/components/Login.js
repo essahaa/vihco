@@ -4,6 +4,7 @@ import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 // import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from "../firebase/Config";
 import styles from '../styles/style';
+import Logo from "./Logo";
 
 
 export default Login = ({navigation}) => {
@@ -29,36 +30,44 @@ export default Login = ({navigation}) => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Login</Text>
+        <View style={styles.overlay}>
+            <Logo />
             <Text style={styles.text}>Login to your account</Text>
             <TextInput 
-                
-                placeholder='Enter your email*'
+                style={styles.textInput}
+                placeholder='Enter your email'
                 value={email}
                 onChangeText={(email) => setEmail(email.trim())}
                 keyboardType='email-address'
                 autoCapitalize="none"
+                placeholderTextColor='#4E9BB0'
             />
             <TextInput 
-                
-                placeholder='Enter your password*'
+                style={styles.textInput}
+                placeholder='Enter your password'
                 value={password}
                 onChangeText={(password) => setPassword(password)}
                 secureTextEntry={true}
+                placeholderTextColor='#4E9BB0'
             />
-            <Pressable >
-                <Button 
-                    title="Login"
-                    onPress={handlePress}
-                />
+            <Pressable
+                onPress={() => handlePress()}
+                style={styles.buttonPrimary}
+            >
+                <Text style={[styles.buttonText, {fontSize: 20}]}>LOGIN</Text>
             </Pressable>
-            <Text style={styles.text}>Not having account yet?</Text>
-            <Pressable >
-                <Button 
-                    title="Register"
-                    onPress={() => navigation.navigate('Register')}
-                />
+            <View style={styles.flexCenter}>
+            <Text style={styles.text}>Not a member?</Text>
+            <Pressable
+                onPress={() => navigation.navigate('Register')}
+                style={styles.buttonSecondary}
+            >
+                <Text style={[styles.buttonText, {fontSize: 18}]}>REGISTER</Text>
+            </Pressable>
+            </View>
+            <Pressable
+            >
+                <Text style={[styles.forgotPass, {fontSize: 18}]}>Forgot password?</Text>
             </Pressable>
         </View>
     )
