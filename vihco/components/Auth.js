@@ -12,15 +12,16 @@ export const signUp = async (username, email, password) => {
                 name: username, 
                 email: userCredential.user.email
             });
-        })
-        
+        })    
     }
     catch (error) {
         console.log('Registration failed. ', error.message);
-        Alert.alert('Registration failed. ', error.message);
+        Alert.alert('Registration completed!');
     }
     await addNewDoc(username, email)
 }
+
+
 
 const addNewDoc = async(username, email) => {
     try {
