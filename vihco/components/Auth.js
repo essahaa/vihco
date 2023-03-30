@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import { ref, set } from 'firebase/database';
+import { collection, addDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth, db, USERS_REF } from '../firebase/Config';
 
@@ -12,11 +13,25 @@ export const signUp = async (username, email, password) => {
                 email: userCredential.user.email
             });
         })
+        
     }
     catch (error) {
         console.log('Registration failed. ', error.message);
         Alert.alert('Registration failed. ', error.message);
     }
+    await addNewDoc(username, email)
+}
+
+const addNewDoc = async(username, email) => {
+    try {
+        const docRef = await addDoc(collection(db, "users"), {
+          name: username, 
+          email: email
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
 }
 
 export const signIn = async (email, password) => {
