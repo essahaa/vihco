@@ -7,7 +7,7 @@ export const signUp = async (username, email, password) => {
 const auth = getAuth();
 createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-         addNewDoc(username, userCredential.user.email)
+         addNewUser(username, userCredential.user.email)
         })  
     .catch ((error) => {
     console.log('Registration failed. ', error.message);
@@ -15,7 +15,7 @@ createUserWithEmailAndPassword(auth, email, password)
 })
 }
 
-const addNewDoc = async(username, email) => {
+const addNewUser = async(username, email) => {
     try {
         const docRef = await addDoc(collection(db, USERS_REF), {
           name: username, 
