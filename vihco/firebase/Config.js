@@ -22,7 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = initializeAuth(app, {persistence: getReactNativePersistence(AsyncStorage)})
 export const db = getFirestore(app);
-export const USERS_REF = '/users/';
+export const USERS_REF = 'users';
 export { auth }
 
 const analytics = getAnalytics(app);
