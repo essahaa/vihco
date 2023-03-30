@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
-// import { signIn, signUp } from "./Auth";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../firebase/Config";
+import { signIn, signUp } from "./Auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/Config";
 // import styles from '../style/style';
 
 
@@ -19,12 +19,12 @@ export default Login = ({navigation}) => {
             Alert.alert('Password is required');
         }
         else {
-            // signIn(nickname,email, password);
-            // onAuthStateChanged(auth, (user) => {
-            //     if(user) {
-            //         navigation.navigate('Todo', {userUid: user.uid});
-            //     }
-            // });
+            signIn(email, password);
+            onAuthStateChanged(auth, (user) => {
+                if(user) {
+                    navigation.navigate('Home', {userUid: user.uid});
+                }
+            });
         }
     };
 

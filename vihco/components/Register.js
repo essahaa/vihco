@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
-// import { signUp } from "./Auth";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../firebase/Config";
+import { signUp } from "./Auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/Config";
 // import styles from '../style/style';
 
 export default Register = ({navigation}) => {
@@ -29,12 +29,12 @@ export default Register = ({navigation}) => {
             Alert.alert('Passwords do not match!')
         }
         else {
-            // signUp(username,email, password);
-            // onAuthStateChanged(auth, (user) => {
-            //     if(user) {
-            //         navigation.navigate('Todo', {userUid: user.uid});
-            //     }
-            // });
+            signUp(username,email, password);
+            onAuthStateChanged(auth, (user) => {
+                if(user) {
+                    navigation.navigate('Home', {userUid: user.uid});
+                }
+            });
         }
     };
 
