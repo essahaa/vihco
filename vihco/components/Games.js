@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import Header from './Header';
-
+import styles from '../styles/style';
 
 export default function Games() {
   return (
-    <View >
+    <View style={styles.container}>
       <Header />
-      <Text>Games</Text>
+      <Text style={styles.text}>Games</Text>
     </View>
   );
 }

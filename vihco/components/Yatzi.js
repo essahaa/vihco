@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Yatzi({navigation}) {
   return (
     <View >
-      <Text>yatzi</Text>
+      <Text >yatzi</Text>
       
     </View>
   );

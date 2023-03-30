@@ -1,30 +1,31 @@
-import { StyleSheet, Text, View } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+import { useState, useCallback } from 'react';
+import { Text, View } from 'react-native';
 import Bottomtab from './components/Bottomtab';
+import { useFonts } from 'expo-font';
+import styles from './styles/style';
 
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'timeburner': require('./assets/fonts/timeburner/timeburnernormal.ttf'),
+    'timeburnerBold': require('./assets/fonts/timeburner/timeburnerbold.ttf')
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
+    <View style={styles.appContainer} onLayout={onLayoutRootView}>
       <Bottomtab />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#eaeaea',
-    },
-    title: {
-      marginTop: 16,
-      paddingVertical: 8,
-      borderWidth: 4,
-      borderColor: '#20232a',
-      borderRadius: 6,
-      backgroundColor: '#61dafb',
-      color: '#20232a',
-      textAlign: 'center',
-      fontSize: 30,
-      fontWeight: 'bold',
-    },
-  });

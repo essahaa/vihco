@@ -10,3 +10,7 @@ npm install @react-navigation/bottom-tabs
 
 npm i @expo/vector-icons
 npm install firebase
+
+npm install expo-constants
+npm install expo-font
+npm install expo-splash-screen

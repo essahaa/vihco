@@ -3,7 +3,7 @@ import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 // import { signUp } from "./Auth";
 // import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from "../firebase/Config";
-// import styles from '../style/style';
+import styles from '../styles/style';
 
 export default Register = ({navigation}) => {
     const [username, setUsername] = useState('');
@@ -39,9 +39,9 @@ export default Register = ({navigation}) => {
     };
 
     return (
-        <View >
-            <Text >Register</Text>
-            <Text >Create an account</Text>
+        <View style={styles.container}>
+            <Text style={styles.text}>Register</Text>
+            <Text style={styles.text}>Create an account</Text>
             <TextInput 
                 
                 placeholder='Username'
@@ -76,7 +76,7 @@ export default Register = ({navigation}) => {
                     onPress={handlePress}
                 />
             </Pressable>
-            <Text >Already have an account?</Text>
+            <Text style={styles.text}>Already have an account?</Text>
             <Pressable >
                 <Button 
                     title="Login"

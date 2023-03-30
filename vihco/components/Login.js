@@ -3,7 +3,7 @@ import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 // import { signIn, signUp } from "./Auth";
 // import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from "../firebase/Config";
-// import styles from '../style/style';
+import styles from '../styles/style';
 
 
 export default Login = ({navigation}) => {
@@ -29,9 +29,9 @@ export default Login = ({navigation}) => {
     };
 
     return (
-        <View >
-            <Text >Login</Text>
-            <Text >Login to your account</Text>
+        <View style={styles.container}>
+            <Text style={styles.text}>Login</Text>
+            <Text style={styles.text}>Login to your account</Text>
             <TextInput 
                 
                 placeholder='Enter your email*'
@@ -53,7 +53,7 @@ export default Login = ({navigation}) => {
                     onPress={handlePress}
                 />
             </Pressable>
-            <Text >Not having account yet?</Text>
+            <Text style={styles.text}>Not having account yet?</Text>
             <Pressable >
                 <Button 
                     title="Register"

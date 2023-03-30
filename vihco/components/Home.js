@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
-
+import { Text, View } from 'react-native';
+import styles from '../styles/style';
 
 export default function Home() {
   return (
-    <View >
-      <Text>Home</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>Home</Text>
     </View>
   );
 }

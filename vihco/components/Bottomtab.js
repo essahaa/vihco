@@ -16,7 +16,9 @@ const Tab = createBottomTabNavigator();
 export default Bottomtab = () => {
   return (
     <NavigationContainer>
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{headerShown: false}}
+    >
       <Tab.Screen name="Home"  component={Home} options={{tabBarIcon:()=> <MaterialCommunityIcons name="book-open-variant" size={24} color="black" />}}/>
       <Tab.Screen name="Games"  component={Games} options={{tabBarIcon:()=> <MaterialCommunityIcons name="cards-playing" size={24} color="black" />}}/>
       <Tab.Screen name="Sheets"  component={Sheets} options={{tabBarIcon:()=> <MaterialCommunityIcons name="file-document-multiple-outline" size={24} color="black" />}}/>
