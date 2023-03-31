@@ -18,7 +18,8 @@ export default StyleSheet.create({
     },
     logo: {
         width: 200,
-        height: 200
+        height: 200,
+        marginTop: 20
     },
     text: {
         color: 'white',
@@ -29,7 +30,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         width: 250,
         height: 45,
-        marginVertical: 5,
+        marginVertical: 10,
         borderRadius: 10,
         paddingHorizontal: 15,
         color: 'black',
@@ -44,8 +45,8 @@ export default StyleSheet.create({
     },
     buttonPrimary: {
         backgroundColor: '#F9BB00',
-        marginTop: 25,
-        paddingVertical: 15,
+        marginTop: 8,
+        paddingVertical: 10,
         paddingHorizontal: 25,
         borderRadius: 15
     },
