@@ -9,6 +9,7 @@ export default StyleSheet.create({
     overlay: {
         flex: 1,
         alignItems: 'center',
+        paddingBottom: 10,
         backgroundColor: '#4E9BB0'
     },
     container: {

@@ -7,6 +7,7 @@ import styles from '../styles/style';
 import { signUp } from "./Auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/Config";
+import Logo from "./Logo";
 // import styles from '../style/style';
 
 export default Register = ({navigation}) => {
@@ -43,17 +44,17 @@ export default Register = ({navigation}) => {
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Register</Text>
-            <Text style={styles.text}>Create an account</Text>
+        <View style={styles.overlay}>
+            <Logo/>
+            <Text style={[styles.text, {marginBottom: 5}]}>Create an account</Text>
             <TextInput 
-                
-                placeholder='Username'
+                style={[styles.textInput, {marginVertical: 5}]}
+                placeholder='Enter a username'
                 value={username}
                 onChangeText={(username) => setUsername(username.trim())}
             />
             <TextInput 
-                
+                style={[styles.textInput, {marginVertical: 5}]}
                 placeholder='Enter your email'
                 value={email}
                 onChangeText={(email) => setEmail(email.trim())}
@@ -61,31 +62,33 @@ export default Register = ({navigation}) => {
                 autoCapitalize="none"
             />
             <TextInput 
-                
-                placeholder='Enter your password*'
+                style={[styles.textInput, {marginVertical: 5}]}
+                placeholder='Enter a password'
                 value={password}
                 onChangeText={(password) => setPassword(password)}
                 secureTextEntry={true}
             />
             <TextInput 
-                
-                placeholder='Confirm password*'
+                style={[styles.textInput, {marginVertical: 5}]}
+                placeholder='Confirm password'
                 value={confirmPassword}
                 onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
                 secureTextEntry={true}
             />
-            <Pressable >
-                <Button 
-                    title="Register"
-                    onPress={handlePress}
-                />
-            </Pressable>
+            <View style={{flex: 1}}>
+                <Pressable
+                    onPress={() => handlePress()}
+                    style={styles.buttonPrimary}
+                >
+                    <Text style={[styles.buttonText, {fontSize: 20}]}>REGISTER</Text>
+                </Pressable>
+            </View>
             <Text style={styles.text}>Already have an account?</Text>
-            <Pressable >
-                <Button 
-                    title="Login"
-                    onPress={() => navigation.navigate('Login')}
-                />
+            <Pressable
+                onPress={() => navigation.navigate('Login')}
+                style={styles.buttonSecondary}
+            >
+                <Text style={[styles.buttonText, {fontSize: 18}]}>LOGIN</Text>
             </Pressable>
         </View>
     )
