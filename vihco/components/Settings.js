@@ -1,4 +1,3 @@
-import { Text, View } from 'react-native';
 import styles from '../styles/style';
 import {  Text, View, Button, Pressable } from 'react-native';
 import { logOut } from './Auth';
