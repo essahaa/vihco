@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db, GAMES_REF } from '../firebase/Config';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
 import styles from '../styles/style';
 
 export default function Games() {
-  const [games, setGames] = useState([])
+  const [games, setGames] = useState([]);
+  const [addingGame, setAddingGame] = useState(false);
+  const [newGameName, setNewGameName] = useState('');
 
   useEffect(() => {
     const q = query(collection(db, GAMES_REF), orderBy("id"))
@@ -22,13 +25,61 @@ export default function Games() {
   return (
     <View style={styles.container}>
       <Header />
+      <View style={styles.listTop}>
+        <Text style={styles.title}>GAMES</Text>
+        <View style={styles.flexRight}>
+          <Text style={styles.title}>Dropdown</Text>
+        </View>
+      </View>
       <ScrollView>
         {games.map((key, i) => (
-              <Text style={styles.text} key={i}>{games[i].name}</Text>
+          <Pressable
+            key={i}
+            style={styles.gameButton}
+          >
+              <Text style={styles.gameText}>{games[i].name}</Text>
+          </Pressable>
         ))
         }
+        { !addingGame ?
+          <Pressable
+            style={styles.addGameButton}
+            onPress={() => setAddingGame(true)}
+          >
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.addGameText}>Add new game</Text>
+              <View style={styles.flexRight}>
+                <MaterialCommunityIcons name="plus-thick" size={32} color="#4E9BB0" />
+              </View>
+            </View>
+          </Pressable>
+        :
+          <Pressable
+            style={styles.addGameButton}
+          >
+            <View style={{flexDirection: 'row'}}>
+              <TextInput 
+                  style={styles.addGameInput}
+                  placeholder='Enter game name'
+                  onChangeText={(name) => setNewGameName(name)}
+                  placeholderTextColor='white'
+                  color="white"
+                  cursorColor="white"
+                  autoFocus={true}
+                  onSubmitEditing={() => setAddingGame(false)}
+              />
+              <View style={styles.flexRight}>
+                <Pressable
+                  style={{flex: 1, justifyContent: 'center'}}
+                  onPress={() => setAddingGame(false)}
+                >
+                  <MaterialCommunityIcons name="plus-thick" size={32} color="#F9BB00" />
+                </Pressable>
+              </View>
+            </View>
+          </Pressable>
+        }
       </ScrollView>
-      
     </View>
   );
 }

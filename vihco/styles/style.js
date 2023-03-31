@@ -44,6 +44,49 @@ export default StyleSheet.create({
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1
     },
+    gameText: {
+        color: 'white',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+        textShadowColor: 'white',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1
+    },
+    addGameText: {
+        color: '#4E9BB0',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+        textShadowColor: '#4E9BB0',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1
+    },
+    gameButton: {
+        backgroundColor: '#4E9BB0',
+        width: 325,
+        height: 70,
+        marginVertical: 8,
+        paddingHorizontal: 20,
+        paddingTop: 10,
+        borderRadius: 10
+    },
+    addGameButton: {
+        justifyContent: 'center',
+        borderWidth: 3,
+        borderColor: '#4E9BB0',
+        width: 325,
+        height: 70,
+        marginVertical: 8,
+        paddingHorizontal: 20,
+        //paddingRight: 30,
+        borderRadius: 10,
+        borderStyle: 'dashed'
+    },
+    addGameInput: {
+        fontSize: 20,
+        fontFamily: 'timeburnerBold',
+        width: 225,
+        height: 40,
+    },
     buttonTextSettings: {
         color: '#112126',
         fontFamily: 'timeburnerBold',
@@ -99,13 +142,32 @@ export default StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end'
     },
+    flexRight: {
+        flex: 1,
+        alignItems: 'flex-end'
+    },
     forgotPass: {
         color: 'white',
         fontFamily: 'timeburnerBold',
         paddingHorizontal: 30,
         paddingVertical: 10
     },
+    listTop: {
+        flexDirection: 'row',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginBottom: 50,
+        width: '100%'
+    },
     title: {
+        color: 'white',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+        textShadowColor: 'white',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1,
+    }
+    /* title: {
         marginTop: 16,
         paddingVertical: 8,
         borderWidth: 4,
@@ -116,6 +178,5 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontSize: 30,
         fontWeight: 'bold',
-        
-    }
+    } */
 });
