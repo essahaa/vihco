@@ -3,13 +3,19 @@ import {  Text, View, Button, Pressable } from 'react-native';
 import { logOut } from './Auth';
 import Logo from './Logo';
 
-export default function Settings() {
+export default function Settings({navigation}) {
+
+  const handlePress = () => {
+    logOut();
+    navigation.navigate('Login');
+  }
+
   return (
     <View style={styles.overlay}>
       <Logo />
       <Text style={styles.text}>Settings</Text>
       <Pressable
-          onPress={() => logOut()}
+          onPress={() => handlePress()}
           style={styles.buttonLogout}
       >
           <Text style={styles.buttonTextLogout}>LOG OUT</Text>
