@@ -30,7 +30,7 @@ export default StyleSheet.create({
         backgroundColor: 'white',
         width: 250,
         height: 45,
-        marginVertical: 8,
+        marginVertical: 10,
         borderRadius: 10,
         paddingHorizontal: 15,
         color: 'black',
