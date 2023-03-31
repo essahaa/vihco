@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, getDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { db, USERS_REF } from '../firebase/Config';
 
@@ -8,24 +8,22 @@ const auth = getAuth();
 export const signUp = async (username, email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            addNewUser(username, userCredential.user.email)
-            })  
+            // addNewUser(username, userCredential.user.email, userCredential.user.uid)
+            // })  
+            try {
+                const usersRef = collection(db, USERS_REF);
+                const docRef =  setDoc(doc(usersRef, userCredential.user.uid), {
+                  name: username, 
+                  email: userCredential.user.email
+                });
+                console.log("Document written with ID: ", docRef.id);
+              } catch (e) {
+                console.error("Error adding document: ", e);
+              }})
         .catch ((error) => {
         console.log('Registration failed. ', error.message);
         Alert.alert('Registration failed. ', error.message);
     })
-}
-
-const addNewUser = async(username, email) => {
-    try {
-        const docRef = await addDoc(collection(db, USERS_REF), {
-          name: username, 
-          email: email
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
 }
 
 export const signIn = async (email, password) => {
