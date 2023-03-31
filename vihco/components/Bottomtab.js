@@ -18,6 +18,7 @@ export default Bottomtab = () => {
   return (
     <NavigationContainer>
     <Tab.Navigator
+       initialRouteName='Login'
       screenOptions={{headerShown: false}}
     >
       <Tab.Screen name="Home"  component={Home} options={{tabBarIcon:()=> <MaterialCommunityIcons name="book-open-variant" size={24} color="black" />}}/>
