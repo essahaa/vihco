@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
-// import { signIn, signUp } from "./Auth";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../firebase/Config";
 import styles from '../styles/style';
 import Logo from "./Logo";
-import { signIn, signUp } from "./Auth";
+import { signIn } from "./Auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/Config";
-// import styles from '../style/style';
-
 
 export default Login = ({navigation}) => {
     const [email, setEmail] = useState('');
