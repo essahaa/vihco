@@ -14,3 +14,5 @@ npm install firebase
 npm install expo-constants
 npm install expo-font
 npm install expo-splash-screen
+
+npm i react-native-dropdown-picker
