@@ -11,8 +11,11 @@ export default function Home({navigation, route}) {
 
   useEffect(() => {
     setUserUid(route.params.userUid)
-    getUserData()
   }, [])
+
+  useEffect(() => {
+    getUserData()
+  }, [userUid])
 
   const getUserData = async () => {
     const docRef = doc(db, USERS_REF, userUid);
@@ -28,6 +31,7 @@ export default function Home({navigation, route}) {
       console.log("No such document!");
     }
   }
+
   
   return (
     <View style={styles.container}>
