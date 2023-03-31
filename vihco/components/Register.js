@@ -52,6 +52,7 @@ export default Register = ({navigation}) => {
                 placeholder='Enter a username'
                 value={username}
                 onChangeText={(username) => setUsername(username.trim())}
+                placeholderTextColor='#4E9BB0'
             />
             <TextInput 
                 style={[styles.textInput, {marginVertical: 5}]}
@@ -60,6 +61,7 @@ export default Register = ({navigation}) => {
                 onChangeText={(email) => setEmail(email.trim())}
                 keyboardType='email-address'
                 autoCapitalize="none"
+                placeholderTextColor='#4E9BB0'
             />
             <TextInput 
                 style={[styles.textInput, {marginVertical: 5}]}
@@ -67,6 +69,7 @@ export default Register = ({navigation}) => {
                 value={password}
                 onChangeText={(password) => setPassword(password)}
                 secureTextEntry={true}
+                placeholderTextColor='#4E9BB0'
             />
             <TextInput 
                 style={[styles.textInput, {marginVertical: 5}]}
@@ -74,6 +77,7 @@ export default Register = ({navigation}) => {
                 value={confirmPassword}
                 onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
                 secureTextEntry={true}
+                placeholderTextColor='#4E9BB0'
             />
             <View style={{flex: 1}}>
                 <Pressable
