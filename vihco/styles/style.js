@@ -44,6 +44,22 @@ export default StyleSheet.create({
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1
     },
+    buttonTextSettings: {
+        color: '#112126',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+        textShadowColor: 'black',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1
+    },
+    buttonTextLogout: {
+        color: '#F9BB00',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+        textShadowColor: '#F9BB00',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1
+    },
     buttonPrimary: {
         backgroundColor: '#F9BB00',
         marginTop: 8,
@@ -58,9 +74,30 @@ export default StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 15
     },
+    buttonSettings: {
+        backgroundColor: '#F9BB00',
+        marginTop: 5,
+        paddingVertical: 12,
+        width: 250,
+        borderRadius: 15,
+        alignItems: 'center'
+    },
+    buttonLogout: {
+        borderWidth: 4,
+        borderColor: '#F9BB00',
+        marginTop: 5,
+        paddingVertical: 12,
+        width: 250,
+        borderRadius: 15,
+        alignItems: 'center'
+    },
     flexCenter: {
         flex: 1,
         justifyContent: 'center'
+    },
+    flexBottom: {
+        flex: 1,
+        justifyContent: 'flex-end'
     },
     forgotPass: {
         color: 'white',
