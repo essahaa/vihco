@@ -3,8 +3,9 @@ import { collection, addDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { db, USERS_REF } from '../firebase/Config';
 
-export const signUp = async (username, email, password) => {
 const auth = getAuth();
+
+export const signUp = async (username, email, password) => {
 createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
          addNewUser(username, userCredential.user.email)
