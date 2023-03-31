@@ -5,6 +5,10 @@ import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 // import { auth } from "../firebase/Config";
 import styles from '../styles/style';
 import Logo from "./Logo";
+import { signIn, signUp } from "./Auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/Config";
+// import styles from '../style/style';
 
 
 export default Login = ({navigation}) => {
@@ -20,12 +24,12 @@ export default Login = ({navigation}) => {
             Alert.alert('Password is required');
         }
         else {
-            // signIn(nickname,email, password);
-            // onAuthStateChanged(auth, (user) => {
-            //     if(user) {
-            //         navigation.navigate('Todo', {userUid: user.uid});
-            //     }
-            // });
+            signIn(email, password);
+            onAuthStateChanged(auth, (user) => {
+                if(user) {
+                    navigation.navigate('Home', {userUid: user.uid});
+                }
+            });
         }
     };
 
