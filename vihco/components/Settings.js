@@ -43,6 +43,12 @@ export default function Settings({navigation}) {
           onPress={() => handlePress()}
           style={styles.buttonLogout}
       >
+          <Text style={styles.buttonTextLogout}>EDIT GROUPS</Text>
+      </Pressable>
+      <Pressable
+          onPress={() => handlePress()}
+          style={styles.buttonLogout}
+      >
           <Text style={styles.buttonTextLogout}>LOG OUT</Text>
       </Pressable>
       <View style={styles.flexBottom}>
