@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, addDoc } from 'firebase/firestore';
 import { db, GAMES_REF } from '../firebase/Config';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
@@ -8,7 +8,7 @@ import styles from '../styles/style';
 
 export default function Games() {
   const [games, setGames] = useState([]);
-  const [addingGame, setAddingGame] = useState(false);
+  const [addingGame, setAddingGame] = useState(false); //flag
   const [newGameName, setNewGameName] = useState('');
 
   useEffect(() => {
@@ -21,6 +21,20 @@ export default function Games() {
     });
     console.log(games);
   }, []);
+
+  const addGame = async () => {
+    try {
+      if(newGameName.trim() !== "") {
+        await addDoc(collection(db, GAMES_REF), {
+          id: games.length,
+          name: newGameName
+        });
+      }
+      setAddingGame(false);
+    }catch (error) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -66,12 +80,12 @@ export default function Games() {
                   color="white"
                   cursorColor="white"
                   autoFocus={true}
-                  onSubmitEditing={() => setAddingGame(false)}
+                  onSubmitEditing={addGame}
               />
               <View style={styles.flexRight}>
                 <Pressable
                   style={{flex: 1, justifyContent: 'center'}}
-                  onPress={() => setAddingGame(false)}
+                  onPress={addGame}
                 >
                   <MaterialCommunityIcons name="plus-thick" size={32} color="#F9BB00" />
                 </Pressable>
