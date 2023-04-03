@@ -146,6 +146,11 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'flex-end'
     },
+    flexLeft: {
+        flex: 1,
+        alignItems: 'flex-start'
+    },
+   
     forgotPass: {
         color: 'white',
         fontFamily: 'timeburnerBold',
@@ -169,7 +174,7 @@ export default StyleSheet.create({
     },
     scrollview: {
         paddingBottom: 200
-    }
+    },
     /* title: {
         marginTop: 16,
         paddingVertical: 8,
@@ -182,4 +187,22 @@ export default StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     } */
+   
+      headerText: {
+        color: 'white',
+        fontSize: 20,
+        textAlign: 'center'
+      },
+      headerIcon: {
+        color: 'white',
+        fontSize: 24,
+      },
+      flexHeaderRigth: {
+        alignItems: 'flex-end'
+      },
+      flexHeaderCenter: {
+        flex: 1,
+        justifyContent: 'center',
+        textAlign: 'center'
+    },
 });
