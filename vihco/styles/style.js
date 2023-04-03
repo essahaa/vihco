@@ -169,6 +169,13 @@ export default StyleSheet.create({
     },
     scrollview: {
         paddingBottom: 200
+    },
+    gameTopBar: {
+        backgroundColor: '#4E9BB0',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginBottom: 10,
+        width: '100%'
     }
     /* title: {
         marginTop: 16,
