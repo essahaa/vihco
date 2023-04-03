@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
 import styles from '../styles/style';
 
-export default function Games() {
+export default Games = ({navigation}) => {
   const [games, setGames] = useState([]);
   const [addingGame, setAddingGame] = useState(false); //flag
   const [newGameName, setNewGameName] = useState('');
@@ -53,6 +53,7 @@ export default function Games() {
           <Pressable
             key={i}
             style={styles.gameButton}
+            onPress={() => navigation.navigate('Game', {game: games[i].name})}
           >
               <Text style={styles.gameText}>{games[i].name}</Text>
           </Pressable>
