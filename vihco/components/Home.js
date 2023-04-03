@@ -3,14 +3,21 @@ import styles from '../styles/style';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from "firebase/firestore";
 import { db, USERS_REF } from '../firebase/Config';
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 
 export default function Home({navigation, route}) {
 
   const [username, setUsername] = useState('')
   const [userUid, setUserUid] = useState('')
 
+  const auth = getAuth()
+
   useEffect(() => {
-    setUserUid(route.params.userUid)
+    onAuthStateChanged(auth, (user) => {
+      if(user) {
+        setUserUid(user.uid)
+      }
+    });
   }, [])
 
   useEffect(() => {
