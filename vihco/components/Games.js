@@ -45,7 +45,10 @@ export default function Games() {
           <Text style={styles.title}>Dropdown</Text>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView 
+        contentContainerStyle={styles.scrollview}
+        style={{marginBottom: 20}}
+      >
         {games.map((key, i) => (
           <Pressable
             key={i}
