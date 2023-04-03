@@ -16,3 +16,6 @@ npm install expo-font
 npm install expo-splash-screen
 
 npm i react-native-dropdown-picker
+
+npm install @react-navigation/stack
+npm install react-native-gesture-handler

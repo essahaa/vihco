@@ -172,6 +172,9 @@ export default StyleSheet.create({
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1,
     },
+    scrollview: {
+        paddingBottom: 200
+    },
     /* title: {
         marginTop: 16,
         paddingVertical: 8,
