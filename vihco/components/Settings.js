@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styles from '../styles/style';
-import {  Text, View, Button, Pressable } from 'react-native';
+import {  Text, View, Button, Pressable, ScrollView } from 'react-native';
 import { logOut } from './Auth';
 import Logo from './Logo';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { doc, getDoc } from 'firebase/firestore';
 
 export default function Settings({navigation}) {
 
@@ -29,21 +30,24 @@ export default function Settings({navigation}) {
     <View style={styles.overlay}>
       <Logo />
       <Text style={styles.text}>Settings</Text>
-      <DropDownPicker
+      <DropDownPicker 
+        style = {styles.dropdown}
         open={open}
         value={value}
         items={items}
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
-        theme="DARK"
+        theme="LIGHT"
         multiple={true}
+        textStyle={styles.buttonTextSettings}
+
       />
       <Pressable
           onPress={() => handlePress()}
-          style={styles.buttonLogout}
+          style={styles.buttonSettings}
       >
-          <Text style={styles.buttonTextLogout}>EDIT GROUPS</Text>
+          <Text style={styles.buttonTextSettings}>EDIT GROUPS</Text>
       </Pressable>
       <Pressable
           onPress={() => handlePress()}

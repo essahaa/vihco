@@ -144,6 +144,17 @@ export default StyleSheet.create({
         borderRadius: 15,
         alignItems: 'center'
     },
+        dropdown: {
+        alignSelf: 'center',
+        backgroundColor: '#F9BB00',
+        marginTop: 5,
+        paddingVertical: 12,
+        width: 250,
+        borderRadius: 15,
+        alignItems: 'center',
+        borderColor: '#f9bb00',
+        fontFamily: 'timeburnerBold',
+    },
     flexCenter: {
         flex: 1,
         justifyContent: 'center'
