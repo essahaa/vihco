@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './Home';
-import Account from './Account';
+import Account from './Profile';
 import Sheets from './Sheets';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'; 
 import Login from './Login';
