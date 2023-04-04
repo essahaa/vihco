@@ -15,7 +15,7 @@ export default Game = ({navigation, route}) => {
     return (
       <View style={styles.container}>
         <View style={styles.gameTopBar}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', paddingBottom: 10}}>
                 <Pressable onPress={() => navigation.goBack()}>
                     <MaterialCommunityIcons
                         name='menu-left'
@@ -28,7 +28,9 @@ export default Game = ({navigation, route}) => {
                 </View>
             </View>
             <View style={{flexDirection: 'row'}}>
-                <Text style={[styles.gameText, {fontSize: 24}]}>{gameName}</Text>
+                <View style={styles.flexBottom}>
+                    <Text style={styles.gameHeader}>{gameName}</Text>
+                </View>
                 <View style={[styles.flexRight]}>
                     <View style={{flexDirection: 'row'}}>
                         <Pressable>
@@ -49,6 +51,11 @@ export default Game = ({navigation, route}) => {
                         </Pressable>
                     </View>
                 </View>
+            </View>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+            <View style={[styles.flexLeft, {paddingLeft: 35}]}>
+                <Text style={styles.text}>Games played: </Text>
             </View>
         </View>
       </View>

@@ -52,6 +52,16 @@ export default StyleSheet.create({
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1
     },
+    gameHeader: {
+        color: 'white',
+        fontFamily: 'timeburnerBold',
+        fontSize: 24,
+        textShadowColor: 'white',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1,
+        marginLeft: 10,
+        marginBottom: 5
+    },
     addGameText: {
         color: '#4E9BB0',
         fontFamily: 'timeburnerBold',
