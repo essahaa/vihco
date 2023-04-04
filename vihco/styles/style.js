@@ -222,4 +222,15 @@ export default StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center'
     },
+    table: {
+        flex: 1,
+        marginHorizontal: 35,
+        marginTop: 10
+    },
+    tableCell: {
+        backgroundColor: '#326472'
+    },
+    tableCellHeader: {
+        backgroundColor: '#4E9BB0'
+    }
 });

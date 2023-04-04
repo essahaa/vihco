@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
+import { Table, Row, Rows } from 'react-native-table-component';
 import styles from '../styles/style';
 
 export default Game = ({navigation, route}) => {
@@ -11,6 +12,17 @@ export default Game = ({navigation, route}) => {
             setGameName(route.params.game);
         }
     }, []);
+
+    const tableData = {
+        tableHead: ['Name', 'W', 'L'],
+        tableData: [
+            ['Player 1', '0', '0'],
+            ['Player 2', '0', '0'],
+            ['Player 3', '0', '0'],
+            ['Player 4', '0', '0'],
+            ['Player 5', '0', '0'],
+        ],
+    };
     
     return (
       <View style={styles.container}>
@@ -56,6 +68,14 @@ export default Game = ({navigation, route}) => {
         <View style={{flexDirection: 'row'}}>
             <View style={[styles.flexLeft, {paddingLeft: 35}]}>
                 <Text style={styles.text}>Games played: </Text>
+            </View>
+        </View>
+        <View style={{flexDirection: 'row'}}>
+            <View style={styles.table}>
+                <Table borderStyle={{ borderWidth: 4, borderColor: '#112126' }}>
+                    <Row data={tableData.tableHead} style={styles.tableCellHeader} textStyle={styles.text} />
+                    <Rows data={tableData.tableData} style={styles.tableCell} textStyle={styles.text} />
+                </Table>
             </View>
         </View>
       </View>
