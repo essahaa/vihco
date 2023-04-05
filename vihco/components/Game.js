@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { View, Text, Pressable } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
+import { View, Text, Pressable, ScrollView } from 'react-native';
+import { Table, Row, Rows, Col, TableWrapper } from 'react-native-table-component';
 import styles from '../styles/style';
 import Header from './Header2';
 
@@ -15,21 +15,26 @@ export default Game = ({navigation, route}) => {
     }, []);
 
     const tableData = {
-        tableHead: ['Name', 'W', 'L'],
+        tableHead: ['W', 'L'],
+        tableNames: ['Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5', 'Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5'],
         tableData: [
-            ['Player 1', '0', '0'],
-            ['Player 2', '0', '0'],
-            ['Player 3', '0', '0'],
-            ['Player 4', '0', '0'],
-            ['Player 5', '0', '0'],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
+            [0, 0],
         ],
     };
     
     return (
       <View style={styles.container}>
-         <Header gameName={gameName} />
-        <Text style={styles.text}>{gameName}</Text>
         <View style={styles.gameTopBar}>
+        <Header gameName={gameName} />
             <View style={{flexDirection: 'row', paddingBottom: 10}}>
                 <Pressable onPress={() => navigation.goBack()}>
                     <MaterialCommunityIcons
@@ -76,9 +81,55 @@ export default Game = ({navigation, route}) => {
         <View style={{flexDirection: 'row'}}>
             <View style={styles.table}>
                 <Table borderStyle={{ borderWidth: 4, borderColor: '#112126' }}>
-                    <Row data={tableData.tableHead} style={styles.tableCellHeader} textStyle={styles.text} />
-                    <Rows data={tableData.tableData} style={styles.tableCell} textStyle={styles.text} />
+                    <TableWrapper style={{flexDirection: 'row'}}>
+                        <Col data={['Name']} style={styles.tableCellHeader} width={210}
+                            textStyle={[
+                                {color: 'white'},
+                                {fontFamily: 'timeburnerBold'},
+                                {fontSize: 20},
+                                {marginHorizontal: 15},
+                                {textAlign: 'left'},
+                                {paddingVertical: 6}
+                            ]}
+                        />
+                        <Row data={tableData.tableHead} style={styles.tableCellHeader} widthArr={[70, 70]}
+                        textStyle={[
+                            {color: 'white'},
+                            {fontFamily: 'timeburnerBold'},
+                            {fontSize: 20},
+                            {marginHorizontal: 15},
+                            {textAlign: 'center'},
+                            {paddingVertical: 6}
+                        ]}
+                    />
+                    </TableWrapper>
                 </Table>
+                <ScrollView style={{marginTop: -4}}>
+                    <Table borderStyle={{ borderWidth: 4, borderColor: '#112126' }}>
+                        <TableWrapper style={{flexDirection: 'row'}}>
+                            <Col data={tableData.tableNames} style={styles.tableCell} width={210}
+                                textStyle={[
+                                    {color: 'white'},
+                                    {fontFamily: 'timeburnerBold'},
+                                    {fontSize: 20},
+                                    {marginHorizontal: 15},
+                                    {textAlign: 'left'},
+                                    {paddingVertical: 6}
+                                ]}
+                            />
+                            <Rows data={tableData.tableData} style={styles.tableCell} widthArr={[70, 70]}
+                                textStyle={[
+                                    {color: 'white'},
+                                    {fontFamily: 'timeburnerBold'},
+                                    {fontSize: 20},
+                                    {marginHorizontal: 15},
+                                    {textAlign: 'center'},
+                                    {paddingVertical: 6}
+                                ]}
+                            />
+                        </TableWrapper>
+                    </Table>
+                </ScrollView>
             </View>
         </View>
       </View>

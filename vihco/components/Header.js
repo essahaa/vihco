@@ -6,10 +6,10 @@ import styles from '../styles/style';
 export default Header = () => {
     const navigation = useNavigation();
   return (
-    <View style={styles.listTop}>
+    <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
              <TouchableOpacity onPress={() => navigation.goBack()}>
         <View style={styles.flexleft}>
-          <MaterialCommunityIcons style={styles.headerIcon} name="arrow-left" size={24} color="white" />
+          <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
         </View>
       </TouchableOpacity>
     <View style={styles.flexHeaderCenter}>

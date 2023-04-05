@@ -1,13 +1,12 @@
 import { Text, View,TouchableOpacity  } from 'react-native';
-import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 
 export default Header = ({gameName}) => {
     const navigation = useNavigation();
   return (
-    <View style={styles.listTop}>
+    <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
              
     <View style={styles.flexHeaderCenter}>
     <Text style={[styles.text, {textAlign: 'left'}]}>{gameName}</Text>
