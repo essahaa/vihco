@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import styles from '../styles/style';
+import Header from './Header2';
 
 export default Game = ({navigation, route}) => {
     const [gameName, setGameName] = useState('');
@@ -26,6 +27,8 @@ export default Game = ({navigation, route}) => {
     
     return (
       <View style={styles.container}>
+         <Header gameName={gameName} />
+        <Text style={styles.text}>{gameName}</Text>
         <View style={styles.gameTopBar}>
             <View style={{flexDirection: 'row', paddingBottom: 10}}>
                 <Pressable onPress={() => navigation.goBack()}>
