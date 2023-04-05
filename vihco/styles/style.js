@@ -235,11 +235,12 @@ export default StyleSheet.create({
     },
     table: {
         flex: 1,
-        marginHorizontal: 35,
-        marginTop: 10
+        alignItems: 'center',
+        marginTop: 10,
+        height: 350
     },
     tableCell: {
-        backgroundColor: '#326472'
+        backgroundColor: '#326472',
     },
     tableCellHeader: {
         backgroundColor: '#4E9BB0'
