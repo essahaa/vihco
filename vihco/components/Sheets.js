@@ -11,6 +11,12 @@ export default function Sheets({navigation}) {
                     onPress={() => navigation.navigate('Yatzi')}
                 />
             </Pressable>
+            <Pressable >
+                <Button 
+                    title="Groups"
+                    onPress={() => navigation.navigate('Groups')}
+                />
+            </Pressable>
     </View>
   );
 }

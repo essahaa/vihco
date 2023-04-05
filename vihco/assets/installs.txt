@@ -21,3 +21,5 @@ npm install @react-navigation/stack
 npm install react-native-gesture-handler
 
 npm install react-native-table-component
+
+npm i react-native-keyboard-aware-scroll-view --save
