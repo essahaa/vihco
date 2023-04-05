@@ -3,7 +3,7 @@ import styles from '../styles/style';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from "firebase/firestore";
 import { db, USERS_REF } from '../firebase/Config';
-import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { onAuthStateChanged, getAuth, getIdToken } from "firebase/auth";
 
 export default function Home({navigation, route}) {
 
@@ -25,9 +25,17 @@ export default function Home({navigation, route}) {
   }, [userUid])
 
   const getUserData = async () => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      console.log("User is not signed in.");
+      return;
+    }
+  
+    const idToken = await currentUser.getIdToken();
+  
     const docRef = doc(db, USERS_REF, userUid);
-    const docSnap = await getDoc(docRef);
-
+    const docSnap = await getDoc(docRef, { 'idToken': idToken });
+  
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       const data = docSnap.data()

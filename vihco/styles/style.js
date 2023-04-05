@@ -52,6 +52,16 @@ export default StyleSheet.create({
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1
     },
+    gameHeader: {
+        color: 'white',
+        fontFamily: 'timeburnerBold',
+        fontSize: 24,
+        textShadowColor: 'white',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1,
+        marginLeft: 10,
+        marginBottom: 5
+    },
     addGameText: {
         color: '#4E9BB0',
         fontFamily: 'timeburnerBold',
@@ -134,6 +144,17 @@ export default StyleSheet.create({
         borderRadius: 15,
         alignItems: 'center'
     },
+        dropdown: {
+        alignSelf: 'center',
+        backgroundColor: '#F9BB00',
+        marginTop: 5,
+        paddingVertical: 12,
+        width: 250,
+        borderRadius: 15,
+        alignItems: 'center',
+        borderColor: '#f9bb00',
+        fontFamily: 'timeburnerBold',
+    },
     flexCenter: {
         flex: 1,
         justifyContent: 'center'
@@ -175,6 +196,13 @@ export default StyleSheet.create({
     scrollview: {
         paddingBottom: 200
     },
+    gameTopBar: {
+        backgroundColor: '#4E9BB0',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        marginBottom: 10,
+        width: '100%'
+    },
     /* title: {
         marginTop: 16,
         paddingVertical: 8,
@@ -205,4 +233,15 @@ export default StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center'
     },
+    table: {
+        flex: 1,
+        marginHorizontal: 35,
+        marginTop: 10
+    },
+    tableCell: {
+        backgroundColor: '#326472'
+    },
+    tableCellHeader: {
+        backgroundColor: '#4E9BB0'
+    }
 });

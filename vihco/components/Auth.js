@@ -7,19 +7,25 @@ const auth = getAuth();
 
 export const signUp = async (username, email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // addNewUser(username, userCredential.user.email, userCredential.user.uid)
-            // })  
-            try {
-                const usersRef = collection(db, USERS_REF);
-                const docRef =  setDoc(doc(usersRef, userCredential.user.uid), {
-                  name: username, 
-                  email: userCredential.user.email
-                });
-                console.log("Document written with ID: ", docRef.id);
-              } catch (e) {
-                console.error("Error adding document: ", e);
-              }})
+        .then((userCredential) => { 
+            if(userCredential.user.uid !== "") {
+                try {
+                    const usersCollection = collection(db, USERS_REF);
+                    const usersDocumentData =  {
+                      name: username, 
+                      email: userCredential.user.email
+                    };
+                    const usersDocRef = doc(usersCollection, userCredential.user.uid);
+                    setDoc(usersDocRef, usersDocumentData);
+                    console.log("Document written with ID: ", userCredential.user.uid);
+                  } catch (e) {
+                    console.error("Error adding document: ", e);
+                  }
+                }
+                else {
+                    console.log("empty id")
+                }
+        })
         .catch ((error) => {
         console.log('Registration failed. ', error.message);
         Alert.alert('Registration failed. ', error.message);
