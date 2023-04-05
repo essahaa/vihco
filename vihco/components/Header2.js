@@ -1,19 +1,16 @@
 import { Text, View,TouchableOpacity  } from 'react-native';
+import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 
-export default Header = () => {
+export default Header = ({gameName}) => {
     const navigation = useNavigation();
   return (
     <View style={styles.listTop}>
-             <TouchableOpacity onPress={() => navigation.goBack()}>
-        <View style={styles.flexleft}>
-          <MaterialCommunityIcons style={styles.headerIcon} name="arrow-left" size={24} color="white" />
-        </View>
-      </TouchableOpacity>
+             
     <View style={styles.flexHeaderCenter}>
-    <Text style={styles.headerText}>Add scores to</Text>
+    <Text style={[styles.text, {textAlign: 'left'}]}>{gameName}</Text>
     </View>
     <View style={styles.flexHeaderRigth}>
     <TouchableOpacity onPress={() => navigation.navigate('Settings')}>

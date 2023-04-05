@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import styles from '../styles/style';
+import Header from './Header2';
 
 export default Game = ({route}) => {
     const [gameName, setGameName] = useState('');
@@ -13,6 +14,7 @@ export default Game = ({route}) => {
     
     return (
       <View style={styles.container}>
+         <Header gameName={gameName} />
         <Text style={styles.text}>{gameName}</Text>
       </View>
     );
