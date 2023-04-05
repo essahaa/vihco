@@ -27,9 +27,8 @@ export default Game = ({navigation, route}) => {
     
     return (
       <View style={styles.container}>
-         <Header gameName={gameName} />
-        <Text style={styles.text}>{gameName}</Text>
         <View style={styles.gameTopBar}>
+        <Header gameName={gameName} />
             <View style={{flexDirection: 'row', paddingBottom: 10}}>
                 <Pressable onPress={() => navigation.goBack()}>
                     <MaterialCommunityIcons
