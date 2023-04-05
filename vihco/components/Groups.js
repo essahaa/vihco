@@ -48,7 +48,12 @@ export default function Groups({navigation}) {
             autoCapitalize="none"
             placeholderTextColor='#4E9BB0'
         />
-        
+         <Pressable
+            onPress={() => addPlayer()}
+            style={styles.buttonPrimary}
+            >
+            <Text style={[styles.buttonText, {fontSize: 20}]}>ADD</Text>
+        </Pressable>
         <Text style={styles.text}>PLAYERS</Text>
         <View >
         <Text style={styles.title}>Groups</Text>
