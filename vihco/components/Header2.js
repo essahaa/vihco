@@ -3,17 +3,13 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 
-export default Header = () => {
+export default Header = ({gameName}) => {
     const navigation = useNavigation();
   return (
     <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
-             <TouchableOpacity onPress={() => navigation.goBack()}>
-        <View style={styles.flexleft}>
-          <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
-        </View>
-      </TouchableOpacity>
+             
     <View style={styles.flexHeaderCenter}>
-    <Text style={styles.headerText}>Add scores to</Text>
+    <Text style={[styles.text, {textAlign: 'left'}]}>{gameName}</Text>
     </View>
     <View style={styles.flexHeaderRigth}>
     <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
