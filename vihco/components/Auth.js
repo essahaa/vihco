@@ -10,12 +10,19 @@ export const signUp = async (username, email, password) => {
         .then((userCredential) => { 
             if(userCredential.user.uid !== "") {
                 try {
-                    const usersCollection = collection(db, USERS_REF);
-                    const usersDocumentData =  {
-                      name: username, 
-                      email: userCredential.user.email
-                    };
-                    const usersDocRef = doc(usersCollection, userCredential.user.uid);
+                    // const usersCollection = collection(db, USERS_REF);
+                    // const usersDocumentData =  {
+                    //   name: username, 
+                    //   email: userCredential.user.email
+                    // };
+                    // const usersDocRef = doc(usersCollection, userCredential.user.uid);
+                    // setDoc(usersDocRef, usersDocumentData);
+                    // console.log("Document written with ID: ", userCredential.user.uid);
+                    const usersDocRef = doc(db, USERS_REF, userCredential.user.uid)
+                    const usersDocumentData = {
+                        name: username,
+                        email: userCredential.user.email
+                    }
                     setDoc(usersDocRef, usersDocumentData);
                     console.log("Document written with ID: ", userCredential.user.uid);
                   } catch (e) {
