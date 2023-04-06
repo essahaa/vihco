@@ -2,20 +2,34 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import { Table, Row, Rows, Col, TableWrapper } from 'react-native-table-component';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { db, GAMES_REF } from '../firebase/Config';
 import styles from '../styles/style';
 import Header from './Header2';
 
 export default Game = ({navigation, route}) => {
     const [gameName, setGameName] = useState('');
+    const [nameData, setNameData] = useState([]);
+    const [winData, setWinData] = useState([]);
 
     useEffect(() => {
+
         if( gameName === '' && route.params?.game ) {
             setGameName(route.params.game);
         }
+
+        const q = query(collection(db, GAMES_REF), where("id", "==", "0"))
+        onSnapshot(q, (querySnapshot) => {
+            setWinData(querySnapshot.docs.map(doc => ({
+            ...doc.data()
+            })));
+        });
+        console.log(winData);
+
     }, []);
 
     const tableData = {
-        tableHead: ['W', 'L'],
+        tableHead: ['W', 'L', 'W/L'],
         tableNames: ['Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5', 'Player 1', 'Player 2', 'Player 3', 'Player 4', 'Player 5'],
         tableData: [
             [0, 0],
@@ -82,7 +96,7 @@ export default Game = ({navigation, route}) => {
             <View style={styles.table}>
                 <Table borderStyle={{ borderWidth: 4, borderColor: '#112126' }}>
                     <TableWrapper style={{flexDirection: 'row'}}>
-                        <Col data={['Name']} style={styles.tableCellHeader} width={210}
+                        <Col data={['Name']} width={210} style={styles.tableCellHeader}
                             textStyle={[
                                 {color: 'white'},
                                 {fontFamily: 'timeburnerBold'},
@@ -92,16 +106,16 @@ export default Game = ({navigation, route}) => {
                                 {paddingVertical: 6}
                             ]}
                         />
-                        <Row data={tableData.tableHead} style={styles.tableCellHeader} widthArr={[70, 70]}
-                        textStyle={[
-                            {color: 'white'},
-                            {fontFamily: 'timeburnerBold'},
-                            {fontSize: 20},
-                            {marginHorizontal: 15},
-                            {textAlign: 'center'},
-                            {paddingVertical: 6}
-                        ]}
-                    />
+                        <Row data={tableData.tableHead} widthArr={[70, 70]} style={styles.tableCellHeader}
+                            textStyle={[
+                                {color: 'white'},
+                                {fontFamily: 'timeburnerBold'},
+                                {fontSize: 20},
+                                {marginHorizontal: 15},
+                                {textAlign: 'center'},
+                                {paddingVertical: 6}
+                            ]}
+                        />
                     </TableWrapper>
                 </Table>
                 <ScrollView style={{marginTop: -4}}>

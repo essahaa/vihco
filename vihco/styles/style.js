@@ -243,6 +243,6 @@ export default StyleSheet.create({
         backgroundColor: '#326472',
     },
     tableCellHeader: {
-        backgroundColor: '#4E9BB0'
+        backgroundColor: '#4E9BB0',
     }
 });
