@@ -53,7 +53,7 @@ export default Games = ({navigation}) => {
           <Pressable
             key={i}
             style={styles.gameButton}
-            onPress={() => navigation.navigate('Game', {game: games[i].name})}
+            onPress={() => navigation.navigate('Game', {game: games[i].name, id: games[i].id})}
           >
               <Text style={styles.gameText}>{games[i].name}</Text>
           </Pressable>

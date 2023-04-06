@@ -6,7 +6,7 @@ import styles from '../styles/style';
 export default Header = ({gameName}) => {
     const navigation = useNavigation();
   return (
-    <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
+    <View style={[styles.listTop, {backgroundColor: '#4e9bb0', marginBottom: 0}]}>
              
     <View style={styles.flexHeaderCenter}>
     <Text style={[styles.text, {textAlign: 'left'}]}>{gameName}</Text>

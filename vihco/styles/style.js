@@ -237,12 +237,31 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         marginTop: 10,
-        height: 350
+        marginBottom: 100,
+        width: 350,
+        flexDirection: 'row'
     },
     tableCell: {
         backgroundColor: '#326472',
+        flex: 1,
+        justifyContent: 'center',
+        margin: 4,
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 7
     },
     tableCellHeader: {
         backgroundColor: '#4E9BB0',
+        flex: 1,
+        justifyContent: 'center',
+        margin: 4,
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 7
+    },
+    tableCellName: {
+        alignItems: 'flex-start',
+        flex: 0,
+        width: 150
     }
 });
