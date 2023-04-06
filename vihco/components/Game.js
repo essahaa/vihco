@@ -18,13 +18,14 @@ export default Game = ({navigation, route}) => {
             setGameName(route.params.game);
         }
 
-        const q = query(collection(db, GAMES_REF), where("id", "==", "0"))
+        const q = query(collection(db, GAMES_REF))
         onSnapshot(q, (querySnapshot) => {
             setWinData(querySnapshot.docs.map(doc => ({
+                id: doc.id,
             ...doc.data()
             })));
         });
-        console.log(winData);
+        //console.log(winData);
 
     }, []);
 

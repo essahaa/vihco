@@ -12,21 +12,21 @@ export default Games = ({navigation}) => {
   const [newGameName, setNewGameName] = useState('');
 
   useEffect(() => {
-    const q = query(collection(db, GAMES_REF), orderBy("id"))
+    const q = query(collection(db, GAMES_REF), orderBy("orderId"))
     onSnapshot(q, (querySnapshot) => {
       setGames(querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       })));
     });
-    console.log(games);
+    console.log(games)
   }, []);
 
   const addGame = async () => {
     try {
       if(newGameName.trim() !== "") {
         await addDoc(collection(db, GAMES_REF), {
-          id: games.length,
+          Orderid: games.length,
           name: newGameName
         });
       }
