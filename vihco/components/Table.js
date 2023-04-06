@@ -21,7 +21,7 @@ export default Table = () => {
                     <Text style={styles.text}>W/L</Text>
                 </View>
             </View>
-            <ScrollView style={{width: 350, height: 200}}>
+            <ScrollView style={styles.scrollview}>
             {data.map((key, i) => (
                     <View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={[styles.tableCell, styles.tableCellName]}>

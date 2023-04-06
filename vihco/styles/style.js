@@ -194,7 +194,7 @@ export default StyleSheet.create({
         textShadowRadius: 1,
     },
     scrollview: {
-        paddingBottom: 200
+        width: 350,
     },
     gameTopBar: {
         backgroundColor: '#4E9BB0',
@@ -237,9 +237,9 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         marginTop: 10,
-        marginBottom: 100,
         width: 350,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: 50
     },
     tableCell: {
         backgroundColor: '#326472',
