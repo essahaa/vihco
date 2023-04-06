@@ -8,6 +8,8 @@ import { signUp } from "./Auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/Config";
 import Logo from "./Logo";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 // import styles from '../style/style';
 
 export default Register = ({navigation}) => {
@@ -46,6 +48,7 @@ export default Register = ({navigation}) => {
     return (
         <View style={styles.overlay}>
             <Logo/>
+            <KeyboardAwareScrollView>
             <Text style={[styles.text, {marginBottom: 5}]}>Create an account</Text>
             <TextInput 
                 style={[styles.textInput, {marginVertical: 5}]}
@@ -79,14 +82,16 @@ export default Register = ({navigation}) => {
                 secureTextEntry={true}
                 placeholderTextColor='#4E9BB0'
             />
-            <View style={{flex: 1}}>
+            <View style={[{flex: 1},{alignItems:'center'}]}>
                 <Pressable
                     onPress={() => handlePress()}
                     style={styles.buttonPrimary}
                 >
+                    
                     <Text style={[styles.buttonText, {fontSize: 20}]}>REGISTER</Text>
                 </Pressable>
             </View>
+            </KeyboardAwareScrollView>
             <Text style={styles.text}>Already have an account?</Text>
             <Pressable
                 onPress={() => navigation.navigate('Login')}

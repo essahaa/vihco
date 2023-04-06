@@ -29,6 +29,7 @@ export default Login = ({navigation}) => {
     };
 
     return (
+        
         <View style={styles.overlay}>
             <Logo />
             <Text style={styles.text}>Login to your account</Text>
