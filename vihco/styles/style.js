@@ -252,5 +252,16 @@ export default StyleSheet.create({
     },
     tableCellHeader: {
         backgroundColor: '#4E9BB0',
+        flex: 1,
+        justifyContent: 'center',
+        margin: 4,
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 7
     },
+    tableCellName: {
+        alignItems: 'flex-start',
+        flex: 0,
+        width: 150
+    }
 });
