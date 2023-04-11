@@ -29,11 +29,15 @@ const YahtzeeScoreSheet = () => {
 
   const handleInput = (category, value) => {
     const score = parseInt(value);
+    const maxScore = getMaxScore(category);
+    if (score > maxScore) {
+      return;
+    }
     setScores(prevState => ({
       ...prevState,
       [category]: score
     }));
-
+  
     let newTotalScore = totalScore;
     if (score) {
       newTotalScore += score;
@@ -51,6 +55,45 @@ const YahtzeeScoreSheet = () => {
       newTotalScore = 0;
     }
   };
+  const getMaxScore = (category) => {
+    switch (category) {
+      case "Ones":
+        return 5;
+      case "Twos":
+        return 10;
+      case "Threes":
+        return 15;
+      case "Fours":
+        return 20;
+      case "Fives":
+        return 25;
+      case "Sixes":
+        return 30;
+      case "Three of a Kind":
+        return 20;
+      case "Four of a Kind":
+        return 24;
+      case "Chance":
+        return 30;
+      case "Full House":
+        return 25;
+      case "Small Straight":
+        return 30;
+      case "Large Straight":
+        return 40;
+      case "Yahtzee":
+        return 50;
+      default:
+        return 0;
+    }
+  };
+  
+  
+
+  
+  
+  
+  
 
   const calculateTotal = () => {
     let bonus = bonusEarned ? 35 : 0;
@@ -79,13 +122,19 @@ const YahtzeeScoreSheet = () => {
       <View style={styles.row}>
         <Text style={styles.cell}>{item}</Text>
         <TextInput
-          onChangeText={(value) => handleInput(item, value)}
+          onChangeText={(value) => {
+            handleInput(item, value);
+            setTotalScore(calculateTotal());
+          }}
           keyboardType="numeric"
           style={styles.cell}
+          value={scores[item] ? scores[item].toString() : ''}
+          maxLength={3}
         />
       </View>
     );
   };
+  
 
   return (
     <View style={styles.container}>
