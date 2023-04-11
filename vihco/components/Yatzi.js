@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, Alert } from 'react-native';
 import style from '../styles/style';
 
 const categories = [
@@ -31,6 +31,9 @@ const YahtzeeScoreSheet = () => {
     const score = parseInt(value);
     const maxScore = getMaxScore(category);
     if (score > maxScore) {
+      
+      Alert.alert(`Number is too high for selected column`);
+    
       return;
     }
     setScores(prevState => ({
@@ -70,9 +73,7 @@ const YahtzeeScoreSheet = () => {
       case "Sixes":
         return 30;
       case "Three of a Kind":
-        return 20;
       case "Four of a Kind":
-        return 24;
       case "Chance":
         return 30;
       case "Full House":
