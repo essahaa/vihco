@@ -10,31 +10,41 @@ import Table from './Table';
 export default Game = ({navigation, route}) => {
     const [gameName, setGameName] = useState('');
     const [gameId, setGameId] = useState();
-    const [nameData, setNameData] = useState([]);
     const [winData, setWinData] = useState([]);
-
+    const [ifLoaded, setIfLoaded] = useState(false);
+    
     useEffect(() => {
-
         if( gameName === '' && route.params?.game ) {
             setGameName(route.params.game);
         }
 
-        if( gameId === null && route.params?.id ) {
+        if( route.params?.id ) {
             setGameId(route.params.id);
-            console.log(gameId);
+            console.log("game id: " + gameId);
         }
-
-        const q = query(collection(db, "/games/" + gameId + "/users"))
-        onSnapshot(q, (querySnapshot) => {
-            setWinData(querySnapshot.docs.map(doc => ({
-                id: doc.id,
-            ...doc.data()
-            })));
-            console.log(winData);
-        });
-        
-
     }, []);
+    
+    useEffect(() => {
+        if(gameId) {
+            const q = query(collection(db, "/games/" + gameId + "/users"), orderBy("win", "desc"))
+            onSnapshot(q, (querySnapshot) => {
+                setWinData(querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                ...doc.data()
+                })));
+                console.log(winData);
+            });
+        }
+    }, [gameId]);
+
+    useEffect(() => {
+        if( winData.length !== 0 ) {
+            setIfLoaded(true);
+        }else {
+            setIfLoaded(false);
+        }
+    }, [winData]);
+    
 
     const tableData = {
         tableHead: ['W', 'L', 'W/L'],
@@ -79,9 +89,22 @@ export default Game = ({navigation, route}) => {
                 <Text style={styles.text}>Games played: </Text>
             </View>
         </View>
+        {ifLoaded ?
         <View style={styles.table}>
-            <Table/>
+            <Table data={winData}/>
         </View>
+        :
+        <View style={{flex: 1, paddingTop: 30}}>
+            <Text style={styles.text}>Loading data...</Text>
+        </View>
+        }
+        <Pressable
+            onPress={() => console.log(gameId)}
+            style={styles.buttonPrimary}
+        >
+            
+            <Text style={[styles.buttonText, {fontSize: 20}]}>REGISTER</Text>
+        </Pressable>
       </View>
     );
   }
