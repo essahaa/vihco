@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '#4E9BB0',
+    
   },
   row: {
     flexDirection: 'row',
@@ -172,11 +173,12 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'center',
     borderRadius: 15,
-    backgroundColor: '#F9BB00'
+    backgroundColor: '#F9BB00',
+    fontFamily:'timeburner'
   },
   total: {
-    fontWeight: 'bold',
     backgroundColor: '#edba21',
+    fontFamily:'timeburnerBold',
   },
 });
 

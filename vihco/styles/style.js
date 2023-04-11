@@ -219,7 +219,8 @@ export default StyleSheet.create({
       headerText: {
         color: 'white',
         fontSize: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: 'timeburnerBold',
       },
       headerIcon: {
         color: 'white',
