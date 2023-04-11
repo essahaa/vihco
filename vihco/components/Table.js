@@ -1,9 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
 import styles from "../styles/style";
 
-export default Table = () => {
-
-    const data = [["Player", 0, 0], ["Player", 0, 0], ["Player", 0, 0], ["Player", 0, 0], ["Player", 0, 0], ["Player", 0, 0], ["Player", 0, 0], ["Player", 0, 0], ["Player", 0, 0]];
+export default Table = (data) => {
 
     return(
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -22,19 +20,19 @@ export default Table = () => {
                 </View>
             </View>
             <ScrollView style={styles.scrollview}>
-            {data.map((key, i) => (
+            {data.data.map((key, i) => (
                     <View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={[styles.tableCell, styles.tableCellName]}>
-                            <Text style={styles.text}>{data[i][0]}</Text>
+                            <Text style={styles.text}>{data.data[i].name}</Text>
                         </View>
                         <View style={styles.tableCell}>
-                            <Text style={styles.text}>{data[i][1]}</Text>
+                            <Text style={styles.text}>{data.data[i].win}</Text>
                         </View>
                         <View style={styles.tableCell}>
-                            <Text style={styles.text}>{data[i][2]}</Text>
+                            <Text style={styles.text}>{data.data[i].loss}</Text>
                         </View>
                         <View style={styles.tableCell}>
-                            <Text style={styles.text}>{data[i][2]}</Text>
+                            <Text style={styles.text}>{(data.data[i].win / data.data[i].loss).toFixed(2)}</Text>
                         </View>
                     </View>
                 ))
