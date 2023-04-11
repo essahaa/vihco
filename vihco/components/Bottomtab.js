@@ -10,6 +10,7 @@ import Settings from './Settings';
 import Games from './Games';
 import Groups from './Groups';
 
+
 const Tab = createBottomTabNavigator();
 
 export default Bottomtab = () => {
@@ -27,6 +28,6 @@ export default Bottomtab = () => {
       <Tab.Screen name="Yatzi"  component={Yatzi} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="black" />}}/>
       <Tab.Screen name="Settings"  component={Settings} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="black" />}}/>
       <Tab.Screen name="Groups"  component={Groups} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="black" />}}/>
-    </Tab.Navigator>
+     </Tab.Navigator>
   );
 }
