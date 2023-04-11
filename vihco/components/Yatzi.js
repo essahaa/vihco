@@ -31,16 +31,16 @@ const YahtzeeScoreSheet = () => {
     const score = parseInt(value);
     const maxScore = getMaxScore(category);
     if (score > maxScore) {
-      
+
       Alert.alert(`Number is too high for selected column`);
-    
+
       return;
     }
     setScores(prevState => ({
       ...prevState,
       [category]: score
     }));
-  
+
     let newTotalScore = totalScore;
     if (score) {
       newTotalScore += score;
@@ -88,13 +88,13 @@ const YahtzeeScoreSheet = () => {
         return 0;
     }
   };
-  
-  
 
-  
-  
-  
-  
+
+
+
+
+
+
 
   const calculateTotal = () => {
     let bonus = bonusEarned ? 35 : 0;
@@ -135,7 +135,7 @@ const YahtzeeScoreSheet = () => {
       </View>
     );
   };
-  
+
 
   return (
     <View style={styles.container}>
@@ -171,12 +171,12 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     padding: 10,
     textAlign: 'center',
-    borderRadius:15,
-    backgroundColor:'#F9BB00'
+    borderRadius: 15,
+    backgroundColor: '#F9BB00'
   },
   total: {
     fontWeight: 'bold',
-    backgroundColor:'#edba21',
+    backgroundColor: '#edba21',
   },
 });
 
