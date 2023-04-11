@@ -66,7 +66,7 @@ const CluedoSheetScreen = () => {
         <Text style={style.headerText}>Cluedo sheet</Text>
         <ScrollView>
       <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Suspects</Text>
+        <Text style={style.text}>Suspects</Text>
         {suspects.map((suspect, index) => (
           <TouchableOpacity
             key={index}
@@ -81,7 +81,7 @@ const CluedoSheetScreen = () => {
         ))}
       </View>
       <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Weapons</Text>
+        <Text style={style.text}>Weapons</Text>
         {weapons.map((weapon, index) => (
           <TouchableOpacity
             key={index}
@@ -96,7 +96,7 @@ const CluedoSheetScreen = () => {
         ))}
       </View>
       <View style={styles.category}>
-        <Text style={styles.categoryTitle}>Rooms</Text>
+        <Text style={style.text}>Rooms</Text>
         {rooms.map((room,
 index) => (
 <TouchableOpacity
@@ -129,11 +129,6 @@ category: {
 marginBottom: 20,
 
 },
-categoryTitle: {
-fontSize: 20,
-fontWeight: 'bold',
-marginBottom: 10,
-},
 clue: {
 padding: 10,
 borderRadius: 5,
@@ -143,6 +138,7 @@ marginBottom: 10,
 },
 clueText: {
 fontSize: 16,
+fontFamily:'timeburner'
 },
 });
 
