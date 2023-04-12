@@ -144,6 +144,13 @@ export default StyleSheet.create({
         borderRadius: 15,
         alignItems: 'center'
     },
+    buttonScores: {
+        backgroundColor: '#F9BB00',
+        marginVertical: 40,
+        paddingVertical: 10,
+        paddingHorizontal: 50,
+        borderRadius: 15
+    },
         dropdown: {
         alignSelf: 'center',
         backgroundColor: '#F9BB00',
@@ -195,10 +202,11 @@ export default StyleSheet.create({
     },
     scrollview: {
         width: 350,
+        alignItems: 'center'
     },
     gameTopBar: {
         backgroundColor: '#4E9BB0',
-        paddingVertical: 10,
+        paddingVertical: 15,
         paddingHorizontal: 20,
         marginBottom: 10,
         width: '100%'
@@ -263,5 +271,25 @@ export default StyleSheet.create({
         alignItems: 'flex-start',
         flex: 0,
         width: 150
+    },
+    tableBottomBorder: {
+        borderBottomColor: '#326472',
+        borderBottomWidth: 4,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 7
+    },
+    plusButton: {
+        backgroundColor: '#4E9BB0',
+        borderRadius: 100,
+        padding: 7
+    },
+    minusButton: {
+        backgroundColor: '#326472',
+        borderRadius: 100,
+        padding: 7,
+        marginLeft: 5
     }
 });
