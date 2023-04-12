@@ -18,47 +18,50 @@ export default function Groups({navigation}) {
 
     
     const addPlayer = async () => {
-        //hakee syötettyä sähköpostiosoitetta vastaavan dokumentin
-        const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
-        const querySnapshot = await getDocs(q);
+      //hakee syötettyä sähköpostiosoitetta vastaavan dokumentin
+      const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
+      const querySnapshot = await getDocs(q);
 
-        if(querySnapshot.empty) {
-          console.log("No such user found!")
-        }
-        else {
-          querySnapshot.forEach((doc) => {
-            const data = doc.data()
-            setPlayerId(doc.id)
-            setPlayerName(data.name)
-            console.log("Username data: " + data.name + " => " + doc.id)
-          });
-        }
-
-        const groupQ = query(collection(db, GROUPS_REF), where("name", "==", groupname));
-        const groupQuerySnapShot = await getDocs(groupQ);
-
-        groupQuerySnapShot.forEach((doc) => {
-          const data2 = doc.data()
-          setGroupId(doc.id)
-          setGroup(groupQuerySnapShot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          })));
-          console.log("Group data: " + data2.name + " => " + doc.id)
+      if(querySnapshot.empty) {
+        console.log("No such user found!")
+      }
+      else {
+        querySnapshot.forEach((doc) => {
+          const data = doc.data()
+          setPlayerId(doc.id)
+          setPlayerName(data.name)
+          console.log("Username data: " + data.name + " => " + doc.id)
         });
-        const usersDocRef = doc(db, GROUPS_REF + "/" + groupId + "/users", playerId)
-      
-        await setDoc((usersDocRef), {
-          name: playerName,
+      }
+
+      const groupQ = query(collection(db, GROUPS_REF), where("name", "==", groupname));
+      const groupQuerySnapShot = await getDocs(groupQ);
+
+      groupQuerySnapShot.forEach((doc) => {
+        const data2 = doc.data()
+        //setGroupId(doc.id)
+        setGroup(groupQuerySnapShot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+        console.log("Group data: " + data2.name + " => " + doc.id)
+      });
+      console.log("group id: " + groupId)
+      const usersDocRef = doc(db, GROUPS_REF + "/" + groupId + "/users", playerId)
+    
+      await setDoc((usersDocRef), {
+        name: playerName,
       })
     }
 
     const addNewGroup = async () => {
         try {
             if(groupname.trim() !== "") {
-              await addDoc(collection(db, GROUPS_REF), {
+              const groupAdded = await addDoc(collection(db, GROUPS_REF), {
                 name: groupname
               });
+              console.log("group added with id: " + groupAdded.id);
+              setGroupId(groupAdded.id)
             }
           }catch (error) {
             console.log(error.message);
