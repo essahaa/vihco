@@ -8,7 +8,7 @@ export default Table = (data) => {
             <View style={{ flexDirection: 'row' }}>
                 <View style={[styles.tableCellHeader, styles.tableCellName]}>
                     <Text style={styles.text}>Name</Text>
-                </View>{ /* Edit these as they are your cells. You may even take parameters to display different data / react elements etc. */}
+                </View>
                 <View style={styles.tableCellHeader}>
                     <Text style={styles.text}>W</Text>
                 </View>

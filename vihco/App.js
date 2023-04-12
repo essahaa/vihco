@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 //import Games from './Games';
 import Game from './components/Game';
+import AddScores from './components/AddScores';
 import { useFonts } from 'expo-font';
 import styles from './styles/style';
 
@@ -46,6 +47,12 @@ export default function App() {
           <Stack.Screen
               name="Game"
               component={Game}
+              options={{
+                  animationEnabled: false
+              }}/>
+          <Stack.Screen
+              name="AddScores"
+              component={AddScores}
               options={{
                   animationEnabled: false
               }}/>
