@@ -195,6 +195,7 @@ export default StyleSheet.create({
     },
     scrollview: {
         width: 350,
+        alignItems: 'center'
     },
     gameTopBar: {
         backgroundColor: '#4E9BB0',
