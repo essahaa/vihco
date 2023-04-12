@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
 import { db, GAMES_REF, USERS_REF, auth } from '../firebase/Config';
 
-export default function Account({navigation}) {
+export default function Profile({navigation}) {
 
   const [games, setGames] = useState([]);
   const [username, setUsername] = useState('');

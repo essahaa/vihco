@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, Alert } from 'react-native';
 import style from '../styles/style';
 
 const categories = [
@@ -29,6 +29,13 @@ const YahtzeeScoreSheet = () => {
 
   const handleInput = (category, value) => {
     const score = parseInt(value);
+    const maxScore = getMaxScore(category);
+    if (score > maxScore) {
+
+      Alert.alert(`Number is too high for selected column`);
+
+      return;
+    }
     setScores(prevState => ({
       ...prevState,
       [category]: score
@@ -51,6 +58,43 @@ const YahtzeeScoreSheet = () => {
       newTotalScore = 0;
     }
   };
+  const getMaxScore = (category) => {
+    switch (category) {
+      case "Ones":
+        return 5;
+      case "Twos":
+        return 10;
+      case "Threes":
+        return 15;
+      case "Fours":
+        return 20;
+      case "Fives":
+        return 25;
+      case "Sixes":
+        return 30;
+      case "Three of a Kind":
+      case "Four of a Kind":
+      case "Chance":
+        return 30;
+      case "Full House":
+        return 25;
+      case "Small Straight":
+        return 30;
+      case "Large Straight":
+        return 40;
+      case "Yahtzee":
+        return 50;
+      default:
+        return 0;
+    }
+  };
+
+
+
+
+
+
+
 
   const calculateTotal = () => {
     let bonus = bonusEarned ? 35 : 0;
@@ -79,13 +123,19 @@ const YahtzeeScoreSheet = () => {
       <View style={styles.row}>
         <Text style={styles.cell}>{item}</Text>
         <TextInput
-          onChangeText={(value) => handleInput(item, value)}
+          onChangeText={(value) => {
+            handleInput(item, value);
+            setTotalScore(calculateTotal());
+          }}
           keyboardType="numeric"
           style={styles.cell}
+          value={scores[item] ? scores[item].toString() : ''}
+          maxLength={3}
         />
       </View>
     );
   };
+
 
   return (
     <View style={styles.container}>
@@ -109,6 +159,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: '#4E9BB0',
+    
   },
   row: {
     flexDirection: 'row',
@@ -121,12 +172,13 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     padding: 10,
     textAlign: 'center',
-    borderRadius:15,
-    backgroundColor:'#F9BB00'
+    borderRadius: 15,
+    backgroundColor: '#F9BB00',
+    fontFamily:'timeburner'
   },
   total: {
-    fontWeight: 'bold',
-    backgroundColor:'#edba21',
+    backgroundColor: '#edba21',
+    fontFamily:'timeburnerBold',
   },
 });
 
