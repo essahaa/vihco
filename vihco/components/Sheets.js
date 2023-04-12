@@ -8,7 +8,19 @@ export default function Sheets({navigation}) {
       <Pressable >
                 <Button 
                     title="Yatzi"
-                    onPress={() => navigation.navigate('Yatzi')}
+                    onPress={() => navigation.navigate('Rules', { gameName: 'Yatzi' })}
+                />
+            </Pressable>
+            <Pressable >
+                <Button 
+                    title="Seven of Clubs"
+                    onPress={() => navigation.navigate('Rules', { gameName: 'SevenOfClubs' })}
+                />
+            </Pressable>
+            <Pressable >
+                <Button 
+                    title="Cluedo"
+                    onPress={() => navigation.navigate('Rules', { gameName: 'Cluedo' })}
                 />
             </Pressable>
             <Pressable >
