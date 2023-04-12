@@ -54,7 +54,7 @@ export default function Home({navigation, route}) {
   return (
     <View style={[styles.container]}>
       <Logo />
-      <View style={[styles.listTop, {marginVertical: 5}]}>
+      <View style={[styles.listTop, {marginVertical: 15}]}>
       
         <Text style={[styles.title, {textAlign: 'center', flex: 1}]}>Welcome {username} !</Text>
      
