@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import { db } from "../firebase/Config";
 import styles from "../styles/style";
+import { Button } from "react-native-elements";
 
 export default AddScores = (id, userData) => {
 
@@ -30,8 +31,9 @@ export default AddScores = (id, userData) => {
                     <Text style={styles.text}>L</Text>
                 </View>
             </View>
-            <ScrollView style={styles.scrollview}>
-                {userData.data.map((key, i) => (
+            <ScrollView contentContainerStyle={styles.scrollview}>
+                <Button onPress={() => console.log("userdata: " + userData.name)} title="press"/>
+                {/* {userData.data.map((key, i) => (
                 <View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={[styles.tableBottomBorder, styles.tableCellName]}>
                         <Text style={[styles.text, {fontSize: 20}]}>{userData.data[i].name}</Text>
@@ -53,7 +55,7 @@ export default AddScores = (id, userData) => {
                         </Pressable>
                     </View>
                 </View>
-                ))}
+                ))} */}
             </ScrollView>
             {/* <ScrollView style={styles.scrollview}>
             {data.data.map((key, i) => (

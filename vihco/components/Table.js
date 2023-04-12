@@ -19,7 +19,7 @@ export default Table = (data) => {
                     <Text style={styles.text}>W/L</Text>
                 </View>
             </View>
-            <ScrollView style={styles.scrollview}>
+            <ScrollView contentContainerStyle={styles.scrollview}>
             {data.data.map((key, i) => (
                     <View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={[styles.tableCell, styles.tableCellName]}>
