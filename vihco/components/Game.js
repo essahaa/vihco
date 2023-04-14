@@ -5,13 +5,14 @@ import { collection, onSnapshot, orderBy, query, doc, updateDoc, increment } fro
 import { db } from '../firebase/Config';
 import GameInfo from './GameInfo';
 import styles from '../styles/style';
-import AddScores from './AddScores';
 
 export default Game = ({navigation, route}) => {
     const [gameName, setGameName] = useState('');
     const [gameId, setGameId] = useState();
     const [winData, setWinData] = useState([]);
+    const [addingScoreData, setAddingScoreData] = useState([]);
     const [addingScores, setAddingScores] = useState(false);
+    const [buttonState, setButtonState] = useState([]);
     
     useEffect(() => {
         if( gameName === '' && route.params?.game ) {
@@ -24,7 +25,7 @@ export default Game = ({navigation, route}) => {
     }, []);
     
     useEffect(() => {
-        if(gameId) {
+        if(winData.length === 0 && gameId) {
             const q = query(collection(db, "/games/" + gameId + "/users"), orderBy("win", "desc"))
             onSnapshot(q, (querySnapshot) => {
                 setWinData(querySnapshot.docs.map(doc => ({
@@ -33,7 +34,32 @@ export default Game = ({navigation, route}) => {
                 })));
             });
         }
+        if(addingScoreData.length === 0 && gameId) {
+            const q = query(collection(db, "/games/" + gameId + "/users"))
+            onSnapshot(q, (querySnapshot) => {
+                setAddingScoreData(querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                ...doc.data()
+                })));
+            });
+        }
     }, [gameId]);
+
+    useEffect(() => {
+        const row = [];
+        for(let i=0; i<addingScoreData.length; i++) {
+            row.push([0,0]);
+        }
+        setButtonState(row);
+        console.log(buttonState)
+    }, [addingScoreData.length, addingScores]);
+
+    function handlePress(i, x, userId, field, value) {
+        inc(userId, field, value);
+        let row = [...buttonState];
+        row[i][x] = row[i][x] + value;
+        setButtonState(row);
+    }
 
     const inc = async (userId, field, value) => {
         const userRef = doc(db, "/games/" + gameId + "/users", userId);
@@ -65,7 +91,7 @@ export default Game = ({navigation, route}) => {
             :
             <>
             <View style={styles.gameTopBar}>
-                <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
+                <View style={[styles.listTop, {backgroundColor: '#4e9bb0', marginBottom: 10}]}>
                     <TouchableOpacity onPress={() => setAddingScores(false)}>
                         <View style={styles.flexLeft}>
                             <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
@@ -96,24 +122,36 @@ export default Game = ({navigation, route}) => {
                 </View>
             </View>
             <ScrollView contentContainerStyle={styles.scrollview}>
-                {winData.map((key, i) => (
+                {addingScoreData.map((key, i) => (
                 <View key={i} style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={[styles.tableBottomBorder, styles.tableCellName]}>
-                        <Text style={[styles.text, {fontSize: 20}]}>{winData[i].name}</Text>
+                        <Text style={[styles.text, {fontSize: 20}]}>{addingScoreData[i].name}</Text>
                     </View>
                     <View style={[styles.tableBottomBorder, {flexDirection: 'row'}]}>
-                        <Pressable style={styles.plusButton} onPress={() => inc(winData[i].id, "win", 1)}>
+                        {buttonState[i][0] === 0 ?
+                        <Pressable style={styles.plusButton} onPress={() => handlePress(i, 0, addingScoreData[i].id, "win", 1)}>
                             <MaterialCommunityIcons name="plus-thick" size={30} color={'white'}/>
                         </Pressable>
-                        <Pressable style={styles.minusButton} onPress={() => inc(winData[i].id, "win", -1)}>
+                        :
+                        <Pressable style={[styles.plusButton, {backgroundColor: '#F9BB00'}]} onPress={() => handlePress(i, 0, addingScoreData[i].id, "win", 1)}>
+                            <Text style={styles.scoreNum}>{buttonState[i][0]}</Text>
+                        </Pressable>
+                        }
+                        <Pressable style={styles.minusButton} onPress={() => handlePress(i, 0, addingScoreData[i].id, "win", -1)}>
                             <MaterialCommunityIcons name="minus-thick" size={20} color={'white'}/>
                         </Pressable>
                     </View>
                     <View style={[styles.tableBottomBorder, {flexDirection: 'row'}]}>
-                        <Pressable style={styles.plusButton} onPress={() => inc(winData[i].id, "loss", 1)}>
+                        {buttonState[i][1] === 0 ?
+                        <Pressable style={styles.plusButton} onPress={() => handlePress(i, 1, addingScoreData[i].id, "loss", 1)}>
                             <MaterialCommunityIcons name="plus-thick" size={30} color={'white'}/>
                         </Pressable>
-                        <Pressable style={styles.minusButton} onPress={() => inc(winData[i].id, "win", -1)}>
+                        :
+                        <Pressable style={[styles.plusButton, {backgroundColor: '#F9BB00'}]} onPress={() => handlePress(i, 1, addingScoreData[i].id, "loss", 1)}>
+                            <Text style={styles.scoreNum}>{buttonState[i][1]}</Text>
+                        </Pressable>
+                        }
+                        <Pressable style={styles.minusButton} onPress={() => handlePress(i, 1, addingScoreData[i].id, "loss", -1)}>
                             <MaterialCommunityIcons name="minus-thick" size={20} color={'white'}/>
                         </Pressable>
                     </View>
@@ -122,6 +160,12 @@ export default Game = ({navigation, route}) => {
             </ScrollView>
             </View>
             </View>
+            <Pressable
+                onPress={() => setAddingScores(false)}
+                style={styles.buttonScores}
+            >
+                <Text style={[styles.buttonText, {fontSize: 20}]}>DONE</Text>
+            </Pressable>
             </>
             }
         </View>
