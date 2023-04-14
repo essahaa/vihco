@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, TouchableOpacity, ScrollView } from 'react-native';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../firebase/Config';
 import GameInfo from './GameInfo';

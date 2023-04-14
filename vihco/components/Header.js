@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 
-export default Header = () => {
+export default Header = ({text}) => {
     const navigation = useNavigation();
   return (
     <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
@@ -13,7 +13,7 @@ export default Header = () => {
         </View>
       </TouchableOpacity>
     <View style={styles.flexHeaderCenter}>
-    <Text style={styles.headerText}>Add scores to</Text>
+    <Text style={styles.headerText}>{text}</Text>
     </View>
     <View style={styles.flexHeaderRigth}>
     <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
