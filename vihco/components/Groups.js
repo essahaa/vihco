@@ -14,8 +14,21 @@ export default function Groups({navigation}) {
     const [playerId, setPlayerId] = useState('')
     const [playerName, setPlayerName] = useState('')
     const [players, setPlayers] = useState([]);
+    const [groups, setGroups] = useState([]);
+    const [addingGroup, setAddingGroup] = useState(false)
 
     const auth = getAuth()
+
+    useEffect(() => {
+      const q = query(collection(db, GROUPS_REF), orderBy("name"))
+      onSnapshot(q, (querySnapshot) => {
+        setGroups(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+      });
+      console.log(groups)
+    }, []);
 
     useEffect(() => {
       if(groupId) {
@@ -76,6 +89,7 @@ export default function Groups({navigation}) {
               })
             }
           }
+          setAddingGroup(false)
         }catch (error) {
           console.log(error.message);
         }
@@ -86,24 +100,6 @@ export default function Groups({navigation}) {
         <Header2 />
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
-        <View>
-            <Text style={styles.text}>Groupname: {groupname}</Text>
-            <Text style={styles.text}>Add new group</Text>
-            <TextInput 
-                style={styles.textInput}
-                placeholder='Groupname'
-                value={groupname}
-                onChangeText={(groupname) => setGroupname(groupname)}
-                autoCapitalize="none"
-                placeholderTextColor='#4E9BB0'
-            />
-            <Pressable
-                onPress={() => addNewGroup()}
-                style={styles.buttonPrimary}
-                >
-                <Text style={[styles.buttonText, {fontSize: 20}]}>ADD</Text>
-            </Pressable>
-        </View>
         <View>
             <Text style={styles.text}>Add new player to the group</Text>
             <TextInput 
@@ -131,6 +127,55 @@ export default function Groups({navigation}) {
             </View>      
           ))}
       </View>
+      <Text style={styles.title}>GROUPS</Text>
+      {groups.map((key, i) => (
+          <Pressable
+            key={i}
+            style={styles.gameButton}
+            onPress={() => navigation.navigate('Group', {group: groups[i].name, id: groups[i].id})}
+          >
+              <Text style={styles.gameText}>{groups[i].name}</Text>
+          </Pressable>
+        ))
+        }
+        { !addingGroup ?
+          <Pressable
+            style={styles.addGameButton}
+            onPress={() => setAddingGroup(true)}
+          >
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.addGameText}>Add new group</Text>
+              <View style={styles.flexRight}>
+                <MaterialCommunityIcons name="plus-thick" size={32} color="#4E9BB0" />
+              </View>
+            </View>
+          </Pressable>
+        :
+          <Pressable
+            style={styles.addGameButton}
+          >
+            <View style={{flexDirection: 'row'}}>
+              <TextInput 
+                  style={styles.addGameInput}
+                  placeholder='Enter group name'
+                  onChangeText={(name) => setGroupname(name)}
+                  placeholderTextColor='white'
+                  color="white"
+                  cursorColor="white"
+                  autoFocus={true}
+                  onSubmitEditing={addNewGroup}
+              />
+              <View style={styles.flexRight}>
+                <Pressable
+                  style={{flex: 1, justifyContent: 'center'}}
+                  onPress={addNewGroup}
+                >
+                  <MaterialCommunityIcons name="plus-thick" size={32} color="#F9BB00" />
+                </Pressable>
+              </View>
+            </View>
+          </Pressable>
+        }
       </ScrollView>
     </View>
   );
