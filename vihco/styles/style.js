@@ -189,7 +189,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        marginBottom: 50,
+        marginBottom: 25,
         width: '100%'
     },
     title: {
