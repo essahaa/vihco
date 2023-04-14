@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 import styles from '../styles/style';
 import Logo from "./Logo";
-import { signIn } from "./Auth";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/Config";
 
 export default Login = ({navigation}) => {
@@ -11,7 +10,6 @@ export default Login = ({navigation}) => {
     const [password, setPassword] = useState('');
 
     const handlePress = () => {
-        
         if(!email) {
             Alert.alert('Email is required');
         }
@@ -19,12 +17,17 @@ export default Login = ({navigation}) => {
             Alert.alert('Password is required');
         }
         else {
-            signIn(email, password);
-            onAuthStateChanged(auth, (user) => {
-                if(user) {
-                    navigation.navigate('Home', {userUid: user.uid});
-                }
-            });
+            try {
+                signInWithEmailAndPassword(auth, email, password)
+                onAuthStateChanged(auth, (user) => {
+                    if(user) {
+                        navigation.navigate('Home', {userUid: user.uid});
+                    }
+                });
+            }catch(error) {
+                console.log('Login failed. ', error.message);
+                Alert.alert('Login failed. ', error.message);
+            };
         }
     };
 

@@ -20,7 +20,7 @@ export default Bottomtab = () => {
   return (
     <Tab.Navigator
        initialRouteName='Login'
-      screenOptions={{headerShown: false, tabBarActiveBackgroundColor: '#f9bb00', tabBarInactiveBackgroundColor: '#326472', tabBarStyle:{borderTopWidth:0}}}
+      screenOptions={{headerShown: false, tabBarActiveBackgroundColor: '#4e9bb0', tabBarInactiveBackgroundColor: '#326472', tabBarStyle:{borderTopWidth:0}, tabBarInactiveTintColor: '#ffffff', tabBarActiveTintColor: '#ffffff'}}
     >
       <Tab.Screen name="Home"  component={Home} options={{ tabBarIcon:()=> <MaterialCommunityIcons name="book-open-variant" size={24} color="white" />}}/>
       <Tab.Screen name="Games"  component={Games} options={{tabBarIcon:()=> <MaterialCommunityIcons name="cards-playing" size={24} color="white" />}}/>
