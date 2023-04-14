@@ -5,8 +5,8 @@ import { db, USERS_REF } from '../firebase/Config';
 import { onAuthStateChanged, getAuth, getIdToken } from "firebase/auth";
 import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-//import Header3 from './Header3';
 import Logo from './Logo2';
+
 
 export default function Home({navigation, route}) {
 
@@ -54,10 +54,8 @@ export default function Home({navigation, route}) {
   return (
     <View style={[styles.container]}>
       <Logo />
-      <View style={[styles.listTop, {marginVertical: 15}]}>
-      
-        <Text style={[styles.title, {textAlign: 'center', flex: 1}]}>Welcome {username} !</Text>
-     
+      <View style={[styles.listTop, {marginVertical: 15}]}>  
+        <Text style={[styles.title, {textAlign: 'center', flex: 1}]}>Welcome <Text style={{ color: '#F9BB00' }}>{username} </Text></Text>
       </View>
       <ScrollView 
         contentContainerStyle={styles.scrollview}
