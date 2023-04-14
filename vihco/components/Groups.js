@@ -14,41 +14,27 @@ export default function Groups({navigation}) {
     const [playerId, setPlayerId] = useState('')
     const [playerName, setPlayerName] = useState('')
     const [players, setPlayers] = useState([]);
-    const [group, setGroup] = useState([])
 
     const auth = getAuth()
 
     useEffect(() => {
-      getPlayers()
-    }, [])
+      if(groupId) {
+        const q = query(collection(db, GROUPS_REF + "/" + groupId + "/users"), orderBy("name"))
+        onSnapshot(q, (querySnapshot) => {
+            setPlayers(querySnapshot.docs.map(doc => ({
+                id: doc.id,
+            ...doc.data()
+            })));
+        });
+      }
+      console.log(players)
+    }, [groupId, playerName]);
 
-
-    // HAE JOLLAIN KEINOLLA TIETYN RYHMÄN PELAAJAT DATABASESTA
-    //TÄMÄ EI TOIMI
-    const getPlayers = async () => {
-      const groupQ = query(collection(db, GROUPS_REF + "/" + groupId + "/users"), where("name", "==", groupname));
-      const groupQuerySnapShot = await getDocs(groupQ);
-      setPlayers(groupQuerySnapShot)
-    }
-    
     
     const addPlayer = async () => {
       //hakee syötettyä sähköpostiosoitetta vastaavan dokumentin
       const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
       const querySnapshot = await getDocs(q);
-
-      const groupQ = query(collection(db, GROUPS_REF), where("name", "==", groupname));
-      const groupQuerySnapShot = await getDocs(groupQ);
-
-      groupQuerySnapShot.forEach((doc) => {
-        const data2 = doc.data()
-        setGroup(groupQuerySnapShot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })));
-        console.log("Group data: " + data2.name + " => " + doc.id)
-      });
-      console.log("group id: " + groupId)
 
       if(querySnapshot.empty) {
         console.log("No such user found!")
@@ -60,10 +46,8 @@ export default function Groups({navigation}) {
           setPlayerName(data.name)
           console.log("Username data: " + data.name + " => " + doc.id)
         });
-
-        const usersDocRef = doc(db, GROUPS_REF + "/" + groupId + "/users", playerId)
-    
-        await setDoc((usersDocRef), {
+        console.log(playerId)
+        await setDoc((doc(db, GROUPS_REF + "/" + groupId + "/users/" + playerId)), {
           name: playerName,
           admin: false
         })
@@ -72,7 +56,7 @@ export default function Groups({navigation}) {
 
     const addNewGroup = async () => {
       try {
-          if(groupname.trim() !== "") {
+          if(groupname !== "") {
             const groupAdded = await addDoc(collection(db, GROUPS_REF), {
               name: groupname
             });
@@ -84,7 +68,6 @@ export default function Groups({navigation}) {
             const docRef = doc(db, USERS_REF, currentUserId);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-              //console.log("Document data:", docSnap.data());
               const data = docSnap.data()
               const usersDocRef = doc(db, GROUPS_REF + "/" + groupAdded.id + "/users", currentUserId);
               await setDoc((usersDocRef), {
@@ -110,7 +93,7 @@ export default function Groups({navigation}) {
                 style={styles.textInput}
                 placeholder='Groupname'
                 value={groupname}
-                onChangeText={(groupname) => setGroupname(groupname.trim())}
+                onChangeText={(groupname) => setGroupname(groupname)}
                 autoCapitalize="none"
                 placeholderTextColor='#4E9BB0'
             />
@@ -133,7 +116,7 @@ export default function Groups({navigation}) {
                 placeholderTextColor='#4E9BB0'
             />
             <Pressable
-                onPress={() => addPlayer()}
+                onPress={addPlayer}
                 style={styles.buttonPrimary}
                 >
                 <Text style={[styles.buttonText, {fontSize: 20}]}>ADD</Text>
@@ -142,16 +125,11 @@ export default function Groups({navigation}) {
         
         <View >
         <Text style={styles.title}>PLAYERS</Text>
-        
           {players.map((key,i) => (
             <View key={i} style={[styles.gameButton, {height: 120}]}>
-              <Text style={styles.gameText} >{groups[i].name} + {groups[i].id}</Text>
-              
-              
-            </View>
-                
-          ))
-          }
+              <Text style={styles.gameText} >{players[i].name}</Text>
+            </View>      
+          ))}
       </View>
       </ScrollView>
     </View>
