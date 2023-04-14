@@ -257,7 +257,8 @@ export default StyleSheet.create({
         margin: 4,
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 7
+        paddingVertical: 7,
+        height: 40
     },
     tableCellHeader: {
         backgroundColor: '#4E9BB0',
@@ -285,12 +286,23 @@ export default StyleSheet.create({
     plusButton: {
         backgroundColor: '#4E9BB0',
         borderRadius: 100,
-        padding: 7
+        width: 45,
+        height: 45,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     minusButton: {
         backgroundColor: '#326472',
         borderRadius: 100,
         padding: 7,
         marginLeft: 5
+    },
+    scoreNum: {
+        color: 'white',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+        textShadowColor: 'white',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1,
     }
 });

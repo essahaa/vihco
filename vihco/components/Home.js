@@ -54,30 +54,30 @@ export default function Home({navigation, route}) {
   return (
     <View style={[styles.container]}>
       <Logo />
-      <View style={[styles.listTop, {marginVertical: 15}]}>  
-        <Text style={[styles.title, {textAlign: 'center', flex: 1}]}>Welcome <Text style={{ color: '#F9BB00' }}>{username} </Text></Text>
+      <View style={[styles.listTop, {marginTop: 30}]}>  
+        <Text style={[styles.title, {fontSize: 24}, {textAlign: 'center', flex: 1}]}>Welcome <Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}>{username} <Text style={[{ color: '#Ffffff' }, {fontSize: 26}, {fontFamily: ''}]}>!</Text></Text></Text>
       </View>
       <ScrollView 
         contentContainerStyle={styles.scrollview}
-        style={{marginBottom: 20}}
+        style={{marginBottom: 5}}
       >
           <Pressable
-            style={[styles.gameButton, {marginVertical: 10}]}
+            style={[styles.gameButton, {marginVertical: 10}, {justifyContent: 'center'}]}
             onPress={() => navigation.navigate('Profile')}
           >
-              <Text style={[styles.gameText, {textAlign: 'center'}]}>Profile</Text>
+              <Text style={[styles.gameText , {textAlign: 'center'}, {marginBottom: 10}, {fontSize: 21}]}>Profile</Text>
           </Pressable>
           <Pressable
-            style={[styles.gameButton, {marginVertical: 10}]} 
+            style={[styles.gameButton, {marginVertical: 10}, {justifyContent: 'center'}]} 
             onPress={() => navigation.navigate('Groups')}
           >
-              <Text style={[styles.gameText, {textAlign: 'center'}]}>Groups</Text>
+              <Text style={[styles.gameText, {textAlign: 'center'}, {marginBottom: 10}, {fontSize: 21}]}>Groups</Text>
           </Pressable>
           <Pressable
-            style={styles.gameButton}
+            style={[styles.gameButton, {marginVertical: 10}, {justifyContent: 'center'}]} 
             onPress={() => navigation.navigate('Games')}
           >
-              <Text style={[styles.gameText, {textAlign: 'center'}]}>Games</Text>
+              <Text style={[styles.gameText, {textAlign: 'center'}, {marginBottom: 10}, {fontSize: 21}]}>Games</Text>
           </Pressable>
         
       </ScrollView>
