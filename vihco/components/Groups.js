@@ -5,16 +5,30 @@ import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, g
 import styles from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header2 from './Header2';
+import { getAuth } from 'firebase/auth';
 
 export default function Groups({navigation}) {
     const [groupname, setGroupname] = useState('')
     const [groupId, setGroupId] = useState('')
-    const [groups, setGroups] = useState([])
     const [playerEmail, setPlayerEmail] = useState('');
     const [playerId, setPlayerId] = useState('')
     const [playerName, setPlayerName] = useState('')
     const [players, setPlayers] = useState([]);
-    const [group, setGroup] = useState([])
+
+    const auth = getAuth()
+
+    useEffect(() => {
+      if(groupId) {
+        const q = query(collection(db, GROUPS_REF + "/" + groupId + "/users"), orderBy("name"))
+        onSnapshot(q, (querySnapshot) => {
+            setPlayers(querySnapshot.docs.map(doc => ({
+                id: doc.id,
+            ...doc.data()
+            })));
+        });
+      }
+      console.log(players)
+    }, [groupId, playerName]);
 
     
     const addPlayer = async () => {
@@ -32,40 +46,39 @@ export default function Groups({navigation}) {
           setPlayerName(data.name)
           console.log("Username data: " + data.name + " => " + doc.id)
         });
+        console.log(playerId)
+        await setDoc((doc(db, GROUPS_REF + "/" + groupId + "/users/" + playerId)), {
+          name: playerName,
+          admin: false
+        })
       }
-
-      const groupQ = query(collection(db, GROUPS_REF), where("name", "==", groupname));
-      const groupQuerySnapShot = await getDocs(groupQ);
-
-      groupQuerySnapShot.forEach((doc) => {
-        const data2 = doc.data()
-        //setGroupId(doc.id)
-        setGroup(groupQuerySnapShot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })));
-        console.log("Group data: " + data2.name + " => " + doc.id)
-      });
-      console.log("group id: " + groupId)
-      const usersDocRef = doc(db, GROUPS_REF + "/" + groupId + "/users", playerId)
-    
-      await setDoc((usersDocRef), {
-        name: playerName,
-      })
     }
 
     const addNewGroup = async () => {
-        try {
-            if(groupname.trim() !== "") {
-              const groupAdded = await addDoc(collection(db, GROUPS_REF), {
-                name: groupname
-              });
-              console.log("group added with id: " + groupAdded.id);
-              setGroupId(groupAdded.id)
+      try {
+          if(groupname !== "") {
+            const groupAdded = await addDoc(collection(db, GROUPS_REF), {
+              name: groupname
+            });
+            console.log("group added with id: " + groupAdded.id);
+            setGroupId(groupAdded.id);
+
+            //lisää ryhmän luoneen käyttäjän ryhmään ja ryhmän adminiksi
+            const currentUserId = auth.currentUser.uid;
+            const docRef = doc(db, USERS_REF, currentUserId);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              const data = docSnap.data()
+              const usersDocRef = doc(db, GROUPS_REF + "/" + groupAdded.id + "/users", currentUserId);
+              await setDoc((usersDocRef), {
+                name: data.name,
+                admin: true
+              })
             }
-          }catch (error) {
-            console.log(error.message);
           }
+        }catch (error) {
+          console.log(error.message);
+        }
     }
 
   return (
@@ -74,12 +87,13 @@ export default function Groups({navigation}) {
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
         <View>
+            <Text style={styles.text}>Groupname: {groupname}</Text>
             <Text style={styles.text}>Add new group</Text>
             <TextInput 
                 style={styles.textInput}
                 placeholder='Groupname'
                 value={groupname}
-                onChangeText={(groupname) => setGroupname(groupname.trim())}
+                onChangeText={(groupname) => setGroupname(groupname)}
                 autoCapitalize="none"
                 placeholderTextColor='#4E9BB0'
             />
@@ -102,7 +116,7 @@ export default function Groups({navigation}) {
                 placeholderTextColor='#4E9BB0'
             />
             <Pressable
-                onPress={() => addPlayer()}
+                onPress={addPlayer}
                 style={styles.buttonPrimary}
                 >
                 <Text style={[styles.buttonText, {fontSize: 20}]}>ADD</Text>
@@ -111,16 +125,11 @@ export default function Groups({navigation}) {
         
         <View >
         <Text style={styles.title}>PLAYERS</Text>
-        
-          {groups.map((key,i) => (
+          {players.map((key,i) => (
             <View key={i} style={[styles.gameButton, {height: 120}]}>
-              <Text style={styles.gameText} >{groups[i].name} + {groups[i].id}</Text>
-              
-              
-            </View>
-                
-          ))
-          }
+              <Text style={styles.gameText} >{players[i].name}</Text>
+            </View>      
+          ))}
       </View>
       </ScrollView>
     </View>

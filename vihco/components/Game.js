@@ -1,12 +1,12 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { View, Text, Pressable, ScrollView, TouchableOpacity } from 'react-native';
-import { collection, onSnapshot, orderBy, query, doc, updateDoc, increment } from 'firebase/firestore';
+import { View, Text, Pressable } from 'react-native';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../firebase/Config';
 import GameInfo from './GameInfo';
 import styles from '../styles/style';
 
-export default Game = ({navigation, route}) => {
+export default Game = ({route}) => {
     const [gameName, setGameName] = useState('');
     const [gameId, setGameId] = useState();
     const [winData, setWinData] = useState([]);
