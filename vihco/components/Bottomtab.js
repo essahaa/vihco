@@ -10,6 +10,7 @@ import Games from './Games';
 import Groups from './Groups';
 import Cluedo from './Cluedo'
 import Profile from './Profile';
+import Rules from './Rules';
 import style from '../styles/style';
 
 
