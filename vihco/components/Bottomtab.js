@@ -32,6 +32,7 @@ export default Bottomtab = () => {
       <Tab.Screen name="Settings"  component={Settings} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
       <Tab.Screen name="Groups"  component={Groups} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
       <Tab.Screen name="Cluedo"  component={Cluedo} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
+      <Tab.Screen name="Rules"  component={Rules} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
     </Tab.Navigator>
   );
 }
