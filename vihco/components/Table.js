@@ -7,6 +7,8 @@ export default Table = (data) => {
         const ratio = (wins/losses).toFixed(2);
         if(isNaN(ratio)) {
             return 0;
+        }else if(losses === 0) {
+            return wins;
         }else return ratio;
     }
 

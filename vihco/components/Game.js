@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable, TouchableOpacity, ScrollView } from 'react-native';
-import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, doc, updateDoc, increment } from 'firebase/firestore';
 import { db } from '../firebase/Config';
 import GameInfo from './GameInfo';
 import styles from '../styles/style';
@@ -39,7 +39,7 @@ export default Game = ({route}) => {
             onSnapshot(q, (querySnapshot) => {
                 setAddingScoreData(querySnapshot.docs.map(doc => ({
                     id: doc.id,
-                ...doc.data()
+                    ...doc.data()
                 })));
             });
         }
@@ -64,7 +64,6 @@ export default Game = ({route}) => {
     const inc = async (userId, field, value) => {
         const userRef = doc(db, "/games/" + gameId + "/users", userId);
 
-        // Atomically increment the population of the city by 50.
         if(field == "win") {
             await updateDoc(userRef, {
                 win: increment(value)
