@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
 import { collection, onSnapshot, orderBy, query, addDoc } from 'firebase/firestore';
-import { db, GAMES_REF } from '../firebase/Config';
+import { db, GAMES_REF, GROUPS_REF } from '../firebase/Config';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
 import styles from '../styles/style';
@@ -10,8 +10,13 @@ export default Games = ({navigation}) => {
   const [games, setGames] = useState([]);
   const [addingGame, setAddingGame] = useState(false); //flag
   const [newGameName, setNewGameName] = useState('');
+  const [newGamePlayers, setNewGamePlayers] = useState([]);
 
   useEffect(() => {
+    getGames();
+  }, []);
+
+  const getGames = () => {
     const q = query(collection(db, GAMES_REF), orderBy("orderId"))
     onSnapshot(q, (querySnapshot) => {
       setGames(querySnapshot.docs.map(doc => ({
@@ -19,18 +24,39 @@ export default Games = ({navigation}) => {
         ...doc.data()
       })));
     });
-    console.log(games)
-  }, []);
+  }
+
+  const getPlayers = () => {
+    const q = query(collection(db, GROUPS_REF + "/" + "XRkR2RgiUnCQ2PBRQFbQ" + "/users"))
+    onSnapshot(q, (querySnapshot) => {
+        setNewGamePlayers(querySnapshot.docs.map(doc => ({
+            id: doc.id,
+        ...doc.data()
+        })));
+    });
+  }
 
   const addGame = async () => {
     try {
       if(newGameName.trim() !== "") {
         await addDoc(collection(db, GAMES_REF), {
-          Orderid: games.length,
+          orderId: games.length,
           name: newGameName
+        }).then(function(docRef) {
+          const gameId = docRef.id;
+          getPlayers();
+          console.log(newGamePlayers);
+          newGamePlayers.map(player => (
+            addDoc(collection(db, "/games/" + gameId + "/users"), {
+              name: player.name,
+              loss: 0,
+              win: 0
+            })
+          ));
         });
       }
       setAddingGame(false);
+      getGames();
     }catch (error) {
       console.log(error.message);
     }
