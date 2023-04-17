@@ -1,16 +1,18 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../firebase/Config';
 import styles from '../styles/style';
 import Header from './Header2';
 import Table from './Table';
 
+
 const Rules = ({navigation, route}) => {
     const gameName = route.params?.gameName;
   // Define game rules for Yatzi
   let gameRules = {};
+  let screenName = "";
   switch (gameName) {
     case 'Yatzi':
       gameRules = {
@@ -32,23 +34,25 @@ const Rules = ({navigation, route}) => {
           "1 to 6 again."
         ]
       };
+      screenName = "Yatzi";
       break;
     case 'SevenOfClubs': 
     gameRules = { 
     title: "Seven of clubs", 
     rules: [
-        "Number of Players: The game is typically played with 3-8 players.",
-        "Objective: The objective of the game is to be the first player to reach a set number of points, which is agreed upon before the game begins.",
+        "Number of Players: The game is typically played with 3-6 players.",
+        "Objective: The objective of the game is to get rid of the cards dealt for you.",
         "Gameplay:",
-        "The player who has the seven of clubs leads the first trick.",
-        "Each player must follow suit if possible; if they cannot follow suit, they may play any card.",
-        "The trick is won by the player who plays the highest card of the suit led.",
-        "The winner of the trick leads the next trick.",
+        "The player who has the seven of clubs starts the game by laying it on the table.",
+        "Each player must must play a card on their turn, if they don't have a suitable card, they have to take a card from the player who had the last turn.",
+        "Each suit starts on the table when a 7 is played. After the 7, a 6 must be played before 8 and after that, there is no limitations on the table, other than that the cards must be played in order.",
+        "For example on top of 8 of hearts, players have to play 9, 10, J , Q ,K of hearts, in that order. And on top of 6, 5,4,3,2 and A of hearts in that order.",
         "The game continues in this way until all of the cards have been played.",
-        "At the end of each hand, players receive points based on the cards they have won in tricks. The seven of clubs is worth 7 points, while all other clubs are worth 1 point each. The Ace, King, Queen, Jack, and 10 of diamonds are also worth 1 point each.",
-        "The first player to reach the agreed-upon number of points wins the game."
+        "After a player plays a final card on top of a pile(A or K) they can play another card after it they want.",
+        "The first player to get rid of all of their cards win, and the player who plays the last card loses."
       ]
-  };
+      };
+      screenName = "Sheets";
     break;
   case 'Cluedo' :
     gameRules = { 
@@ -65,29 +69,32 @@ const Rules = ({navigation, route}) => {
         "The game continues until one player has correctly accused the murderer, location, and weapon, or until all players have made incorrect accusations and are out of the game."
       ]
   };
+  screenName = "Cluedo";
     break;
   }
   return (
+    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
     <ScrollView>
-  <View style={styles.container}>
-    <View style={styles.gameTopBar}>
-      <Header />
-    </View>
-    <View style={{flexDirection: 'row'}}>
-      <View style={[styles.flexLeft, {paddingLeft: 35, alignItems: 'center', justifyContent: 'center'}]}>
-        <Text style={[styles.text, {textAlign: 'center'}]}>Rules of {gameRules.title} </Text>
-        {gameRules.rules.map(rule => (
-          <Text key={rule} style={[styles.text]}>
-            {rule}
-          </Text>
-        ))}
-        <Pressable style={styles.buttonPrimary} onPress={() => navigation.navigate('Yatzi')}>
-          <Text style={styles.button}>Play now!</Text>
-        </Pressable>
-      </View>
+ <View style={[styles.container, {height: '100%', backgroundColor: 'black'}]}>
+  <View style={styles.gameTopBar}>
+    <Header />
+  </View>
+  <View style={{flexDirection: 'row'}}>
+    <View style={[styles.flexLeft, {paddingLeft: 35, alignItems: 'center', justifyContent: 'center'}]}>
+      <Text style={[styles.text, {textAlign: 'center'}]}>Rules of {gameRules.title} </Text>
+      {gameRules.rules.map(rule => (
+        <Text key={rule} style={[styles.text]}>
+          {rule}
+        </Text>
+      ))}
+      <Pressable style={styles.buttonPrimary} onPress={() => navigation.navigate(screenName)}>
+        <Text style={styles.button}>Play now!</Text>
+      </Pressable>
     </View>
   </View>
+</View>
 </ScrollView>
+</SafeAreaView>
   );
 }
 

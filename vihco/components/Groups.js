@@ -11,10 +11,15 @@ export default function Groups({navigation}) {
     const [groupname, setGroupname] = useState('')
     const [groupId, setGroupId] = useState('')
     const [groups, setGroups] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState('')
     const [addingGroup, setAddingGroup] = useState(false)
 
     const auth = getAuth()
 
+    useEffect(() => {
+      setCurrentUserId(auth.currentUser.uid)
+    }, [])
+    
     useEffect(() => {
       const q = query(collection(db, GROUPS_REF), orderBy("name"))
       onSnapshot(q, (querySnapshot) => {
@@ -36,7 +41,6 @@ export default function Groups({navigation}) {
             setGroupId(groupAdded.id);
 
             //lisää ryhmän luoneen käyttäjän ryhmään ja ryhmän adminiksi
-            const currentUserId = auth.currentUser.uid;
             const docRef = doc(db, USERS_REF, currentUserId);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
