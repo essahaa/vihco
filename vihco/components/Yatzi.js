@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import style from '../styles/style';
+import { FontAwesome5 } from '@expo/vector-icons';
+import RollDicePopup from './RollDicePopUp';
 
 const categories = [
   "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes",
@@ -26,6 +28,16 @@ const YahtzeeScoreSheet = () => {
   });
   const [totalScore, setTotalScore] = useState(0);
   const [bonusEarned, setBonusEarned] = useState(false);
+
+  const [rollDiceVisible, setRollDiceVisible] = useState(false);
+
+  const handleRollDice = () => {
+    setRollDiceVisible(true);
+  };
+
+  const handleRollDiceClose = () => {
+    setRollDiceVisible(false);
+  };
 
   const handleInput = (category, value) => {
     const score = parseInt(value);
@@ -149,6 +161,11 @@ const YahtzeeScoreSheet = () => {
         <Text style={[styles.cell, styles.total]}>Total Score:</Text>
         <Text style={[styles.cell, styles.total]}>{calculateTotal()}</Text>
       </View>
+      <TouchableOpacity style={style.rollButton} onPress={handleRollDice}>
+        <FontAwesome5 name="dice" size={24} color="white" />
+        <Text style={style.gameText}>Roll Dice</Text>
+      </TouchableOpacity>
+      <RollDicePopup visible={rollDiceVisible} onClose={handleRollDiceClose} />
     </View>
   );
 };
@@ -179,6 +196,12 @@ const styles = StyleSheet.create({
   total: {
     backgroundColor: '#edba21',
     fontFamily:'timeburnerBold',
+  },diceContainer: {
+    flexDirection: 'row',
+    marginBottom: 50,
+  },
+  rollButton: {
+    marginTop: 50,
   },
 });
 
