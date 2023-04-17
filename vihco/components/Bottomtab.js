@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 export default Bottomtab = () => {
   return (
     <Tab.Navigator
-       initialRouteName='Login'
+       initialRouteName='Home'
       screenOptions={{headerShown: false, tabBarActiveBackgroundColor: '#4e9bb0', tabBarInactiveBackgroundColor: '#326472', tabBarStyle:{borderTopWidth:0}, tabBarInactiveTintColor: '#ffffff', tabBarActiveTintColor: '#ffffff'}}
     >
       <Tab.Screen name="Home"  component={Home} options={{ tabBarIcon:()=> <MaterialCommunityIcons name="book-open-variant" size={24} color="white" />}}/>

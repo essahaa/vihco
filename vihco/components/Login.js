@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 import styles from '../styles/style';
 import Logo from "./Logo";
-import { onAuthStateChanged, setPersistence, signInWithEmailAndPassword, inMemoryPersistence } from "firebase/auth";
+import { getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, browserLocalPersistence } from "firebase/auth";
 import { auth } from "../firebase/Config";
 
 export default Login = ({navigation}) => {
@@ -18,14 +18,8 @@ export default Login = ({navigation}) => {
             Alert.alert('Password is required');
         }
         else {
-            setLoading(true);
             try {
-                setPersistence(auth, inMemoryPersistence
-                    ).then(() => {
-                        return signInWithEmailAndPassword(auth, email, password)
-                    }).then(() => {
-                        return setLoading(false);
-                    })
+                signInWithEmailAndPassword(auth, email, password)
                 onAuthStateChanged(auth, (user) => {
                     if(user) {
                         navigation.navigate('Home', {userUid: user.uid});
