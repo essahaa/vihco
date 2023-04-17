@@ -52,7 +52,7 @@ const Rules = ({navigation, route}) => {
         "The first player to reach the agreed-upon number of points wins the game."
       ]
       };
-      screenName = "SevenOfClubs";
+      screenName = "Sheets";
     break;
   case 'Cluedo' :
     gameRules = { 
