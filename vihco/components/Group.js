@@ -37,10 +37,9 @@ export default Group = ({route}) => {
       }, [groupId, playerName]);
 
       const addPlayer = async () => {
-        //hakee syötettyä sähköpostiosoitetta vastaavan dokumentin
         const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
         const querySnapshot = await getDocs(q);
-  
+      
         if(querySnapshot.empty) {
           console.log("No such user found!")
         }
@@ -51,13 +50,18 @@ export default Group = ({route}) => {
             setPlayerName(data.name)
             console.log("Username data: " + data.name + " => " + doc.id)
           });
-          console.log(playerId)
-          await setDoc((doc(db, GROUPS_REF + "/" + groupId + "/users/" + playerId)), {
+        }
+      }
+      
+      useEffect(() => {
+        if (playerId && playerName) {
+          setDoc(doc(db, GROUPS_REF + "/" + groupId + "/users/" + playerId), {
             name: playerName,
             admin: false
           })
         }
-      }
+      }, [playerId, playerName])
+      
 
     
     
