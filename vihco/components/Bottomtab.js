@@ -28,7 +28,7 @@ export default Bottomtab = () => {
       <Tab.Screen name="Profile"  component={Profile} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
       <Tab.Screen name="Login"  component={Login} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="Register"  component={Register} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
-      <Tab.Screen name="Yatzi"  component={Yatzi} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
+      <Tab.Screen name="Yatzi"  component={Yatzi} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="Settings"  component={Settings} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
       <Tab.Screen name="Groups"  component={Groups} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
       <Tab.Screen name="Cluedo"  component={Cluedo} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>

@@ -191,7 +191,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: 15,
     backgroundColor: '#F9BB00',
-    fontFamily:'timeburner'
+    fontFamily:'timeburner',
+    marginHorizontal:10
   },
   total: {
     backgroundColor: '#edba21',
