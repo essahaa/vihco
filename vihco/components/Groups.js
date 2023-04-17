@@ -10,10 +10,6 @@ import { getAuth } from 'firebase/auth';
 export default function Groups({navigation}) {
     const [groupname, setGroupname] = useState('')
     const [groupId, setGroupId] = useState('')
-    const [playerEmail, setPlayerEmail] = useState('');
-    const [playerId, setPlayerId] = useState('')
-    const [playerName, setPlayerName] = useState('')
-    const [players, setPlayers] = useState([]);
     const [groups, setGroups] = useState([]);
     const [addingGroup, setAddingGroup] = useState(false)
 
@@ -29,43 +25,6 @@ export default function Groups({navigation}) {
       });
       console.log(groups)
     }, []);
-
-    useEffect(() => {
-      if(groupId) {
-        const q = query(collection(db, GROUPS_REF + "/" + groupId + "/users"), orderBy("name"))
-        onSnapshot(q, (querySnapshot) => {
-            setPlayers(querySnapshot.docs.map(doc => ({
-                id: doc.id,
-            ...doc.data()
-            })));
-        });
-      }
-      console.log(players)
-    }, [groupId, playerName]);
-
-    
-    const addPlayer = async () => {
-      //hakee syötettyä sähköpostiosoitetta vastaavan dokumentin
-      const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
-      const querySnapshot = await getDocs(q);
-
-      if(querySnapshot.empty) {
-        console.log("No such user found!")
-      }
-      else {
-        querySnapshot.forEach((doc) => {
-          const data = doc.data()
-          setPlayerId(doc.id)
-          setPlayerName(data.name)
-          console.log("Username data: " + data.name + " => " + doc.id)
-        });
-        console.log(playerId)
-        await setDoc((doc(db, GROUPS_REF + "/" + groupId + "/users/" + playerId)), {
-          name: playerName,
-          admin: false
-        })
-      }
-    }
 
     const addNewGroup = async () => {
       try {
@@ -100,33 +59,9 @@ export default function Groups({navigation}) {
         <Header2 />
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
-        <View>
-            <Text style={styles.text}>Add new player to the group</Text>
-            <TextInput 
-                style={styles.textInput}
-                placeholder='Player email'
-                value={playerEmail}
-                onChangeText={(playerEmail) => setPlayerEmail(playerEmail.trim())}
-                autoCapitalize="none"
-                keyboardType='email-address'
-                placeholderTextColor='#4E9BB0'
-            />
-            <Pressable
-                onPress={addPlayer}
-                style={styles.buttonPrimary}
-                >
-                <Text style={[styles.buttonText, {fontSize: 20}]}>ADD</Text>
-            </Pressable>
-        </View>
         
-        <View >
-        <Text style={styles.title}>PLAYERS</Text>
-          {players.map((key,i) => (
-            <View key={i} style={[styles.gameButton, {height: 120}]}>
-              <Text style={styles.gameText} >{players[i].name}</Text>
-            </View>      
-          ))}
-      </View>
+        
+        
       <Text style={styles.title}>GROUPS</Text>
       {groups.map((key, i) => (
           <Pressable
