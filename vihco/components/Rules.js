@@ -1,16 +1,18 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../firebase/Config';
 import styles from '../styles/style';
 import Header from './Header2';
 import Table from './Table';
 
+
 const Rules = ({navigation, route}) => {
     const gameName = route.params?.gameName;
   // Define game rules for Yatzi
   let gameRules = {};
+  let screenName = "";
   switch (gameName) {
     case 'Yatzi':
       gameRules = {
@@ -32,6 +34,7 @@ const Rules = ({navigation, route}) => {
           "1 to 6 again."
         ]
       };
+      screenName = "Yatzi";
       break;
     case 'SevenOfClubs': 
     gameRules = { 
@@ -48,7 +51,8 @@ const Rules = ({navigation, route}) => {
         "At the end of each hand, players receive points based on the cards they have won in tricks. The seven of clubs is worth 7 points, while all other clubs are worth 1 point each. The Ace, King, Queen, Jack, and 10 of diamonds are also worth 1 point each.",
         "The first player to reach the agreed-upon number of points wins the game."
       ]
-  };
+      };
+      screenName = "SevenOfClubs";
     break;
   case 'Cluedo' :
     gameRules = { 
@@ -65,29 +69,32 @@ const Rules = ({navigation, route}) => {
         "The game continues until one player has correctly accused the murderer, location, and weapon, or until all players have made incorrect accusations and are out of the game."
       ]
   };
+  screenName = "Cluedo";
     break;
   }
   return (
+    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
     <ScrollView>
-  <View style={styles.container}>
-    <View style={styles.gameTopBar}>
-      <Header />
-    </View>
-    <View style={{flexDirection: 'row'}}>
-      <View style={[styles.flexLeft, {paddingLeft: 35, alignItems: 'center', justifyContent: 'center'}]}>
-        <Text style={[styles.text, {textAlign: 'center'}]}>Rules of {gameRules.title} </Text>
-        {gameRules.rules.map(rule => (
-          <Text key={rule} style={[styles.text]}>
-            {rule}
-          </Text>
-        ))}
-        <Pressable style={styles.buttonPrimary} onPress={() => navigation.navigate('Yatzi')}>
-          <Text style={styles.button}>Play now!</Text>
-        </Pressable>
-      </View>
+ <View style={[styles.container, {height: '100%', backgroundColor: 'black'}]}>
+  <View style={styles.gameTopBar}>
+    <Header />
+  </View>
+  <View style={{flexDirection: 'row'}}>
+    <View style={[styles.flexLeft, {paddingLeft: 35, alignItems: 'center', justifyContent: 'center'}]}>
+      <Text style={[styles.text, {textAlign: 'center'}]}>Rules of {gameRules.title} </Text>
+      {gameRules.rules.map(rule => (
+        <Text key={rule} style={[styles.text]}>
+          {rule}
+        </Text>
+      ))}
+      <Pressable style={styles.buttonPrimary} onPress={() => navigation.navigate(screenName)}>
+        <Text style={styles.button}>Play now!</Text>
+      </Pressable>
     </View>
   </View>
+</View>
 </ScrollView>
+</SafeAreaView>
   );
 }
 
