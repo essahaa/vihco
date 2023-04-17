@@ -9,6 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Game from './components/Game';
 import { useFonts } from 'expo-font';
 import styles from './styles/style';
+import Group from './components/Group';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -49,6 +50,12 @@ export default function App() {
               options={{
                   animationEnabled: false
               }}/>
+          <Stack.Screen
+          name="Group"
+          component={Group}
+          options={{
+              animationEnabled: false
+          }}/>
       </Stack.Navigator>
       </NavigationContainer>
     </View>
