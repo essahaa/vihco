@@ -24,39 +24,41 @@ export default function Groups({navigation}) {
     useEffect(() => {
       console.log(currentUserId);
       if(currentUserId !== "") {
+        const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
+        onSnapshot(q, (querySnapshot) => {
+          setGroups(querySnapshot.docs.map(doc => ({
+            id: doc.data(),
+            ...doc.data()
+          })));
+        });
         getData()
       }
-    }, [currentUserId, addingGroup]);
+    }, [currentUserId]);
 
 
     /// TARKISTA IDN AVULLA >ETTÄ LISTALLE PÄÄSEE VAAN YHDEN KERRAN
     const getData = async () => {
-      const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
-      onSnapshot(q, (querySnapshot) => {
-        setGroups(querySnapshot.docs.map(doc => ({
-          id: doc.data(),
-          ...doc.data()
-        })));
-      });
-      console.log("groups: "+groups[0].name);
-      // const temp = [...myGroups]
+      // const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
+      // onSnapshot(q, (querySnapshot) => {
+      //   setGroups(querySnapshot.docs.map(doc => ({
+      //     id: doc.data(),
+      //     ...doc.data()
+      //   })));
+      // });
+      //console.log("groups: "+groups[0].name);
+      const temp = []
       
-      // groups.map((group) => {
-      //   onSnapshot(doc(db, GROUPS_REF, group.id), { includeMetadataChanges: true }, (doc) => {
+      groups.map((group) => {
+        onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
+          temp.push(doc.data().name);
+          console.log("Current data: ", doc.data());
           
-      //     temp.push(doc.data());
-      //     console.log("Current data: ", doc.data());
-          
-      //   });
+        });
 
-        
-      //   setMyGroups(temp)
-      //   console.log("temp" + temp[0].name);
-        
-      //   console.log("mygroups: "+myGroups.map((my, i) => {
-      //     my[i].name
-      //   }));
-      //})
+        console.log("temp" + temp[0]);
+        console.log("mygroups: "+myGroups[0] + myGroups[1])
+      })
+      setMyGroups(temp)
     }
 
     const addNewGroup = async () => {
@@ -104,6 +106,16 @@ export default function Groups({navigation}) {
             onPress={() => navigation.navigate('Group', {group: groups[i].name, id: groups[i].id})}
           >
               <Text style={styles.gameText}>{groups[i].id}</Text>
+          </Pressable>
+        ))
+        }
+        <Text style={styles.title}> MY GROUPS</Text>
+      {myGroups.map((key, i) => (
+          <Pressable
+            key={i}
+            style={styles.gameButton}
+          >
+              <Text style={styles.gameText}>{myGroups[i]}</Text>
           </Pressable>
         ))
         }
