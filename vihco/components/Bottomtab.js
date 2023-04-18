@@ -11,6 +11,7 @@ import Groups from './Groups';
 import Cluedo from './Cluedo'
 import Profile from './Profile';
 import Rules from './Rules';
+import EditProfile from './EditProfile';
 import style from '../styles/style';
 
 
@@ -33,6 +34,8 @@ export default Bottomtab = () => {
       <Tab.Screen name="Groups"  component={Groups} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
       <Tab.Screen name="Cluedo"  component={Cluedo} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="Rules"  component={Rules} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
+      <Tab.Screen name="EditProfile"  component={EditProfile} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
+
     </Tab.Navigator>
   );
 }
