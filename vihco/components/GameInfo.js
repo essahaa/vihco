@@ -4,9 +4,12 @@ import { View, Text, Pressable } from 'react-native';
 import styles from '../styles/style';
 import Table from './Table';
 import Header from './Header';
+import { useNavigation } from '@react-navigation/native';
 
-export default Game = ({name, data}) => {
+export default GameInfo = ({name, data, id}) => {
     const [winData, setWinData] = useState(data);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         setWinData(data);
@@ -22,19 +25,20 @@ export default Game = ({name, data}) => {
                 </View>
                 <View style={[styles.flexRight]}>
                     <View style={{flexDirection: 'row'}}>
-                        <Pressable>
+                        {/* <Pressable>
                             <MaterialCommunityIcons
                                 name='account-circle'
                                 color={'#326472'}
                                 size={55}
                                 //style={{backgroundColor: 'white', borderRadius: 100}}
                             />
-                        </Pressable>
+                        </Pressable> */}
                         <Pressable>
                             <MaterialCommunityIcons
                                 name='pencil-circle'
                                 color={'#326472'}
                                 size={55}
+                                onPress={() => navigation.navigate("GameSettings", {gameName: name, gameId: id})}
                                 //style={{backgroundColor: 'white', borderRadius: 100}}
                             />
                         </Pressable>
