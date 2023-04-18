@@ -7,31 +7,22 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { doc, getDoc } from 'firebase/firestore';
 
 export default function Settings({navigation}) {
-
+  
   const handlePress = () => {
     logOut();
     navigation.navigate('Login');
   }
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
-  const [items, setItems] = useState([
-    {label: 'Spain', value: 'spain'},
-    {label: 'Madrid', value: 'madrid', parent: 'spain'},
-    {label: 'Barcelona', value: 'barcelona', parent: 'spain'},
-
-    {label: 'Italy', value: 'italy'},
-    {label: 'Rome', value: 'rome', parent: 'italy'},
-
-    {label: 'Finland', value: 'finland'}
-  ]);
+  const [value, setValue] = useState([0]);
+  const [items, setItems] = useState([]);
 
   return (
     <View style={styles.overlay}>
       <Logo />
       <Text style={styles.text}>Settings</Text>
       <DropDownPicker 
-        style = {styles.dropdown}
+        style = {[styles.dropdown]}
         open={open}
         value={value}
         items={items}
