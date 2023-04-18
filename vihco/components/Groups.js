@@ -82,7 +82,7 @@ export default function Groups({navigation}) {
               const usersDocRef2 = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupAdded.id);
               await setDoc((usersDocRef2), {
                 id: groupAdded.id,
-                name: data.name
+                name: groupname
               })
             }
           }
@@ -96,8 +96,6 @@ export default function Groups({navigation}) {
         <Header2 />
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
-        
-        
         
       <Text style={styles.title}>GROUPS</Text>
       {groups.map((key, i) => (
