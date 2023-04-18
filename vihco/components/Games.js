@@ -41,6 +41,7 @@ export default Games = ({navigation}) => {
   }
 
   const addGame = async () => {
+    setAddingGame(false);
     try {
       if(newGameName.trim() !== "") {
         await addDoc(collection(db, GAMES_REF), {
@@ -59,7 +60,6 @@ export default Games = ({navigation}) => {
           ));
         });
       }
-      setAddingGame(false);
       getGames();
     }catch (error) {
       console.log(error.message);
