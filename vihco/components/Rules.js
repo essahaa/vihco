@@ -4,7 +4,7 @@ import { View, Text, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db } from '../firebase/Config';
 import styles from '../styles/style';
-import Header2 from './Header2';
+import Header3 from './Header3';
 
 import Table from './Table';
 
@@ -69,7 +69,7 @@ const Rules = ({navigation, route}) => {
     <ScrollView>
  <View style={[styles.container, {height: '100%', backgroundColor: 'black'}]}>
   <View style={styles.gameTopBar}>
-    <Header2/>
+    <Header3/>
   </View>
   <View style={{flexDirection: 'row'}}>
     <View style={[styles.flexLeft, {justifyContent: 'center',marginHorizontal:20}]}>
