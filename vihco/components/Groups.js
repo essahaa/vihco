@@ -13,6 +13,7 @@ export default function Groups({navigation}) {
     const [groups, setGroups] = useState([]);
     const [currentUserId, setCurrentUserId] = useState('')
     const [addingGroup, setAddingGroup] = useState(false)
+    const [myGroups, setMyGroups] = useState([])
 
     const auth = getAuth()
 
@@ -21,15 +22,34 @@ export default function Groups({navigation}) {
     }, [])
     
     useEffect(() => {
-      const q = query(collection(db, GROUPS_REF), orderBy("name"))
+      console.log(currentUserId);
+      if(currentUserId !== "") {
+        getData()
+      }
+    }, [currentUserId]);
+
+
+    /// TARKISTA IDN AVULLA >ETTÄ LISTALLE PÄÄSEE VAAN YHDEN KERRAN
+    const getData = async () => {
+      const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
       onSnapshot(q, (querySnapshot) => {
         setGroups(querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         })));
       });
-      console.log(groups)
-    }, []);
+      console.log("groups: "+groups[0].id);
+      const temp = [...myGroups]
+      groups.map((group) => {
+        onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
+          temp.push(doc.data());
+          console.log("Current data: ", doc.data());
+        });
+        setMyGroups(temp)
+        console.log("temp" + temp[0]);
+        console.log("mygroups: "+myGroups);
+      })
+    }
 
     const addNewGroup = async () => {
       try {
@@ -49,6 +69,10 @@ export default function Groups({navigation}) {
               await setDoc((usersDocRef), {
                 name: data.name,
                 admin: true
+              })
+              const usersDocRef2 = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupAdded.id);
+              await setDoc((usersDocRef2), {
+                id: groupAdded.id
               })
             }
           }
@@ -73,10 +97,22 @@ export default function Groups({navigation}) {
             style={styles.gameButton}
             onPress={() => navigation.navigate('Group', {group: groups[i].name, id: groups[i].id})}
           >
-              <Text style={styles.gameText}>{groups[i].name}</Text>
+              <Text style={styles.gameText}>{groups[i].id}</Text>
           </Pressable>
         ))
         }
+        <Text style={styles.title}>MY GROUPS</Text>
+        {myGroups.map((key, i) => (
+          <Pressable
+            key={i}
+            style={styles.gameButton}
+            
+          >
+              <Text style={styles.gameText}>{myGroups[i].name}</Text>
+          </Pressable>
+        ))
+        }
+        
         { !addingGroup ?
           <Pressable
             style={styles.addGameButton}
