@@ -5,12 +5,16 @@ import { db, GAMES_REF, GROUPS_REF } from '../firebase/Config';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
 import styles from '../styles/style';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default Games = ({navigation}) => {
   const [games, setGames] = useState([]);
   const [addingGame, setAddingGame] = useState(false); //flag
   const [newGameName, setNewGameName] = useState('');
   const [newGamePlayers, setNewGamePlayers] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState([0]);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     getGames();
@@ -68,7 +72,19 @@ export default Games = ({navigation}) => {
       <View style={styles.listTop}>
         <Text style={styles.title}>GAMES</Text>
         <View style={styles.flexRight}>
-          <Text style={styles.title}>Dropdown</Text>
+        <DropDownPicker 
+        style = {[styles.dropdown]}
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        theme="LIGHT"
+        multiple={true}
+        textStyle={styles.buttonTextSettings}
+
+      />
         </View>
       </View>
       <ScrollView 
