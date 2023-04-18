@@ -26,7 +26,7 @@ export default function Groups({navigation}) {
       if(currentUserId !== "") {
         getData()
       }
-    }, [currentUserId]);
+    }, [currentUserId, addingGroup]);
 
 
     /// TARKISTA IDN AVULLA >ETTÄ LISTALLE PÄÄSEE VAAN YHDEN KERRAN
@@ -34,24 +34,33 @@ export default function Groups({navigation}) {
       const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
       onSnapshot(q, (querySnapshot) => {
         setGroups(querySnapshot.docs.map(doc => ({
-          id: doc.id,
+          id: doc.data(),
           ...doc.data()
         })));
       });
-      console.log("groups: "+groups[0].id);
-      const temp = [...myGroups]
-      groups.map((group) => {
-        onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
-          temp.push(doc.data());
-          console.log("Current data: ", doc.data());
-        });
-        setMyGroups(temp)
-        console.log("temp" + temp[0]);
-        console.log("mygroups: "+myGroups);
-      })
+      console.log("groups: "+groups[0].name);
+      // const temp = [...myGroups]
+      
+      // groups.map((group) => {
+      //   onSnapshot(doc(db, GROUPS_REF, group.id), { includeMetadataChanges: true }, (doc) => {
+          
+      //     temp.push(doc.data());
+      //     console.log("Current data: ", doc.data());
+          
+      //   });
+
+        
+      //   setMyGroups(temp)
+      //   console.log("temp" + temp[0].name);
+        
+      //   console.log("mygroups: "+myGroups.map((my, i) => {
+      //     my[i].name
+      //   }));
+      //})
     }
 
     const addNewGroup = async () => {
+      setAddingGroup(false)
       try {
           if(groupname !== "") {
             const groupAdded = await addDoc(collection(db, GROUPS_REF), {
@@ -72,11 +81,11 @@ export default function Groups({navigation}) {
               })
               const usersDocRef2 = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupAdded.id);
               await setDoc((usersDocRef2), {
-                id: groupAdded.id
+                id: groupAdded.id,
+                name: data.name
               })
             }
           }
-          setAddingGroup(false)
         }catch (error) {
           console.log(error.message);
         }
@@ -97,22 +106,10 @@ export default function Groups({navigation}) {
             style={styles.gameButton}
             onPress={() => navigation.navigate('Group', {group: groups[i].name, id: groups[i].id})}
           >
-              <Text style={styles.gameText}>{groups[i].id}</Text>
+              <Text style={styles.gameText}>{groups[i].name}</Text>
           </Pressable>
         ))
         }
-        <Text style={styles.title}>MY GROUPS</Text>
-        {myGroups.map((key, i) => (
-          <Pressable
-            key={i}
-            style={styles.gameButton}
-            
-          >
-              <Text style={styles.gameText}>{myGroups[i].name}</Text>
-          </Pressable>
-        ))
-        }
-        
         { !addingGroup ?
           <Pressable
             style={styles.addGameButton}
