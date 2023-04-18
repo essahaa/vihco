@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 
-export default Header = ({gameName}) => {
+export default Header2 = ({gameName}) => {
     const navigation = useNavigation();
   return (
     <View style={[styles.listTop, {backgroundColor: '#4e9bb0', marginBottom: 0, paddingHorizontal: 0}]}>
