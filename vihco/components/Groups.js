@@ -82,7 +82,6 @@ export default function Groups({navigation}) {
               const usersDocRef2 = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupAdded.id);
               await setDoc((usersDocRef2), {
                 id: groupAdded.id,
-                name: groupname
               })
             }
           }
@@ -104,7 +103,7 @@ export default function Groups({navigation}) {
             style={styles.gameButton}
             onPress={() => navigation.navigate('Group', {group: groups[i].name, id: groups[i].id})}
           >
-              <Text style={styles.gameText}>{groups[i].name}</Text>
+              <Text style={styles.gameText}>{groups[i].id}</Text>
           </Pressable>
         ))
         }
