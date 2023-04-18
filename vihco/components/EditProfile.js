@@ -102,7 +102,7 @@ export default EditProfile = ({navigation}) => {
             </KeyboardAwareScrollView>
             <View style={styles.flexBottom}>
         <Pressable
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('Settings')}
             style={styles.buttonSettings}
         >
             <Text style={styles.buttonTextSettings}>BACK</Text>

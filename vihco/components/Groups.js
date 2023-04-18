@@ -4,7 +4,7 @@ import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
 import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc } from 'firebase/firestore';
 import styles from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Header2 from './Header2';
+import Header from './Header';
 import { getAuth } from 'firebase/auth';
 
 export default function Groups({navigation}) {
@@ -94,7 +94,7 @@ export default function Groups({navigation}) {
 
   return (
     <View style={styles.container}>
-        <Header2 />
+        <Header/>
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
         

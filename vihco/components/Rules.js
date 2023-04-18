@@ -67,9 +67,10 @@ const Rules = ({navigation, route}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
     <ScrollView>
- <View style={[styles.container, {height: '100%', backgroundColor: 'black'}]}>
-  <View style={styles.gameTopBar}>
     <Header2/>
+ <View style={[styles.container, {height: '100%', backgroundColor: 'black'}]}>
+  <View>
+   
   </View>
   <View style={{flexDirection: 'row'}}>
     <View style={[styles.flexLeft, {justifyContent: 'center',marginHorizontal:20}]}>

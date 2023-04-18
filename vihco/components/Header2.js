@@ -1,24 +1,19 @@
-import { Text, View,TouchableOpacity, Pressable  } from 'react-native';
+import { Text, View,TouchableOpacity  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 
-export default Header2 = ({gameName}) => {
+export default Header2 = ({text}) => {
     const navigation = useNavigation();
   return (
-    <View style={[styles.listTop, {backgroundColor: '#4e9bb0', marginBottom: 0, paddingHorizontal: 0}]}>
-             
+    <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
+             <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
+        <View style={styles.flexleft}>
+          <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
+        </View>
+      </TouchableOpacity>
     <View style={styles.flexHeaderCenter}>
-      <View style={{flexDirection: 'row'}}>
-        <Pressable onPress={() => navigation.goBack()}>
-            <MaterialCommunityIcons
-                name='menu-left'
-                color={'white'}
-                size={24}
-            />
-        </Pressable>
-        <Text style={[styles.text, {textAlign: 'left'}]}>{gameName}</Text>
-      </View>
+    <Text style={styles.headerText}>{text}</Text>
     </View>
     <View style={styles.flexHeaderRigth}>
     <TouchableOpacity onPress={() => navigation.navigate('Settings')}>

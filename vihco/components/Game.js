@@ -51,7 +51,6 @@ export default Game = ({route}) => {
             row.push([0,0]);
         }
         setButtonState(row);
-        console.log(buttonState)
     }, [addingScoreData.length, addingScores]);
 
     function handlePress(i, x, userId, field, value) {
