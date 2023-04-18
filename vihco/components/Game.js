@@ -79,7 +79,7 @@ export default Game = ({route}) => {
         <View style={styles.container}>
             {!addingScores ?
             <>
-            <GameInfo name={gameName} data={winData}/>
+            <GameInfo name={gameName} data={winData} id={gameId}/>
             <Pressable
                 onPress={() => setAddingScores(true)}
                 style={styles.buttonScores}
