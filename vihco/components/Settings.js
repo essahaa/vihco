@@ -36,18 +36,25 @@ export default function Settings({navigation}) {
       />
       <Pressable
           onPress={() => navigation.navigate('Groups')}
-          style={styles.buttonSettings}
+          style={[styles.buttonSettings, {marginTop: 10}]}
       >
           <Text style={styles.buttonTextSettings}>EDIT GROUPS</Text>
       </Pressable>
       <Pressable
+          onPress={() => navigation.navigate('EditProfile')}
+          style={[styles.buttonSettings, {marginTop: 10}]}
+      >
+          <Text style={styles.buttonTextSettings}>EDIT PROFILE</Text>
+      </Pressable>
+      <Pressable
           onPress={() => handlePress()}
-          style={styles.buttonLogout}
+          style={[styles.buttonLogout, {marginTop: 60}]}
       >
           <Text style={styles.buttonTextLogout}>LOG OUT</Text>
       </Pressable>
       <View style={styles.flexBottom}>
         <Pressable
+            onPress={() => navigation.goBack()}
             style={styles.buttonSettings}
         >
             <Text style={styles.buttonTextSettings}>BACK</Text>
