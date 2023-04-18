@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 import styles from '../styles/style';
 import Logo from "./Logo";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, browserLocalPersistence } from "firebase/auth";
 import { auth } from "../firebase/Config";
 
 export default Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handlePress = () => {
         if(!email) {
@@ -53,12 +54,16 @@ export default Login = ({navigation}) => {
                 secureTextEntry={true}
                 placeholderTextColor='#4E9BB0'
             />
+            {!loading ?
             <Pressable
                 onPress={() => handlePress()}
                 style={styles.buttonPrimary}
             >
                 <Text style={[styles.buttonText, {fontSize: 20}]}>LOGIN</Text>
             </Pressable>
+            :
+            <Text style={styles.loggingLoading}>LOGGING IN...</Text>
+            }
             <View style={styles.flexCenter}>
             <Text style={styles.text}>Not a member?</Text>
             <Pressable

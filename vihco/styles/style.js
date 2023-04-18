@@ -304,5 +304,22 @@ export default StyleSheet.create({
         textShadowColor: 'white',
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1,
+    },
+    loggingLoading: {
+        borderWidth: 4,
+        borderColor: '#F9BB00',
+        borderRadius: 15,
+        alignItems: 'center',
+        marginTop: 8,
+        paddingTop: 10,
+        paddingBottom: 5,
+        paddingHorizontal: 25,
+        fontSize: 20,
+        justifyContent: 'center',
+        color: '#F9BB00',
+        textShadowColor: '#F9BB00',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1,
+        fontFamily: 'timeburnerBold',
     }
 });
