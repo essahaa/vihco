@@ -32,6 +32,7 @@ export default function Home({navigation, route}) {
     const currentUser = auth.currentUser;
     if (!currentUser) {
       console.log("User is not signed in.");
+      navigation.navigate("Login");
       return;
     }
   
