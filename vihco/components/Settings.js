@@ -35,7 +35,7 @@ export default function Settings({navigation}) {
 
       />
       <Pressable
-          onPress={() => handlePress()}
+          onPress={() => navigation.navigate('Groups')}
           style={styles.buttonSettings}
       >
           <Text style={styles.buttonTextSettings}>EDIT GROUPS</Text>
@@ -48,6 +48,7 @@ export default function Settings({navigation}) {
       </Pressable>
       <View style={styles.flexBottom}>
         <Pressable
+            onPress={() => navigation.goBack()}
             style={styles.buttonSettings}
         >
             <Text style={styles.buttonTextSettings}>BACK</Text>
