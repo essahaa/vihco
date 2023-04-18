@@ -1,12 +1,14 @@
 import { Text, View, Pressable, Button } from 'react-native';
 import styles from '../styles/style';
 import Rules from './Rules';
+import Header2 from './Header2';
 
 export default function Sheets({navigation}) {
   return (
     <View style={styles.container}>
-    <Text style={[styles.title, {textAlign: 'center'}]}>Sheets & Rules</Text>
-    <Pressable style={[styles.gameButton, {marginVertical: 10}]} onPress={() => navigation.navigate('Rules', { gameName: 'Yatzi' })}>
+      <Header2></Header2>
+    <Text style={[styles.title, {textAlign: 'center',marginBottom:50,marginTop:45,fontSize:24}]}>Sheets<Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}> & </Text><Text>Rules</Text></Text>
+    <Pressable style={[styles.gameButton, {marginTop: 20,marginVertical:10}]} onPress={() => navigation.navigate('Rules', { gameName: 'Yatzi' })}>
     <Text style={[styles.gameText, {textAlign: 'center'}]}>Yatzi</Text>
     </Pressable>
 
