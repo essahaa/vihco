@@ -4,7 +4,7 @@ import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
 import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc } from 'firebase/firestore';
 import styles from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Header2 from './Header2';
+import Header from './Header';
 import { getAuth } from 'firebase/auth';
 
 export default function Groups({navigation}) {
@@ -26,7 +26,7 @@ export default function Groups({navigation}) {
       if(currentUserId !== "") {
         getData()
       }
-    }, [currentUserId]);
+    }, [currentUserId, addingGroup]);
 
 
     /// TARKISTA IDN AVULLA >ETTÄ LISTALLE PÄÄSEE VAAN YHDEN KERRAN
@@ -34,24 +34,33 @@ export default function Groups({navigation}) {
       const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
       onSnapshot(q, (querySnapshot) => {
         setGroups(querySnapshot.docs.map(doc => ({
-          id: doc.id,
+          id: doc.data(),
           ...doc.data()
         })));
       });
-      console.log("groups: "+groups[0].id);
-      const temp = [...myGroups]
-      groups.map((group) => {
-        onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
-          temp.push(doc.data());
-          console.log("Current data: ", doc.data());
-        });
-        setMyGroups(temp)
-        console.log("temp" + temp[0]);
-        console.log("mygroups: "+myGroups);
-      })
+      console.log("groups: "+groups[0].name);
+      // const temp = [...myGroups]
+      
+      // groups.map((group) => {
+      //   onSnapshot(doc(db, GROUPS_REF, group.id), { includeMetadataChanges: true }, (doc) => {
+          
+      //     temp.push(doc.data());
+      //     console.log("Current data: ", doc.data());
+          
+      //   });
+
+        
+      //   setMyGroups(temp)
+      //   console.log("temp" + temp[0].name);
+        
+      //   console.log("mygroups: "+myGroups.map((my, i) => {
+      //     my[i].name
+      //   }));
+      //})
     }
 
     const addNewGroup = async () => {
+      setAddingGroup(false)
       try {
           if(groupname !== "") {
             const groupAdded = await addDoc(collection(db, GROUPS_REF), {
@@ -72,11 +81,10 @@ export default function Groups({navigation}) {
               })
               const usersDocRef2 = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupAdded.id);
               await setDoc((usersDocRef2), {
-                id: groupAdded.id
+                id: groupAdded.id,
               })
             }
           }
-          setAddingGroup(false)
         }catch (error) {
           console.log(error.message);
         }
@@ -84,11 +92,9 @@ export default function Groups({navigation}) {
 
   return (
     <View style={styles.container}>
-        <Header2 />
+        <Header/>
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
-        
-        
         
       <Text style={styles.title}>GROUPS</Text>
       {groups.map((key, i) => (
@@ -101,18 +107,6 @@ export default function Groups({navigation}) {
           </Pressable>
         ))
         }
-        <Text style={styles.title}>MY GROUPS</Text>
-        {myGroups.map((key, i) => (
-          <Pressable
-            key={i}
-            style={styles.gameButton}
-            
-          >
-              <Text style={styles.gameText}>{myGroups[i].name}</Text>
-          </Pressable>
-        ))
-        }
-        
         { !addingGroup ?
           <Pressable
             style={styles.addGameButton}

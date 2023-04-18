@@ -152,14 +152,29 @@ export default StyleSheet.create({
         borderRadius: 15
     },
         dropdown: {
+            
         alignSelf: 'center',
         backgroundColor: '#F9BB00',
         marginTop: 5,
-        paddingVertical: 12,
+        marginBottom: 0,
+        paddingVertical: 1,
         width: 250,
         borderRadius: 15,
         alignItems: 'center',
         borderColor: '#f9bb00',
+        fontFamily: 'timeburnerBold',
+    },
+    dropdown1: {
+            
+        alignSelf: 'center',
+        backgroundColor: '#F9BB00',
+        
+        
+        
+        width: 200,
+        
+        alignItems: 'center',
+        
         fontFamily: 'timeburnerBold',
     },
     flexCenter: {
