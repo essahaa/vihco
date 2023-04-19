@@ -45,13 +45,15 @@ export default Group = ({route}) => {
         }
         else {
           querySnapshot.forEach((doc) => {
-            const data = doc.data()
-            setPlayerId(doc.id)
-            setPlayerName(data.name)
-            console.log("Username data: " + data.name + " => " + doc.id)
+            const data = doc.data();
+            setPlayerId(doc.id);
+            setPlayerName(data.name);
+            console.log("Username data: " + data.name + " => " + doc.id);
+            setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
           });
         }
       }
+      
       
       useEffect(() => {
         if (playerId && playerName) {
