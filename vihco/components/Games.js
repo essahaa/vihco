@@ -31,7 +31,7 @@ export default Games = ({navigation}) => {
   }
 
   const getPlayers = () => {
-    const q = query(collection(db, GROUPS_REF + "/" + "XRkR2RgiUnCQ2PBRQFbQ" + "/users"))
+    const q = query(collection(db, GROUPS_REF + "/" + "6z48ZxoB99b9KDkxHQ2a" + "/users"))
     onSnapshot(q, (querySnapshot) => {
         setNewGamePlayers(querySnapshot.docs.map(doc => ({
             id: doc.id,
@@ -73,7 +73,7 @@ export default Games = ({navigation}) => {
         <Text style={styles.title}>GAMES</Text>
         <View style={styles.flexRight}>
         <DropDownPicker 
-        style = {[styles.dropdown]}
+        style = {[styles.dropdown,{width:215}]}
         open={open}
         value={value}
         items={items}

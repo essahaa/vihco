@@ -35,7 +35,6 @@ export default function Settings({ navigation }) {
 
 
 
-
   return (
     <View style={styles.overlay}>
       <Logo />

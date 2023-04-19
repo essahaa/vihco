@@ -12,8 +12,8 @@ import Cluedo from './Cluedo'
 import Profile from './Profile';
 import Rules from './Rules';
 import EditProfile from './EditProfile';
+import ForgotPassword from './ForgotPassword';
 import style from '../styles/style';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -35,7 +35,7 @@ export default Bottomtab = () => {
       <Tab.Screen name="Cluedo"  component={Cluedo} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="Rules"  component={Rules} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="EditProfile"  component={EditProfile} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
-
+      <Tab.Screen name="ForgotPassword"  component={ForgotPassword} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
     </Tab.Navigator>
   );
 }

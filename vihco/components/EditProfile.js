@@ -7,8 +7,6 @@ import Logo from "./Logo";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { collection, doc, updateDoc } from "@firebase/firestore";
 
-
-
 export default EditProfile = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +14,6 @@ export default EditProfile = ({ navigation }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const auth = getAuth();
-
 
   const saveChanges = async () => {
     const user = auth.currentUser
