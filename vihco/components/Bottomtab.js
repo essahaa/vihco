@@ -26,12 +26,12 @@ export default Bottomtab = () => {
       <Tab.Screen name="Home"  component={Home} options={{ tabBarIcon:()=> <MaterialCommunityIcons name="book-open-variant" size={24} color="white" />}}/>
       <Tab.Screen name="Games"  component={Games} options={{tabBarIcon:()=> <MaterialCommunityIcons name="cards-playing" size={24} color="white" />}}/>
       <Tab.Screen name="Sheets"  component={Sheets} options={{tabBarIcon:()=> <MaterialCommunityIcons name="file-document-multiple-outline" size={24} color="white" />}}/>
+      <Tab.Screen name="Groups"  component={Groups} options={{tabBarIcon:()=> <MaterialIcons name="groups" size={24} color="white" />}}/>
       <Tab.Screen name="Profile"  component={Profile} options={{tabBarIcon:()=> <MaterialIcons name="account-circle" size={24} color="white" />}}/>
       <Tab.Screen name="Login"  component={Login} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="Register"  component={Register} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="Yatzi"  component={Yatzi} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
-      <Tab.Screen name="Settings"  component={Settings} options={{tabBarIcon:()=> <MaterialIcons name="settings" size={24} color="white" />}}/>
-      <Tab.Screen name="Groups"  component={Groups} options={{tabBarIcon:()=> <MaterialIcons name="groups" size={24} color="white" />}}/>
+      <Tab.Screen name="Settings"  component={Settings} options={{tabBarIcon:() => null, tabBarButton: () => null}}/>
       <Tab.Screen name="Cluedo"  component={Cluedo} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="Rules"  component={Rules} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="EditProfile"  component={EditProfile} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>

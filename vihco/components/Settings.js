@@ -38,7 +38,7 @@ export default function Settings({ navigation }) {
   return (
     <View style={styles.overlay}>
       <Logo />
-      <Text style={styles.text}>Settings</Text>
+      <Text style={[styles.text, {marginBottom: 5}]}>Settings</Text>
       <View style={[styles.dropdown]}>
       <GroupPicker groups={groups} onSelect={selectedValue => console.log(selectedValue)} />
 
@@ -46,30 +46,32 @@ export default function Settings({ navigation }) {
 
       <Pressable
         onPress={() => navigation.navigate('Groups')}
-        style={[styles.buttonSettings, { marginTop: 10, zIndex: 0 }]}
+        style={[styles.buttonSettings, { marginTop: 12, zIndex: 0 }]}
       >
         <Text style={styles.buttonTextSettings}>EDIT GROUPS</Text>
       </Pressable>
       <Pressable
         onPress={() => navigation.navigate('EditProfile')}
-        style={[styles.buttonSettings, { marginTop: 10 }]}
+        style={[styles.buttonSettings, { marginTop: 12 }]}
       >
-        <Text style={styles.buttonTextSettings}>EDIT PROFILE</Text>
+        <Text style={styles.buttonTextSettings}>EDIT PASSWORD</Text>
       </Pressable>
+      <View style={[styles.flexBottom, {marginBottom: 75}]}>
       <Pressable
         onPress={() => handlePress()}
-        style={[styles.buttonLogout, { marginTop: 60 }]}
+        style={[styles.buttonLogout]}
       >
         <Text style={styles.buttonTextLogout}>LOG OUT</Text>
       </Pressable>
-      <View style={styles.flexBottom}>
+      </View>
+      {/* <View style={styles.flexBottom}>
         <Pressable
           onPress={() => navigation.goBack()}
           style={styles.buttonSettings}
         >
           <Text style={styles.buttonTextSettings}>BACK</Text>
         </Pressable>
-      </View>
+      </View> */}
     </View>
   );
 }

@@ -92,7 +92,7 @@ export default EditProfile = ({ navigation }) => {
       </KeyboardAwareScrollView>
       <Text style={styles.text}></Text>
       <Pressable
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('Settings')}
         style={[styles.buttonSettings, {marginBottom: 16}]}
       >
         <Text style={[styles.buttonText, {fontSize: 18}]}>BACK</Text>
