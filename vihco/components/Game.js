@@ -88,8 +88,8 @@ export default Game = ({route}) => {
             </>
             :
             <>
-            <View style={styles.gameTopBar}>
-                <View style={[styles.listTop, {backgroundColor: '#4e9bb0', marginBottom: 10}]}>
+            <View >
+                <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
                     <TouchableOpacity onPress={() => setAddingScores(false)}>
                         <View style={styles.flexLeft}>
                             <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />

@@ -17,7 +17,7 @@ export default GameInfo = ({name, data, id}) => {
     
     return (
         <>
-        <View style={styles.gameTopBar}>
+        <View>
         <Header gameName={name} />
             <View style={{flexDirection: 'row'}}>
                 <View style={styles.flexBottom}>
