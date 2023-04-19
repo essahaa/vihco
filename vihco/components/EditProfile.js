@@ -1,113 +1,105 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
-// import { signUp } from "./Auth";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../firebase/Config";
-import styles from '../styles/style';
-import { signUp } from "./Auth";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/Config";
+import { updatePassword, reauthenticateWithCredential, getAuth,EmailAuthProvider} from "firebase/auth";
+import { auth, firestore, db, USERS_REF } from "../firebase/Config";
+import styles from "../styles/style";
 import Logo from "./Logo";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { collection, doc, updateDoc } from "@firebase/firestore";
 
-// import styles from '../style/style';
 
-export default EditProfile = ({navigation}) => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handlePress = () => {
-        if(!username) {
-            Alert.alert('Username is required');
-        }
-        else if(!email) {
-            Alert.alert('Email is required');
-        }
-        else if(!password) {
-            Alert.alert('Password is required');
-        }
-        else if(!confirmPassword) {
-            setPassword('');
-            Alert.alert('Confirming password is required')
-        }
-        else if(password !== confirmPassword) {
-            Alert.alert('Passwords do not match!')
-        }
-        else {
-            signUp(username,email, password);
-            onAuthStateChanged(auth, (user) => {
-                if(user) {
-                    navigation.navigate('Home', {userUid: user.uid});
-                }
-            });
-        }
-    };
+export default EditProfile = ({ navigation }) => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const auth = getAuth();
 
-    return (
-        <View style={styles.overlay}>
-            <Logo/>
-            <KeyboardAwareScrollView>
-            <Text style={[styles.text, {marginBottom: 5}]}>Edit Profile</Text>
-            <TextInput 
-                style={[styles.textInput, {marginVertical: 5}]}
-                placeholder='Enter a username'
-                value={username}
-                onChangeText={(username) => setUsername(username.trim())}
-                placeholderTextColor='#4E9BB0'
-            />
-            <TextInput 
-                style={[styles.textInput, {marginVertical: 5}]}
-                placeholder='Enter your email'
-                value={email}
-                onChangeText={(email) => setEmail(email.trim())}
-                keyboardType='email-address'
-                autoCapitalize="none"
-                placeholderTextColor='#4E9BB0'
-            />
-            <TextInput 
-                style={[styles.textInput, {marginVertical: 5}]}
-                placeholder='Old password'
-                value={password}
-                onChangeText={(password) => setPassword(password)}
-                secureTextEntry={true}
-                placeholderTextColor='#4E9BB0'
-            />
-            <TextInput 
-                style={[styles.textInput, {marginVertical: 5}]}
-                placeholder='New password'
-                value={confirmPassword}
-                onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
-                secureTextEntry={true}
-                placeholderTextColor='#4E9BB0'
-            />
-              <TextInput 
-                style={[styles.textInput, {marginVertical: 5}]}
-                placeholder='Confirm new password'
-                value={password}
-                onChangeText={(password) => setPassword(password)}
-                secureTextEntry={true}
-                placeholderTextColor='#4E9BB0'
-            />
-            <View style={[{flex: 1},{alignItems:'center'}]}>
-                <Pressable
-                    onPress={() => handlePress()}
-                    style={styles.buttonPrimary}
-                >
-                    
-                    <Text style={[styles.buttonText, {fontSize: 20}]}>SAVE</Text>
-                </Pressable>
-            </View>
-            </KeyboardAwareScrollView>
-            <View style={styles.flexBottom}>
-        <Pressable
-            onPress={() => navigation.navigate('Settings')}
-            style={styles.buttonSettings}
-        >
-            <Text style={styles.buttonTextSettings}>BACK</Text>
-        </Pressable>
-      </View>
+
+  const saveChanges = async () => {
+    const user = auth.currentUser
+        const credential = EmailAuthProvider.credential(
+            email,
+            password
+        );
+        await reauthenticateWithCredential(user, credential);
+        
+    if (newPassword == confirmNewPassword && newPassword !== '') {
+        console.log(newPassword)
+
+    updatePassword(user, newPassword).then(() => {
+        console.log("pw changed")
+
+    }).catch((error) => {
+
+        console.log("failzzzzzzz")
+    })
+}};
+
+
+  return (
+    <View style={styles.overlay}>
+      <Logo/>
+      <KeyboardAwareScrollView>
+        <Text style={[styles.text, {textAlign: 'center'}, {marginBottom: 5}, {marginTop: 10}]}>Change password</Text>
+         {/* <TextInput 
+          style={[styles.textInput, {marginVertical: 5}]}
+          placeholder='Enter username'
+          value={username}
+          onChangeText={(username) => setUsername(username.trim())}
+          placeholderTextColor='#4E9BB0'
+        /> */}
+        <TextInput 
+          style={[styles.textInput, {marginVertical: 8}, {marginTop: 11}]}
+          placeholder='Enter your email'
+          value={email}
+          onChangeText={(email) => setEmail(email.trim())}
+          keyboardType='email-address'
+          autoCapitalize="none"
+          placeholderTextColor='#4E9BB0'
+        /> 
+         <TextInput 
+          style={[styles.textInput, {marginVertical: 8}]}
+          placeholder='Enter your current password'
+          value={password}
+          onChangeText={(password) => setPassword(password)}
+          secureTextEntry={true}
+          placeholderTextColor='#4E9BB0'
+        />
+        <TextInput 
+          style={[styles.textInput, {marginVertical: 8}]}
+          placeholder='Enter a new password'
+          value={newPassword}
+          onChangeText={(newPassword) => setNewPassword(newPassword)}
+          secureTextEntry={true}
+          placeholderTextColor='#4E9BB0'
+        />
+        <TextInput 
+          style={[styles.textInput, {marginVertical: 8}]}
+          placeholder='Confirm new password'
+          value={confirmNewPassword}
+          onChangeText={(confirmNewPassword) => setConfirmNewPassword(confirmNewPassword)}
+          secureTextEntry={true}
+          placeholderTextColor='#4E9BB0'
+        />
+        <View style={[{flex: 1},{alignItems:'center'}]}>
+          <Pressable
+            onPress={() => saveChanges()}
+            style={[styles.buttonPrimary, {marginTop: 24}]}
+          >
+            <Text style={[styles.buttonText, {fontSize: 20}]}>SAVE</Text>
+          </Pressable>
         </View>
-    )
+      </KeyboardAwareScrollView>
+      <Text style={styles.text}></Text>
+      <Pressable
+        onPress={() => navigation.navigate('Home')}
+        style={[styles.buttonSettings, {marginBottom: 16}]}
+      >
+        <Text style={[styles.buttonText, {fontSize: 18}]}>BACK</Text>
+      </Pressable>
+    </View>
+  )
 }
