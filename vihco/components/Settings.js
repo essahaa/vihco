@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
 import { Picker } from '@react-native-picker/picker';
+import GroupPicker from './GroupPicker';
 
 
 export default function Settings({ navigation }) {
@@ -39,15 +40,8 @@ export default function Settings({ navigation }) {
       <Logo />
       <Text style={styles.text}>Settings</Text>
       <View style={[styles.dropdown]}>
-      <Picker
-        selectedValue={value}
-        onValueChange={(itemValue, itemIndex) => setValue(itemValue)}
-        style={[styles.dropdown1]}
-      >
-        {groups.map(group => (
-          <Picker.Item key={group.value} label={group.label} value={group.value} />
-        ))}
-      </Picker>
+      <GroupPicker groups={groups} onSelect={selectedValue => console.log(selectedValue)} />
+
       </View>
 
       <Pressable

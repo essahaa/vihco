@@ -152,7 +152,7 @@ export default StyleSheet.create({
         borderRadius: 15
     },
         dropdown: {
-            
+            fontFamily: 'timeburnerBold',
         alignSelf: 'center',
         backgroundColor: '#F9BB00',
         marginTop: 5,
