@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
-import { collection, onSnapshot, orderBy, query, addDoc } from 'firebase/firestore';
-import { db, GAMES_REF, GROUPS_REF } from '../firebase/Config';
+import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
+import { db, USERS_REF } from '../firebase/Config';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
 import styles from '../styles/style';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { getAuth } from 'firebase/auth';
 
 export default Games = ({navigation}) => {
   const [games, setGames] = useState([]);
@@ -15,13 +16,23 @@ export default Games = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([0]);
   const [items, setItems] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState('');
+
+  const auth = getAuth();
 
   useEffect(() => {
-    getGames();
+    setCurrentUserId(auth.currentUser.uid)
   }, []);
 
+  useEffect(() => {
+    if(currentUserId) {
+      getGames();
+    }
+  }, [currentUserId])
+  
+
   const getGames = () => {
-    const q = query(collection(db, GAMES_REF), orderBy("orderId"))
+    const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups/H4Kr3DEiMmJLVhEktjWm/games" ), orderBy("orderId")) //current group id tänne
     onSnapshot(q, (querySnapshot) => {
       setGames(querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -30,34 +41,55 @@ export default Games = ({navigation}) => {
     });
   }
 
-  const getPlayers = () => {
-    const q = query(collection(db, GROUPS_REF + "/" + "6z48ZxoB99b9KDkxHQ2a" + "/users"))
-    onSnapshot(q, (querySnapshot) => {
-        setNewGamePlayers(querySnapshot.docs.map(doc => ({
-            id: doc.id,
-        ...doc.data()
-        })));
-    });
+  const getPlayers = async () => {
+  //if(currentGroupId) {
+    const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", "H4Kr3DEiMmJLVhEktjWm"); 
+    const docSnap = await getDoc(docRef);
+
+    let playerIds = [];
+    if (docSnap.exists()) {
+        const data = docSnap.data().players
+        playerIds = data;
+    } else {
+        console.log("Player ids not found!");
+    }
+    playerIds.map((id) => {
+      getPlayer(id);
+    })
+  }
+
+  const getPlayer = async (id) => {
+    const docRef = doc(db, USERS_REF, id)
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      let temp = [...newGamePlayers];
+      const data = docSnap.data()
+      temp.push(data);
+      setNewGamePlayers(temp);
+    } else {
+        console.log("Player ids not found!");
+    }
   }
 
   const addGame = async () => {
+    const gamesRef = USERS_REF + "/" + currentUserId + "/groups/H4Kr3DEiMmJLVhEktjWm/games"
     setAddingGame(false);
     try {
       if(newGameName.trim() !== "") {
-        await addDoc(collection(db, GAMES_REF), {
+        await addDoc(collection(db, gamesRef), {
           orderId: games.length,
           name: newGameName
         }).then(function(docRef) {
           const gameId = docRef.id;
-          getPlayers();
-          console.log(newGamePlayers);
+          getPlayers().then(
           newGamePlayers.map(player => (
-            addDoc(collection(db, "/games/" + gameId + "/users"), {
+            addDoc(collection(db, gamesRef + "/" + gameId + "/users"), {
               name: player.name,
               loss: 0,
               win: 0
             })
-          ));
+          )))
         });
       }
       getGames();

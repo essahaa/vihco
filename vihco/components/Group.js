@@ -39,7 +39,7 @@ export default Group = ({route}) => {
       }, [groupId]);
 
     useEffect(() => {
-      if(playerIds.length !== 0) {
+      if(playerIds && playerIds.length !== 0) {
         const temp = [];
         playerIds.map((id) => {
           getPlayer(id); //tempPlayer ei refressaa nimeä
