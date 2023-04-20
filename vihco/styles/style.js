@@ -27,6 +27,12 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 16,
     },
+    usernameText: {
+        color: 'white',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+        fontWeight:'bold'
+    },
     textInput: {
         backgroundColor: 'white',
         width: 250,
@@ -162,6 +168,7 @@ export default StyleSheet.create({
         borderColor: '#f9bb00',
         fontFamily: 'timeburnerBold',
     },
+   
     flexCenter: {
         flex: 1,
         justifyContent: 'center'
@@ -237,6 +244,10 @@ export default StyleSheet.create({
       flexHeaderRigth: {
         alignItems: 'flex-end'
       },
+      flexHeaderCopy: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
       flexHeaderCenter: {
         flex: 1,
         justifyContent: 'center',
@@ -305,4 +316,5 @@ export default StyleSheet.create({
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1,
     }
+    
 });
