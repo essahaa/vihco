@@ -158,17 +158,31 @@ export default StyleSheet.create({
         borderRadius: 15
     },
         dropdown: {
+            fontFamily: 'timeburnerBold',
         alignSelf: 'center',
         backgroundColor: '#F9BB00',
         marginTop: 5,
-        paddingVertical: 12,
+        marginBottom: 0,
+        paddingVertical: 1,
         width: 250,
         borderRadius: 15,
         alignItems: 'center',
         borderColor: '#f9bb00',
         fontFamily: 'timeburnerBold',
     },
-   
+    dropdown1: {
+            
+        alignSelf: 'center',
+        backgroundColor: '#F9BB00',
+        
+        
+        
+        width: 200,
+        
+        alignItems: 'center',
+        
+        fontFamily: 'timeburnerBold',
+    },
     flexCenter: {
         flex: 1,
         justifyContent: 'center'
@@ -315,6 +329,23 @@ export default StyleSheet.create({
         textShadowColor: 'white',
         textShadowOffset: {width: 0, height: 0},
         textShadowRadius: 1,
+    },
+    loggingLoading: {
+        borderWidth: 4,
+        borderColor: '#F9BB00',
+        borderRadius: 15,
+        alignItems: 'center',
+        marginTop: 8,
+        paddingTop: 10,
+        paddingBottom: 5,
+        paddingHorizontal: 25,
+        fontSize: 20,
+        justifyContent: 'center',
+        color: '#F9BB00',
+        textShadowColor: '#F9BB00',
+        textShadowOffset: {width: 0, height: 0},
+        textShadowRadius: 1,
+        fontFamily: 'timeburnerBold',
     }
     
 });

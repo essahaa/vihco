@@ -4,51 +4,102 @@ import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
 import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc } from 'firebase/firestore';
 import styles from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Header2 from './Header2';
-import { getAuth } from 'firebase/auth';
+import Header from './Header';
+import { getAuth } from 'firebase/auth'
 
 export default function Groups({navigation}) {
     const [groupname, setGroupname] = useState('')
     const [groupId, setGroupId] = useState('')
     const [groups, setGroups] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState('')
     const [addingGroup, setAddingGroup] = useState(false)
+    const [myGroups, setMyGroups] = useState([])
 
     const auth = getAuth()
 
     useEffect(() => {
-      const q = query(collection(db, GROUPS_REF), orderBy("name"))
-      onSnapshot(q, (querySnapshot) => {
-        setGroups(querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })));
-      });
-      console.log(groups)
-    }, []);
+        setCurrentUserId(auth.currentUser.uid)
+    }, [])
+    
+    useEffect(() => {
+      console.log("id: " + currentUserId);
+      if(currentUserId !== "") {
+        getData()
+      }
+    }, [currentUserId]);
+
+    
+ /*    const addData = async () => {
+      const temp = []
+      groups.map((group) => {
+        onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
+          temp.push(doc.data().name);
+        });
+      })
+      setMyGroups(temp)
+    } */
+
+
+    /// TARKISTA IDN AVULLA >ETTÄ LISTALLE PÄÄSEE VAAN YHDEN KERRAN
+    const getData = async () => {
+      const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
+      const querySnapshot = await getDocs(q);
+      
+      if(querySnapshot.empty) {
+        console.log("No groups found!")
+      }
+      else {
+        onSnapshot(q, (querySnapshot) => {
+          setGroups(querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          })));
+        })
+      }
+
+      /* const getSharedGroups = async () => {
+        const q = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"))
+        const querySnapshot = await getDocs(q);
+        
+        if(querySnapshot.empty) {
+          console.log("No groups found!")
+        }
+        else {
+          onSnapshot(q, (querySnapshot) => {
+            setSharedGroups(querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            })));
+          })
+        } */
+
+      // const temp = []
+      
+      // groups.map((group) => {
+      //   onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
+      //     temp.push(doc.data().name);
+      //     console.log("Current data: ", doc.data());
+          
+      //   });
+
+      //   console.log("temp" + temp[0]);
+      //   console.log("mygroups: "+myGroups[0] + myGroups[1])
+      // })
+      // setMyGroups(temp)
+    }
 
     const addNewGroup = async () => {
+      setAddingGroup(false)
       try {
           if(groupname !== "") {
-            const groupAdded = await addDoc(collection(db, GROUPS_REF), {
-              name: groupname
+            const groupAdded = await addDoc(collection(db, USERS_REF + "/" + currentUserId + "/groups"), {
+              name: groupname,
+              admins: [currentUserId]
             });
             console.log("group added with id: " + groupAdded.id);
             setGroupId(groupAdded.id);
-
-            //lisää ryhmän luoneen käyttäjän ryhmään ja ryhmän adminiksi
-            const currentUserId = auth.currentUser.uid;
-            const docRef = doc(db, USERS_REF, currentUserId);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-              const data = docSnap.data()
-              const usersDocRef = doc(db, GROUPS_REF + "/" + groupAdded.id + "/users", currentUserId);
-              await setDoc((usersDocRef), {
-                name: data.name,
-                admin: true
-              })
-            }
+            getData();
           }
-          setAddingGroup(false)
         }catch (error) {
           console.log(error.message);
         }
@@ -56,11 +107,9 @@ export default function Groups({navigation}) {
 
   return (
     <View style={styles.container}>
-        <Header2 />
+        <Header/>
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
-        
-        
         
       <Text style={styles.title}>GROUPS</Text>
       {groups.map((key, i) => (
@@ -73,6 +122,16 @@ export default function Groups({navigation}) {
           </Pressable>
         ))
         }
+        <Text style={styles.title}> MY GROUPS</Text>
+      {/* {myGroups.map((key, i) => (
+          <Pressable
+            key={i}
+            style={styles.gameButton}
+          >
+              <Text style={styles.gameText}>{myGroups[i]}</Text>
+          </Pressable>
+        ))
+        } */}
         { !addingGroup ?
           <Pressable
             style={styles.addGameButton}

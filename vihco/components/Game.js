@@ -51,7 +51,6 @@ export default Game = ({route}) => {
             row.push([0,0]);
         }
         setButtonState(row);
-        console.log(buttonState)
     }, [addingScoreData.length, addingScores]);
 
     function handlePress(i, x, userId, field, value) {
@@ -79,7 +78,7 @@ export default Game = ({route}) => {
         <View style={styles.container}>
             {!addingScores ?
             <>
-            <GameInfo name={gameName} data={winData}/>
+            <GameInfo name={gameName} data={winData} id={gameId}/>
             <Pressable
                 onPress={() => setAddingScores(true)}
                 style={styles.buttonScores}
@@ -89,8 +88,8 @@ export default Game = ({route}) => {
             </>
             :
             <>
-            <View style={styles.gameTopBar}>
-                <View style={[styles.listTop, {backgroundColor: '#4e9bb0', marginBottom: 10}]}>
+            <View >
+                <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
                     <TouchableOpacity onPress={() => setAddingScores(false)}>
                         <View style={styles.flexLeft}>
                             <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />

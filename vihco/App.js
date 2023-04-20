@@ -10,6 +10,7 @@ import Game from './components/Game';
 import { useFonts } from 'expo-font';
 import styles from './styles/style';
 import Group from './components/Group';
+import GameSettings from './components/GameSettings';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -47,6 +48,12 @@ export default function App() {
           <Stack.Screen
               name="Game"
               component={Game}
+              options={{
+                  animationEnabled: false
+              }}/>
+            <Stack.Screen
+              name="GameSettings"
+              component={GameSettings}
               options={{
                   animationEnabled: false
               }}/>

@@ -5,6 +5,7 @@ import styles from '../styles/style';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
 import { db, GAMES_REF, USERS_REF, auth } from '../firebase/Config';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
@@ -13,6 +14,9 @@ export default function Profile({navigation}) {
   const [games, setGames] = useState([]);
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('')
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState([0]);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const q = query(collection(db, GAMES_REF), orderBy("id"))
