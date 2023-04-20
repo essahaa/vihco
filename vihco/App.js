@@ -11,6 +11,7 @@ import { useFonts } from 'expo-font';
 import styles from './styles/style';
 import Group from './components/Group';
 import GameSettings from './components/GameSettings';
+import GroupShared from './components/GroupShared';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -60,6 +61,12 @@ export default function App() {
           <Stack.Screen
           name="Group"
           component={Group}
+          options={{
+              animationEnabled: false
+          }}/>
+          <Stack.Screen
+          name="GroupShared"
+          component={GroupShared}
           options={{
               animationEnabled: false
           }}/>
