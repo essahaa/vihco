@@ -140,11 +140,12 @@ export default Group = ({route}) => {
   return (
       <View style={styles.container}>
           <Header />
-          <View>
-          <Text style={styles.title}>{groupName}</Text>
-          <Text style={styles.text}>Add new player to the group</Text>
+          <ScrollView contentContainerStyle={styles.scrollview}
+        style={{marginBottom: 20}}>
+          <Text style={[styles.title, {marginBottom: 25}]}>GROUP NAME: {groupName}</Text>
+          <Text style={[styles.text, {marginBottom: 5}]}>Add new player to {groupName}</Text>     
           <TextInput 
-              style={styles.textInput}
+              style={[styles.textInput, {marginBottom: 10}]}
               placeholder='Player email'
               value={playerEmail}
               onChangeText={(playerEmail) => setPlayerEmail(playerEmail.trim())}
@@ -154,23 +155,17 @@ export default Group = ({route}) => {
           />
           <Pressable
               onPress={addPlayer}
-              style={styles.buttonPrimary}
+              style={styles.buttonSettings}
               >
-              <Text style={[styles.buttonText, {fontSize: 20}]}>ADD</Text>
+              <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
           </Pressable>
-      </View>
-      <View >
-      <Text style={styles.title}>PLAYERS</Text>
-      <ScrollView>
+      <Text style={[styles.title, {marginTop: 30}]}>PLAYERS</Text>   
         {players.map((key,i) => (
-          <View key={i} style={[styles.gameButton, {height: 120}]}>
+          <View key={i} style={[styles.gameButton]}>
             <Text style={styles.gameText} >{players[i].name}</Text>
           </View>      
-        ))}
-      </ScrollView>
+        ))}    
+      </ScrollView>        
     </View>
-          
-          
-      </View>
   );
 }
