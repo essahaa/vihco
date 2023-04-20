@@ -129,6 +129,7 @@ export default Group = ({route}) => {
             console.log("Username data: " + data.name + " => " + doc.id);
             //setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
           });
+          getPlayerIds()
         }
       }
       
@@ -137,7 +138,8 @@ export default Group = ({route}) => {
         if (playerId && currentUserId) {
           addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
             creatorId: currentUserId,
-            groupId: groupId
+            groupId: groupId, 
+            groupName: groupName
           })
           updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
             players: arrayUnion(playerId)
