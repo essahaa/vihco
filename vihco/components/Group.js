@@ -42,24 +42,34 @@ export default Group = ({route}) => {
       if(playerIds.length !== 0) {
         const temp = [];
         playerIds.map((id) => {
-          getPlayer(id);
-          const player = {
-            name: tempPlayer,
-            playerId: id
-          } //tempPlayer ei refressaa nimeä
-          temp.push(player);
-          console.log("player in useeffect" + player);
+          getPlayer(id); //tempPlayer ei refressaa nimeä
+          console.log("player in map" + tempPlayer);
         })
         //temp.push(docSnap.data())
         //getPlayers()
-        setPlayers(temp);
       }
     }, [playerIds])
 
     useEffect(() => {
-      console.log("players after map: " + players)
+      console.log("players in player effect: " + JSON.stringify(players))
     }, [players])
     
+    useEffect(() => {
+      if(tempPlayer) {
+        let ids = []
+        players.map((player) => {
+          ids.push(player.id)
+        })
+        if(ids.includes(tempPlayer.id)) {
+          console.log("player already in players")
+        }else {
+          const temp = [...players];
+          temp.push(tempPlayer);
+          console.log("tempplayereffect: " + tempPlayer)
+          setPlayers(temp);
+        }
+      }
+    }, [tempPlayer])
     
 
       const getPlayerIds = async () => {
@@ -86,7 +96,11 @@ export default Group = ({route}) => {
             await getDoc(docRef).then((data) => {
               if (data.exists()) {
                 console.log("player in getplayers:", data.data().name);
-                setTempPlayer(data.data().name);
+                const player = {
+                  name: data.data().name,
+                  id: playerId
+                }
+                setTempPlayer(player);
               }else {
                   console.log("Cant find player in getplayer!");
               }
@@ -159,11 +173,13 @@ export default Group = ({route}) => {
         </View>
         <View >
         <Text style={styles.title}>PLAYERS</Text>
+        <ScrollView>
           {players.map((key,i) => (
             <View key={i} style={[styles.gameButton, {height: 120}]}>
-              <Text style={styles.gameText} >{players[i].name}</Text>
+              <Text style={styles.gameText} >{players[i].name} {players[i].id}</Text>
             </View>      
           ))}
+        </ScrollView>
       </View>
             
            
