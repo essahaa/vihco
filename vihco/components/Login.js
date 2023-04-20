@@ -76,8 +76,9 @@ export default Login = ({navigation}) => {
             </Pressable>
             </View>
             <Pressable
+                onPress={() => navigation.navigate('ForgotPassword')}
             >
-                <Text style={[styles.forgotPass, {fontSize: 18}]}>Forgot password?</Text>
+                <Text style={[styles.forgotPass, {fontSize: 18, marginBottom: 15}]}>Forgot password?</Text>
             </Pressable>
         </View>
     )

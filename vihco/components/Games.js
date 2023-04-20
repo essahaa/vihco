@@ -73,7 +73,7 @@ export default Games = ({navigation}) => {
         <Text style={styles.title}>GAMES</Text>
         <View style={styles.flexRight}>
         <DropDownPicker 
-        style = {[styles.dropdown]}
+        style = {[styles.dropdown,{width:215}]}
         open={open}
         value={value}
         items={items}

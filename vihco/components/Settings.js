@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
 import { Picker } from '@react-native-picker/picker';
+import GroupPicker from './GroupPicker';
 
 
 export default function Settings({ navigation }) {
@@ -37,45 +38,40 @@ export default function Settings({ navigation }) {
   return (
     <View style={styles.overlay}>
       <Logo />
-      <Text style={styles.text}>Settings</Text>
+      <Text style={[styles.text, {marginBottom: 5}]}>Settings</Text>
       <View style={[styles.dropdown]}>
-      <Picker
-        selectedValue={value}
-        onValueChange={(itemValue, itemIndex) => setValue(itemValue)}
-        style={[styles.dropdown1]}
-      >
-        {groups.map(group => (
-          <Picker.Item key={group.value} label={group.label} value={group.value} />
-        ))}
-      </Picker>
+      <GroupPicker groups={groups} onSelect={selectedValue => console.log(selectedValue)} />
+
       </View>
 
       <Pressable
         onPress={() => navigation.navigate('Groups')}
-        style={[styles.buttonSettings, { marginTop: 10, zIndex: 0 }]}
+        style={[styles.buttonSettings, { marginTop: 12, zIndex: 0 }]}
       >
         <Text style={styles.buttonTextSettings}>EDIT GROUPS</Text>
       </Pressable>
       <Pressable
         onPress={() => navigation.navigate('EditProfile')}
-        style={[styles.buttonSettings, { marginTop: 10 }]}
+        style={[styles.buttonSettings, { marginTop: 12 }]}
       >
-        <Text style={styles.buttonTextSettings}>EDIT PROFILE</Text>
+        <Text style={styles.buttonTextSettings}>EDIT PASSWORD</Text>
       </Pressable>
+      <View style={[styles.flexBottom, {marginBottom: 75}]}>
       <Pressable
         onPress={() => handlePress()}
-        style={[styles.buttonLogout, { marginTop: 60 }]}
+        style={[styles.buttonLogout]}
       >
         <Text style={styles.buttonTextLogout}>LOG OUT</Text>
       </Pressable>
-      <View style={styles.flexBottom}>
+      </View>
+      {/* <View style={styles.flexBottom}>
         <Pressable
           onPress={() => navigation.goBack()}
           style={styles.buttonSettings}
         >
           <Text style={styles.buttonTextSettings}>BACK</Text>
         </Pressable>
-      </View>
+      </View> */}
     </View>
   );
 }

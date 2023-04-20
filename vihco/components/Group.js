@@ -15,6 +15,7 @@ export default Group = ({route}) => {
     const [currentUserId, setCurrentUserId] = useState('');
     const [playerIds, setPlayerIds] = useState([]);
     const [tempPlayer, setTempPlayer] = useState();
+    const [playerName, setPlayerName] = useState('');
 
     const auth = getAuth();
     
@@ -104,11 +105,19 @@ export default Group = ({route}) => {
           console.log("No such user found!")
         }
         else {
-            const data = querySnapshot.data()
+            /* const data = querySnapshot.data()
             setPlayerId(data.id)
-            console.log("Username data: " + data.name + " => " + data.id)
+            console.log("Username data: " + data.name + " => " + data.id) */
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            setPlayerId(doc.id);
+            setPlayerName(data.name);
+            console.log("Username data: " + data.name + " => " + doc.id);
+            //setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
+          });
         }
       }
+      
       
       useEffect(() => {
         if (playerId && currentUserId) {
