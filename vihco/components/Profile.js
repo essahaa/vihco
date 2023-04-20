@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
 import { db, GAMES_REF, USERS_REF, auth } from '../firebase/Config';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { LinearGradient } from 'expo-linear-gradient';
+
 
 export default function Profile({navigation}) {
 
@@ -47,35 +49,28 @@ export default function Profile({navigation}) {
 }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {paddingTop:-20}]}>
       <Header />
-      <View >
-        <Text style={styles.gameHeader}>My profile</Text>
-        <Text style={styles.text}>username: {username}</Text>
-        <View style={styles.flexHeaderRigth}>
-          <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-              <MaterialCommunityIcons style={styles.headerIcon} name="pencil-circle" size={24} color="white" />
-          </TouchableOpacity>
-        </View>
+      <View style={{backgroundColor:'#4e9bb0', width:'100%', marginTop:-30}}>
+        <Text style={[styles.gameHeader, {textAlign: 'center'}]}>My profile</Text>
+        
+        <View>
+  <LinearGradient  colors={['#4e9bb0' , 'black']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
+    <View style={{ flexDirection:'row', alignItems:'center' }}>
+      <MaterialCommunityIcons name="circle" size={150} color="white" />
+      <Text style={[styles.usernameText, {textAlign: 'center', paddingLeft: 10,paddingBottom: 20}]}>{username}</Text>
+    </View>
+  </LinearGradient>
+</View>
       </View>
-      <View >
-        <Text style={styles.title}>Select group</Text>
-        <DropDownPicker 
-        style = {[styles.dropdown]}
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        theme="LIGHT"
-        multiple={true}
-        textStyle={styles.buttonTextSettings}
 
-      />
-      </View>
+      <View style={{backgroundColor:'red',width:'100%'}}>
+  <Text style={[styles.title,{textAlign:'left', paddingLeft:200}]}>Select group</Text>
+  <Text style={[styles.title,{textAlign:'left', paddingLeft:200}]}>dropS</Text>
+</View>
+
       <View >
-        <Text style={styles.title}>My game statistics</Text>
+      <Text style={[styles.title, {textAlign: "center",marginTop:30}]}>My game statistics</Text>
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
           {games.map((key,i) => (

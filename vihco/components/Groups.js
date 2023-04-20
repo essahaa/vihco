@@ -5,7 +5,7 @@ import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, g
 import styles from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
-import { getAuth } from 'firebase/auth';
+import { getAuth } from 'firebase/auth'
 
 export default function Groups({navigation}) {
     const [groupname, setGroupname] = useState('')
@@ -18,32 +18,26 @@ export default function Groups({navigation}) {
     const auth = getAuth()
 
     useEffect(() => {
-      setCurrentUserId(auth.currentUser.uid)
+        setCurrentUserId(auth.currentUser.uid)
     }, [])
     
     useEffect(() => {
-      console.log(currentUserId);
+      console.log("id: " + currentUserId);
       if(currentUserId !== "") {
         getData()
       }
     }, [currentUserId]);
 
     
-    const addData = async () => {
+ /*    const addData = async () => {
       const temp = []
-      
-          groups.map((group) => {
-            onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
-              temp.push(doc.data().name);
-              console.log("Current data: ", doc.data());
-              
-            });
-    
-            console.log("temp" + temp[0]);
-            console.log("mygroups: "+myGroups[0] + myGroups[1])
-          })
-          setMyGroups(temp)
-    }
+      groups.map((group) => {
+        onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
+          temp.push(doc.data().name);
+        });
+      })
+      setMyGroups(temp)
+    } */
 
 
     /// TARKISTA IDN AVULLA >ETTÄ LISTALLE PÄÄSEE VAAN YHDEN KERRAN
@@ -57,13 +51,28 @@ export default function Groups({navigation}) {
       else {
         onSnapshot(q, (querySnapshot) => {
           setGroups(querySnapshot.docs.map(doc => ({
-            id: doc.data(),
+            id: doc.id,
             ...doc.data()
           })));
-        }).then(addData())
+        })
       }
-      
-      console.log("groups: "+groups[0].name);
+
+      /* const getSharedGroups = async () => {
+        const q = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"))
+        const querySnapshot = await getDocs(q);
+        
+        if(querySnapshot.empty) {
+          console.log("No groups found!")
+        }
+        else {
+          onSnapshot(q, (querySnapshot) => {
+            setSharedGroups(querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            })));
+          })
+        } */
+
       // const temp = []
       
       // groups.map((group) => {
@@ -83,27 +92,13 @@ export default function Groups({navigation}) {
       setAddingGroup(false)
       try {
           if(groupname !== "") {
-            const groupAdded = await addDoc(collection(db, GROUPS_REF), {
-              name: groupname
+            const groupAdded = await addDoc(collection(db, USERS_REF + "/" + currentUserId + "/groups"), {
+              name: groupname,
+              admins: [currentUserId]
             });
             console.log("group added with id: " + groupAdded.id);
             setGroupId(groupAdded.id);
-
-            //lisää ryhmän luoneen käyttäjän ryhmään ja ryhmän adminiksi
-            const docRef = doc(db, USERS_REF, currentUserId);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-              const data = docSnap.data()
-              const usersDocRef = doc(db, GROUPS_REF + "/" + groupAdded.id + "/users", currentUserId);
-              await setDoc((usersDocRef), {
-                name: data.name,
-                admin: true
-              })
-              const usersDocRef2 = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupAdded.id);
-              await setDoc((usersDocRef2), {
-                id: groupAdded.id,
-              })
-            }
+            getData();
           }
         }catch (error) {
           console.log(error.message);
@@ -123,12 +118,12 @@ export default function Groups({navigation}) {
             style={styles.gameButton}
             onPress={() => navigation.navigate('Group', {group: groups[i].name, id: groups[i].id})}
           >
-              <Text style={styles.gameText}>{groups[i].id}</Text>
+              <Text style={styles.gameText}>{groups[i].name}</Text>
           </Pressable>
         ))
         }
         <Text style={styles.title}> MY GROUPS</Text>
-      {myGroups.map((key, i) => (
+      {/* {myGroups.map((key, i) => (
           <Pressable
             key={i}
             style={styles.gameButton}
@@ -136,7 +131,7 @@ export default function Groups({navigation}) {
               <Text style={styles.gameText}>{myGroups[i]}</Text>
           </Pressable>
         ))
-        }
+        } */}
         { !addingGroup ?
           <Pressable
             style={styles.addGameButton}
