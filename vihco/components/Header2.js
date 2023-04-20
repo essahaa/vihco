@@ -8,7 +8,7 @@ export default Header2 = ({text}) => {
   return (
     <View style={[styles.listTop, {backgroundColor: '#4e9bb0'}]}>
              <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
-        <View style={styles.flexleft}>
+        <View style={styles.flexLeft}>
           <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
         </View>
       </TouchableOpacity>
