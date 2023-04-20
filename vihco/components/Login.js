@@ -3,12 +3,14 @@ import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
 import styles from '../styles/style';
 import Logo from "./Logo";
 import { getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, browserLocalPersistence } from "firebase/auth";
-import { auth } from "../firebase/Config";
+//import { auth } from "../firebase/Config";
 
 export default Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const auth = getAuth();
 
     const handlePress = () => {
         if(!email) {
