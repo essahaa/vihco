@@ -3,6 +3,8 @@ import { View, Text, TextInput, FlatList, StyleSheet, Alert, TouchableOpacity} f
 import style from '../styles/style';
 import { FontAwesome5 } from '@expo/vector-icons';
 import RollDicePopup from './RollDicePopUp';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const categories = [
   "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes",
@@ -11,6 +13,8 @@ const categories = [
 ];
 
 const YahtzeeScoreSheet = () => {
+  const navigation = useNavigation();
+
   const [scores, setScores] = useState({
     Ones: null,
     Twos: null,
@@ -133,7 +137,7 @@ const YahtzeeScoreSheet = () => {
   const renderItem = ({ item }) => {
     return (
       <View style={styles.row}>
-        <Text style={styles.cell}>{item}</Text>
+        <Text style={[styles.cell,{padding:13.5}]}>{item}</Text>
         <TextInput
           onChangeText={(value) => {
             handleInput(item, value);
@@ -151,7 +155,14 @@ const YahtzeeScoreSheet = () => {
 
   return (
     <View style={styles.container}>
+  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+    <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
+      <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
+    </TouchableOpacity>
       <Text style={style.headerText}>Yahtzee sheet</Text>
+    <View style={{ width: 24 }}></View> 
+  </View>
+      
       <FlatList
         data={categories}
         renderItem={renderItem}
@@ -161,7 +172,7 @@ const YahtzeeScoreSheet = () => {
         <Text style={[styles.cell, styles.total]}>Total Score:</Text>
         <Text style={[styles.cell, styles.total]}>{calculateTotal()}</Text>
       </View>
-      <TouchableOpacity style={style.rollButton} onPress={handleRollDice}>
+      <TouchableOpacity style={[style.rollButton,{alignItems:'center'}]} onPress={handleRollDice}>
         <FontAwesome5 name="dice" size={24} color="white" />
         <Text style={style.gameText}>Roll Dice</Text>
       </TouchableOpacity>
@@ -187,8 +198,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: '#000',
-    padding: 10,
     textAlign: 'center',
+    padding:10,
     borderRadius: 15,
     backgroundColor: '#F9BB00',
     fontFamily:'timeburner',
@@ -203,6 +214,9 @@ const styles = StyleSheet.create({
   },
   rollButton: {
     marginTop: 50,
+  },
+  headerIcon: {
+    marginLeft: 10,
   },
 });
 

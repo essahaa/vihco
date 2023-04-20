@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import style from '../styles/style';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
 
 const CluedoSheetScreen = () => {
+  const navigation = useNavigation();
   const [suspects, setSuspects] = useState([
     { name: 'Miss Scarlet', discovered: false },
     { name: 'Colonel Mustard', discovered: false },
@@ -59,85 +63,114 @@ const CluedoSheetScreen = () => {
     }
   };
 
-  return (
-    
-    
-    <View style={styles.container}>
-        <Text style={style.headerText}>Cluedo sheet</Text>
-        <ScrollView>
-      <View style={styles.category}>
-        <Text style={style.text}>Suspects</Text>
-        {suspects.map((suspect, index) => (
+  const renderClueOptions = (category) => {
+    const options = category === 'suspects' ? suspects : category === 'weapons' ? weapons : rooms;
+    const rows = [];
+    for (let i = 0; i < options.length; i += 2) {
+      rows.push(
+        <View key={i} style={{ flexDirection: 'row' }}>
           <TouchableOpacity
-            key={index}
+            key={i}
             style={[
               styles.clue,
-              { backgroundColor: suspect.discovered ? '#af949400' : '#F9BB00' },
+              { backgroundColor: options[i].discovered ? '#af949400' : '#F9BB00' },
             ]}
-            onPress={() => toggleClue('suspects', index)}
+            onPress={() => toggleClue(category, i)}
           >
-            <Text style={styles.clueText}>{suspect.name}</Text>
+            <Text style={styles.clueText}>{options[i].name}</Text>
           </TouchableOpacity>
-        ))}
-      </View>
-      <View style={styles.category}>
-        <Text style={style.text}>Weapons</Text>
-        {weapons.map((weapon, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.clue,
-              { backgroundColor: weapon.discovered ? '#af949400' : '#F9BB00' },
-            ]}
-            onPress={() => toggleClue('weapons', index)}
-          >
-            <Text style={styles.clueText}>{weapon.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <View style={styles.category}>
-        <Text style={style.text}>Rooms</Text>
-        {rooms.map((room,
-index) => (
-<TouchableOpacity
-key={index}
-style={[
-styles.clue,
-{ backgroundColor: room.discovered ? '#af949400' : '#F9BB00' },
-]}
-onPress={() => toggleClue('rooms', index)}
->
-<Text style={styles.clueText}>{room.name}</Text>
-</TouchableOpacity>
-))}
-</View>
-</ScrollView>
-</View>
+          {i + 1 < options.length && (
+            <TouchableOpacity
+              key={i + 1}
+              style={[
+                styles.clue,
+                { backgroundColor: options[i + 1].discovered ? '#af949400' : '#F9BB00' },
 
+
+        ]}
+        onPress={() => toggleClue(category, i + 1)}
+      >
+        <Text style={styles.clueText}>{options[i + 1].name}</Text>
+      </TouchableOpacity>
+      )}
+    </View>
+  );
+}
+return rows;
+};
+
+return (
+<ScrollView contentContainerStyle={styles.container}>
+<View style={{ flexDirection: 'row',justifyContent:'space-between', marginBottom:10 }}>
+    <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
+      <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
+    </TouchableOpacity>
+    <Text style={style.headerText}>Cluedo sheet</Text>
+    </View>
+ 
+<View style={styles.category}>
+<MaterialCommunityIcons name="account" size={24} color="black" />
+<Text style={styles.categoryTitle}>Suspects</Text>
+</View>
+<View style={styles.cluesContainer}>{renderClueOptions('suspects')}</View>
+
+
+  <View style={styles.category}>
+    <MaterialCommunityIcons name="pistol" size={24} color="black" />
+    <Text style={styles.categoryTitle}>Weapons</Text>
+  </View>
+  <View style={styles.cluesContainer}>{renderClueOptions('weapons')}</View>
+
+  <View style={styles.category}>
+    <MaterialCommunityIcons name="home" size={24} color="black" />
+    <Text style={styles.categoryTitle}>Rooms</Text>
+  </View>
+  <View style={styles.cluesContainer}>{renderClueOptions('rooms')}</View>
+
+  <TouchableOpacity
+    style={style.buttonPrimary}
+    onPress={() => navigation.navigate('Home')}
+  >
+    <Text style={style.buttonPrimary}>Back to Home</Text>
+  </TouchableOpacity>
+</ScrollView>
 );
 };
 
 const styles = StyleSheet.create({
 container: {
-flex: 1,
-backgroundColor: '#fff',
 alignItems: 'center',
-justifyContent: 'center',
-backgroundColor: '#4E9BB0',
+paddingVertical: 5,
+backgroundColor:'#4E9BB0'
 },
 category: {
-marginBottom: 20,
+flexDirection: 'row',
+alignItems: 'center',
+marginBottom: 10,
 
 },
+categoryTitle: {
+fontSize: 24,
+marginLeft: 10,
+fontFamily:'timeburner',
+},
+cluesContainer: {
+width: '100%',
+paddingHorizontal: 20,
+},
 clue: {
-padding: 10,
-borderRadius: 5,
-borderWidth: 1,
-borderColor: 'black',
-marginBottom: 10, 
+flex: 1,
+height: 100,
+marginHorizontal: 5,
+marginBottom: 10,
+justifyContent: 'center',
+alignItems: 'center',
+borderRadius: 10,
+borderWidth:1
 },
 clueText: {
-fontSize: 16,
+fontSize: 20,
+textAlign: 'center',
 fontFamily:'timeburner'
 },
 });
