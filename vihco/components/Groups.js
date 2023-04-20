@@ -107,7 +107,7 @@ export default function Groups({navigation}) {
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
         
-      <Text style={styles.title}>CREATED GROUPS</Text>
+      <Text style={[styles.title, {marginBottom: 10}]}>CREATED GROUPS</Text>
       {groups.map((key, i) => (
           <Pressable
             key={i}
@@ -115,17 +115,6 @@ export default function Groups({navigation}) {
             onPress={() => navigation.navigate('Group', {group: groups[i].name, id: groups[i].id})}
           >
               <Text style={styles.gameText}>{groups[i].name}</Text>
-          </Pressable>
-        ))
-        }
-        <Text style={styles.title}>SHARED GROUPS</Text>
-      {sharedGroupNames.map((key, i) => (
-          <Pressable
-            key={i}
-            style={styles.gameButton}
-            onPress={() => navigation.navigate('Group', {group: sharedGroupNames[i].name, id: sharedGroupNames[i].groupId})}
-          >
-              <Text style={styles.gameText}>{sharedGroupNames[i].name}</Text>
           </Pressable>
         ))
         }
@@ -166,6 +155,17 @@ export default function Groups({navigation}) {
               </View>
             </View>
           </Pressable>
+        }
+             <Text style={[styles.title, {marginVertical: 10}]}>SHARED GROUPS</Text>
+      {sharedGroupNames.map((key, i) => (
+          <Pressable
+            key={i}
+            style={styles.gameButton}
+            onPress={() => navigation.navigate('GroupShared', {group: sharedGroupNames[i].name, id: sharedGroupNames[i].groupId})}
+          >
+              <Text style={styles.gameText}>{sharedGroupNames[i].name}</Text>
+          </Pressable>
+        ))
         }
       </ScrollView>
     </View>
