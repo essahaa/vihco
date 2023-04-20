@@ -40,7 +40,8 @@ export default function Groups({navigation}) {
         console.log(group.id);
         const groupData  = {
           name: group.groupName,
-          groupId: group.groupId
+          groupId: group.groupId,
+          creatorId: group.creatorId
         }
         temp.push(groupData);
       })
@@ -161,7 +162,7 @@ export default function Groups({navigation}) {
           <Pressable
             key={i}
             style={styles.gameButton}
-            onPress={() => navigation.navigate('GroupShared', {group: sharedGroupNames[i].name, id: sharedGroupNames[i].groupId})}
+            onPress={() => navigation.navigate('GroupShared', {group: sharedGroupNames[i].name, id: sharedGroupNames[i].groupId, creatorId: sharedGroupNames[i].creatorId})}
           >
               <Text style={styles.gameText}>{sharedGroupNames[i].name}</Text>
           </Pressable>
