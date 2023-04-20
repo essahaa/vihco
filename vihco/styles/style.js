@@ -297,7 +297,7 @@ export default StyleSheet.create({
     tableCellName: {
         alignItems: 'flex-start',
         flex: 0,
-        width: 150
+        width: 120
     },
     tableBottomBorder: {
         borderBottomColor: '#326472',
