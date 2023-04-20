@@ -33,11 +33,16 @@ export default function Groups({navigation}) {
   useEffect(() => {
     if(sharedGroups.length === sharedGroupNames.length) {
       console.log("shared group names already set")
+      console.log("sharedgroupnames: " +sharedGroupNames);
     }else {
       const temp = []
       sharedGroups.map((group) => {
         console.log(group.id);
-        temp.push(group.groupName);
+        const groupData  = {
+          name: group.groupName,
+          groupId: group.groupId
+        }
+        temp.push(groupData);
       })
       setSharedGroupNames(temp)
     }
@@ -118,8 +123,9 @@ export default function Groups({navigation}) {
           <Pressable
             key={i}
             style={styles.gameButton}
+            onPress={() => navigation.navigate('Group', {group: sharedGroupNames[i].name, id: sharedGroupNames[i].groupId})}
           >
-              <Text style={styles.gameText}>{sharedGroupNames[i]}</Text>
+              <Text style={styles.gameText}>{sharedGroupNames[i].name}</Text>
           </Pressable>
         ))
         }
