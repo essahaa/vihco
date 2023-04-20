@@ -31,13 +31,16 @@ export default function Groups({navigation}) {
   }, [currentUserId]);
 
   useEffect(() => {
-    const temp = []
-  
-    sharedGroups.map((group) => {
-      console.log(group.id);
-      temp.push(group.groupName);
-    })
-    setSharedGroupNames(temp)
+    if(sharedGroups.length === sharedGroupNames.length) {
+      console.log("shared group names already set")
+    }else {
+      const temp = []
+      sharedGroups.map((group) => {
+        console.log(group.id);
+        temp.push(group.groupName);
+      })
+      setSharedGroupNames(temp)
+    }
   }, [sharedGroups])
   
 
@@ -99,7 +102,7 @@ export default function Groups({navigation}) {
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
         
-      <Text style={styles.title}>GROUPS</Text>
+      <Text style={styles.title}>CREATED GROUPS</Text>
       {groups.map((key, i) => (
           <Pressable
             key={i}
@@ -110,7 +113,7 @@ export default function Groups({navigation}) {
           </Pressable>
         ))
         }
-        <Text style={styles.title}> MY GROUPS</Text>
+        <Text style={styles.title}>SHARED GROUPS</Text>
       {sharedGroupNames.map((key, i) => (
           <Pressable
             key={i}
