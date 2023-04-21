@@ -66,7 +66,7 @@ export default function Profile({navigation}) {
       <Text style={[styles.gameHeader, {textAlign: 'center'}]}>My profile</Text>
       
       <View>
-        <LinearGradient  colors={['#4e9bb0' , 'black']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
+        <LinearGradient  colors={['#4e9bb0' , '#112126']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
           <View style={{ flexDirection:'row', alignItems:'center' }}>
             <MaterialCommunityIcons name="circle" size={150} color="white" />
             <Text style={[styles.usernameText, {textAlign: 'center', paddingLeft: 10,paddingBottom: 20}]}>{username}</Text>
@@ -75,15 +75,9 @@ export default function Profile({navigation}) {
       </View>
     </View>
   
-    <View style={{backgroundColor:'red', width:'100%', flexDirection: 'row', justifyContent: 'flex-end',marginRight:100}}>
-  <GroupPicker
-    groups={groups}
-    onSelect={selectedValue => console.log(selectedValue)}
-    textStyle={{color: 'white'}}
-    itemStyle={{borderColor: 'orange', borderWidth: 1, borderRadius: 5, padding: 5}}
-    pickerStyle={{backgroundColor: 'black', color: 'white'}}
-    selectedItemStyle={{backgroundColor: 'orange'}}
-  />
+    <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:3}]}>
+    <GroupPicker groups={groups} onSelect={selectedValue => console.log(selectedValue)} />
+
 </View>
 
 
