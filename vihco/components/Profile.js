@@ -4,9 +4,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
-import { db, GAMES_REF, USERS_REF,GROUPS_REF, auth } from '../firebase/Config';
+import { db, USERS_REF,GROUPS_REF, auth } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
+import { getAuth } from 'firebase/auth';
 
 export default function Profile({navigation}) {
 
@@ -18,8 +19,16 @@ export default function Profile({navigation}) {
   const [items, setItems] = useState([]);
   const [groups, setGroups] = useState([]);
 
+  const auth = getAuth();
+
   useEffect(() => {
-    const q = query(collection(db, GROUPS_REF));
+    setUserId(auth.currentUser.uid)
+    console.log("joo")
+  }, [])
+  
+  useEffect(() => {
+    if(userId!==""){
+      const q = query(collection(db, USERS_REF+"/"+userId+"/groups"));
     onSnapshot(q, (querySnapshot) => {
       setGroups(querySnapshot.docs.map(doc => ({
         label: doc.data().name,
@@ -27,10 +36,18 @@ export default function Profile({navigation}) {
       })));
     });
     console.log('groups:', groups);
+    }
+    
   }, []);
 
+  useEffect(()=>{
+    console.log(games);
+  },[games])
+
   useEffect(() => {
-    const q = query(collection(db, GAMES_REF), orderBy("id"))
+    if(userId!==""){
+      const gameref=USERS_REF+"/"+userId+"/groups/02ol7IiIn4WrxwV1IQrC/games"
+    const q = query(collection(db, gameref))
     onSnapshot(q, (querySnapshot) => {
       setGames(querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -38,11 +55,14 @@ export default function Profile({navigation}) {
       })));
     });
     console.log(games);
-    setUserId(auth.currentUser.uid)
+    }
   }, []);
 
   useEffect(() => {
-    getUsername()
+    if(userId!==""){
+      getUsername()
+    }
+    
   }, [userId])
 
   const getUsername = async () => {

@@ -27,6 +27,7 @@ export default Games = ({navigation}) => {
 
   useEffect(() => {
     setCurrentUserId(auth.currentUser.uid)
+    console.log("joo")
   }, []);
 
   useEffect(() => {
