@@ -15,6 +15,7 @@ export default Game = ({route}) => {
     const [addingScores, setAddingScores] = useState(false);
     const [buttonState, setButtonState] = useState([]);
     const [currentUserId, setCurrentUserId] = useState('');
+    const [currentGroupId, setCurrentGroupId] = useState('');
     
     const auth = getAuth();
 
@@ -28,11 +29,15 @@ export default Game = ({route}) => {
         if( route.params?.id ) {
             setGameId(route.params.id);
         }
+
+        if( route.params?.groupId ) {
+            setCurrentGroupId(route.params.groupId);
+        }
     }, []);
     
     useEffect(() => {
         if(winData.length === 0 && gameId) {
-            const gamesRef = USERS_REF + "/" + currentUserId + "/groups/H4Kr3DEiMmJLVhEktjWm/games/"
+            const gamesRef = USERS_REF + "/" + currentUserId + "/groups/" + currentGroupId + "/games/"
             const q = query(collection(db, gamesRef + gameId + "/users"), orderBy("win", "desc"))
             onSnapshot(q, (querySnapshot) => {
                 setWinData(querySnapshot.docs.map(doc => ({
