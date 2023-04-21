@@ -69,34 +69,14 @@ export default function Settings({ navigation }) {
 
   }
 
-//   const temp = [...groups];
-//   const q2 = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"))
-//   const querySnapshot2 = await getDocs(q2);
-  
-//   if(querySnapshot2.empty) {
-//     console.log("No shared groups found!")
-//   }
-//   else {
-//     onSnapshot(q2, (querySnapshot) => {
-//       setSharedGroups(querySnapshot.docs.map(doc => ({
-//         id: doc.id,
-//         ...doc.data()
-//       })));
-//     })
-//   }
-//   temp.push(sharedGroupNames);
-//   setGroups(temp)
-//   console.log(groups)
-// }
-
-
   return (
     <View style={styles.overlay}>
       <Logo />
       <Text style={[styles.text, {marginBottom: 5}]}>Settings</Text>
       <View style={[styles.dropdown]}>
-      <GroupPicker groups={groups} onSelect={selectedValue => console.log("selected: " + selectedValue)} />
-
+        <Pressable onPress={() => getData()}>
+      <GroupPicker groups={groups}  onSelect={selectedValue => console.log("selected: " + selectedValue)} />
+      </Pressable>
       </View>
 
       <Pressable

@@ -172,11 +172,9 @@ export default Games = ({navigation}) => {
       <View style={styles.listTop}>
         <Text style={styles.title}>GAMES</Text>
         <View style={styles.dropdown}>
-          {groups.length !== 0 ?
+          <Pressable onPress={() => getData()}>
             <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue.value)} />
-          :
-            <Text style={styles.text}>Getting groups...</Text>
-          }
+          </Pressable>
         </View>
       </View>
       <ScrollView 

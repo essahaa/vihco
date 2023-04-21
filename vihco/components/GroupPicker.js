@@ -30,7 +30,7 @@ const GroupPicker = ({ groups, onSelect }) => {
                     ))}
                 </Picker>
             ) : (
-                <Text>No groups available.</Text>
+                <Text>Select group</Text>
             )}
         </View>
     );
