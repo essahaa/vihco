@@ -57,7 +57,7 @@ export default function Home({navigation, route}) {
     <View style={[styles.container]}>
       <Header3/>
       <Logo />
-      <View style={[styles.listTop, {marginTop: 5}]}>  
+      <View style={[styles.listTop, {marginTop: 0}]}>  
         <Text style={[styles.title, {fontSize: 24}, {textAlign: 'center', flex: 1}]}>Welcome, <Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}>{username} <Text style={[{ color: '#Ffffff' }, {fontSize: 26}, {fontFamily: ''}]}>!</Text></Text></Text>
       </View>
       <ScrollView 
