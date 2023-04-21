@@ -2,9 +2,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable, TouchableOpacity, ScrollView } from 'react-native';
 import { collection, onSnapshot, orderBy, query, doc, updateDoc, increment } from 'firebase/firestore';
-import { db } from '../firebase/Config';
+import { db, USERS_REF } from '../firebase/Config';
 import GameInfo from './GameInfo';
 import styles from '../styles/style';
+import { getAuth } from 'firebase/auth';
 
 export default Game = ({route}) => {
     const [gameName, setGameName] = useState('');
@@ -13,8 +14,13 @@ export default Game = ({route}) => {
     const [addingScoreData, setAddingScoreData] = useState([]);
     const [addingScores, setAddingScores] = useState(false);
     const [buttonState, setButtonState] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState('');
     
+    const auth = getAuth();
+
     useEffect(() => {
+        setCurrentUserId(auth.currentUser.uid)
+
         if( gameName === '' && route.params?.game ) {
             setGameName(route.params.game);
         }
@@ -26,7 +32,8 @@ export default Game = ({route}) => {
     
     useEffect(() => {
         if(winData.length === 0 && gameId) {
-            const q = query(collection(db, "/games/" + gameId + "/users"), orderBy("win", "desc"))
+            const gamesRef = USERS_REF + "/" + currentUserId + "/groups/H4Kr3DEiMmJLVhEktjWm/games/"
+            const q = query(collection(db, gamesRef + gameId + "/users"), orderBy("win", "desc"))
             onSnapshot(q, (querySnapshot) => {
                 setWinData(querySnapshot.docs.map(doc => ({
                     id: doc.id,

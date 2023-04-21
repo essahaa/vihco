@@ -38,6 +38,17 @@ export default Group = ({route}) => {
     }
     }, [groupId]);
 
+    useEffect(() => {
+      if(playerIds && playerIds.length !== 0) {
+        const temp = [];
+        playerIds.map((id) => {
+          getPlayer(id); //tempPlayer ei refressaa nimeä
+          console.log("player in map" + tempPlayer);
+        })
+        //temp.push(docSnap.data())
+        //getPlayers()
+      }
+    }, [playerIds])
   useEffect(() => {
     if(playerIds.length !== 0) {
       const temp = [];
@@ -47,6 +58,20 @@ export default Group = ({route}) => {
       })
     }
   }, [playerIds])
+
+  useEffect(() => {
+    if (playerId && currentUserId) {
+      addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
+        creatorId: currentUserId,
+        groupId: groupId, 
+        groupName: groupName
+      })
+      updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
+        players: arrayUnion(playerId)
+      })
+    }
+    console.log("groupid: " + groupId)
+  }, [playerId])
 
   useEffect(() => {
     if (playerId && currentUserId) {

@@ -54,8 +54,6 @@ export default function Settings({ navigation }) {
       })));
     });
 
-    
-
     const q2 = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"));
     onSnapshot(q2, (querySnapshot) => {
       setSharedGroups(querySnapshot.docs.map(doc => ({
@@ -63,8 +61,12 @@ export default function Settings({ navigation }) {
         value: doc.id
       })));
     });
+    if (sharedGroups.length == 0) {
+      setGroups(myGroups)
+    } else {
     setGroups(myGroups.concat(sharedGroups))
-    console.log('groups:', groups);
+    }     console.log('groups:', groups);
+
   }
 
 //   const temp = [...groups];
