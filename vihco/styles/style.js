@@ -31,7 +31,7 @@ export default StyleSheet.create({
         color: 'white',
         fontFamily: 'timeburnerBold',
         fontSize: 20,
-        fontWeight:'bold'
+        fontWeight: 'bold'
     },
     textInput: {
         backgroundColor: 'white',
@@ -47,7 +47,7 @@ export default StyleSheet.create({
         color: '#112126',
         fontFamily: 'timeburnerBold',
         textShadowColor: 'black',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1
     },
     gameText: {
@@ -55,7 +55,7 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 20,
         textShadowColor: 'white',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1
     },
     gameHeader: {
@@ -63,7 +63,7 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 24,
         textShadowColor: 'white',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1,
         marginLeft: 10,
         marginBottom: 5
@@ -73,7 +73,7 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 20,
         textShadowColor: '#4E9BB0',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1
     },
     gameButton: {
@@ -108,7 +108,7 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 20,
         textShadowColor: 'black',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1
     },
     buttonTextLogout: {
@@ -116,7 +116,7 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 20,
         textShadowColor: '#F9BB00',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1
     },
     buttonPrimary: {
@@ -157,8 +157,8 @@ export default StyleSheet.create({
         paddingHorizontal: 50,
         borderRadius: 15
     },
-        dropdown: {
-            fontFamily: 'timeburnerBold',
+    dropdown: {
+        fontFamily: 'timeburnerBold',
         alignSelf: 'center',
         backgroundColor: '#F9BB00',
         marginTop: 5,
@@ -171,16 +171,16 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
     },
     dropdown1: {
-            
+
         alignSelf: 'center',
         backgroundColor: '#F9BB00',
-        
-        
-        
+
+
+
         width: 200,
-        
+
         alignItems: 'center',
-        
+
         fontFamily: 'timeburnerBold',
     },
     flexCenter: {
@@ -199,7 +199,7 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'flex-start'
     },
-   
+
     forgotPass: {
         color: 'white',
         fontFamily: 'timeburnerBold',
@@ -218,7 +218,7 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 20,
         textShadowColor: 'white',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1,
     },
     scrollview: {
@@ -244,25 +244,25 @@ export default StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
     } */
-   
-      headerText: {
+
+    headerText: {
         color: 'white',
         fontSize: 20,
         textAlign: 'center',
         fontFamily: 'timeburnerBold',
-      },
-      headerIcon: {
+    },
+    headerIcon: {
         color: 'white',
         fontSize: 24,
-      },
-      flexHeaderRigth: {
+    },
+    flexHeaderRigth: {
         alignItems: 'flex-end'
-      },
-      flexHeaderCopy: {
+    },
+    flexHeaderCopy: {
         flexDirection: 'row',
         alignItems: 'center',
-      },
-      flexHeaderCenter: {
+    },
+    flexHeaderCenter: {
         flex: 1,
         justifyContent: 'center',
         textAlign: 'center'
@@ -327,7 +327,7 @@ export default StyleSheet.create({
         fontFamily: 'timeburnerBold',
         fontSize: 20,
         textShadowColor: 'white',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1,
     },
     loggingLoading: {
@@ -343,9 +343,11 @@ export default StyleSheet.create({
         justifyContent: 'center',
         color: '#F9BB00',
         textShadowColor: '#F9BB00',
-        textShadowOffset: {width: 0, height: 0},
+        textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1,
         fontFamily: 'timeburnerBold',
-    }
-    
+    },
+   
+
+
 });
