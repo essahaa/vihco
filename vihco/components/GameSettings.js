@@ -92,7 +92,7 @@ export default GameSettings = ({navigation, route}) => {
     
     return (
         <View style={styles.container}>
-            <View style={styles.gameTopBar}>
+            <View>
                 <Header text={name + " settings"}/>
             </View>
             <View style={{alignItems: 'center'}}>

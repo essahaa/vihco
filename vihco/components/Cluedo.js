@@ -101,10 +101,12 @@ return rows;
 
 return (
 <ScrollView contentContainerStyle={styles.container}>
-<View style={{ flexDirection: 'row',justifyContent:'space-between', marginBottom:10 }}>
-    <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
-      <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
-    </TouchableOpacity>
+<View style={{ flexDirection: 'row', marginBottom:10 }}>
+    <View style={{alignSelf:'flex-start'}}>
+      <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
+        <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
+      </TouchableOpacity>
+    </View>
     <Text style={style.headerText}>Cluedo sheet</Text>
     </View>
  
@@ -127,19 +129,14 @@ return (
   </View>
   <View style={styles.cluesContainer}>{renderClueOptions('rooms')}</View>
 
-  <TouchableOpacity
-    style={style.buttonPrimary}
-    onPress={() => navigation.navigate('Home')}
-  >
-    <Text style={style.buttonPrimary}>Back to Home</Text>
-  </TouchableOpacity>
+  
 </ScrollView>
 );
 };
 
 const styles = StyleSheet.create({
 container: {
-alignItems: 'center',
+alignItems:'center',
 paddingVertical: 5,
 backgroundColor:'#4E9BB0'
 },
