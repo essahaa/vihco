@@ -90,14 +90,12 @@ export default function Settings({ navigation }) {
 // }
 
 
-
-
   return (
     <View style={styles.overlay}>
       <Logo />
       <Text style={[styles.text, {marginBottom: 5}]}>Settings</Text>
       <View style={[styles.dropdown]}>
-      <GroupPicker groups={groups} onSelect={selectedValue => console.log(selectedValue)} />
+      <GroupPicker groups={groups} onSelect={selectedValue => console.log("selected: " + selectedValue)} />
 
       </View>
 
