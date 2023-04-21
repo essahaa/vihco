@@ -2,6 +2,7 @@ import { Text, View,TouchableOpacity  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
+import { Image } from 'react-native';
 
 export default Header2 = ({text}) => {
     const navigation = useNavigation();
@@ -12,8 +13,8 @@ export default Header2 = ({text}) => {
           <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
         </View>
       </TouchableOpacity>
-    <View style={styles.flexHeaderCenter}>
-    <Text style={styles.headerText}>{text}</Text>
+    <View style={[styles.flexHeaderCenter]}>
+    <Image style= {{flex:1 , width: undefined, height: undefined, resizeMode: 'contain'}} source={require('../assets/images/logooo.png')}/>
     </View>
     <View style={styles.flexHeaderRigth}>
     <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
