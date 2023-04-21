@@ -3,13 +3,22 @@ import { View, Text, Pressable, TextInput, Alert } from 'react-native';
 import { updateDoc, doc, query, collection, onSnapshot, deleteDoc } from 'firebase/firestore';
 import styles from '../styles/style';
 import Header from './Header';
-import { db, GAMES_REF } from '../firebase/Config';
+import { db, USERS_REF } from '../firebase/Config';
+import { getAuth } from 'firebase/auth';
 
 export default GameSettings = ({navigation, route}) => {
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [newName, setNewName] = useState('');
     const [users, setUsers] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState('');
+    const [currentGroupId, setCurrentGroupId]=useState('')
+
+    const auth = getAuth();
+
+  useEffect(() => {
+    setCurrentUserId(auth.currentUser.uid)
+  }, []);
 
     useEffect(() => {
         if( name === '' && route.params?.gameName ) {
@@ -19,12 +28,17 @@ export default GameSettings = ({navigation, route}) => {
         if( id === '' && route.params?.gameId ) {
             setId(route.params.gameId);
         }
+        if( currentGroupId === '' && route.params?.groupID ) {
+            setCurrentGroupId(route.params.groupID);
+        }
+      
     }, [route.params.gameName]);
 
     const changeName = async () => {
         try {
+            const gameref=USERS_REF+"/"+currentUserId+"/groups/"+currentGroupId+"/games/"+id
             if(newName.trim() !== "") {
-              await updateDoc(doc(db, GAMES_REF, id), {
+              await updateDoc(doc(db, gameref), {
                 name: newName
             }).then(
                 Alert.alert('Name changed',
@@ -59,13 +73,14 @@ export default GameSettings = ({navigation, route}) => {
 
     const deleteGame = async () => {
         try {
-            const q = query(collection(db, "/games/" + id + "/users"))
+            const gameref=USERS_REF+"/"+currentUserId+"/groups/"+currentGroupId+"/games/"+id
+            const q = query(collection(db,gameref+"/users"))
             onSnapshot(q, (querySnapshot) => {
                 querySnapshot.docs.map(function(user) {
-                    deleteDoc(doc(db, "/games/" + id + "/users", user.id));
+                    deleteDoc(doc(db, gameref + "/users", user.id));
                 });
             }).then(
-                deleteDoc(doc(db, GAMES_REF, id)).then(
+                deleteDoc(doc(db, gameref)).then(
                     Alert.alert('Game deleted',
                     "", [
                         {text: 'OK', onPress: () => navigation.navigate("Games")},

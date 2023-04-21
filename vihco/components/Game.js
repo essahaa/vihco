@@ -90,9 +90,9 @@ export default Game = ({route}) => {
         <View style={styles.container}>
             {!addingScores ?
             <>
-            <GameInfo name={gameName} data={winData} id={gameId}/>
+            <GameInfo name={gameName} data={winData} id={gameId} groupId={currentGroupId}/>
             <Pressable
-                onPress={() => setAddingScores(true)}
+              z  onPress={() => setAddingScores(true)}
                 style={styles.buttonScores}
             >
                 <Text style={[styles.buttonText, {fontSize: 20}]}>ADD SCORES</Text>

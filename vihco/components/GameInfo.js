@@ -6,7 +6,7 @@ import Table from './Table';
 import Header from './Header';
 import { useNavigation } from '@react-navigation/native';
 
-export default GameInfo = ({name, data, id}) => {
+export default GameInfo = ({name, data, id,groupId}) => {
     const [winData, setWinData] = useState(data);
 
     const navigation = useNavigation();
@@ -38,7 +38,7 @@ export default GameInfo = ({name, data, id}) => {
                                 name='pencil-circle'
                                 color={'#326472'}
                                 size={55}
-                                onPress={() => navigation.navigate("GameSettings", {gameName: name, gameId: id})}
+                                onPress={() => navigation.navigate("GameSettings", {gameName: name, gameId: id,groupID:groupId})}
                                 //style={{backgroundColor: 'white', borderRadius: 100}}
                             />
                         </Pressable>

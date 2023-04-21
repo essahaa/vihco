@@ -33,7 +33,7 @@ export default Games = ({navigation}) => {
     if(currentUserId !== "") {
       getData();
       console.log("getting data: " + currentUserId)
-      console.log("juu")
+      console.log("mjhbjgku")
     }
   }, [currentUserId])
 
