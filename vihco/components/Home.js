@@ -5,7 +5,8 @@ import { db, USERS_REF } from '../firebase/Config';
 import { onAuthStateChanged, getAuth, getIdToken } from "firebase/auth";
 import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Logo from './Logo2';
+import Logo from './Logo3';
+import Header3 from './Header3';
 
 
 export default function Home({navigation, route}) {
@@ -54,8 +55,9 @@ export default function Home({navigation, route}) {
 
   return (
     <View style={[styles.container]}>
+      <Header3/>
       <Logo />
-      <View style={[styles.listTop, {marginTop: 30}]}>  
+      <View style={[styles.listTop, {marginTop: 5}]}>  
         <Text style={[styles.title, {fontSize: 24}, {textAlign: 'center', flex: 1}]}>Welcome, <Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}>{username} <Text style={[{ color: '#Ffffff' }, {fontSize: 26}, {fontFamily: ''}]}>!</Text></Text></Text>
       </View>
       <ScrollView 
@@ -79,8 +81,7 @@ export default function Home({navigation, route}) {
             onPress={() => navigation.navigate('Games')}
           >
               <Text style={[styles.gameText, {textAlign: 'center'}, {marginBottom: 10}, {fontSize: 21}]}>Games</Text>
-          </Pressable>
-        
+          </Pressable> 
       </ScrollView>
     </View>
 
