@@ -1,5 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
 import styles from "../styles/style";
+import { FontAwesome5 } from '@expo/vector-icons'; 
+import style from "../styles/style";
 
 export default Table = (data) => {
 
@@ -10,6 +12,19 @@ export default Table = (data) => {
         }else if(losses === 0) {
             return wins;
         }else return ratio;
+    }
+
+    const getIcon = (position) => {
+        switch(position) {
+            case 1:
+                return <FontAwesome5 name="crown" size={15} color="gold" />;
+            case 2:
+                return <FontAwesome5 name="crown" size={15} color="silver" />;
+            case 3:
+                return <FontAwesome5 name="crown" size={15} color="brown" />;
+            default:
+                return <Text style={styles.text}>{position}. </Text>
+        }
     }
 
     return(
@@ -29,10 +44,11 @@ export default Table = (data) => {
                 </View>
             </View>
             <ScrollView contentContainerStyle={styles.scrollview}>
-            {data.data.map((key, i) => (
+                {data.data.sort((a, b) => b.win - a.win).map((key, i) => (
                     <View key={i} style={{ flex: 1, flexDirection: 'row' }}>
-                        <View style={[styles.tableCell, styles.tableCellName]}>
-                            <Text style={styles.text}>{data.data[i].name}</Text>
+                        <View style={[styles.tableCell, styles.tableCellName,{flexDirection:'row',justifyContent:'flex-start'}]}>
+                            {getIcon(i + 1)}
+                            <Text style={styles.text}>   {data.data[i].name}</Text>
                         </View>
                         <View style={styles.tableCell}>
                             <Text style={styles.text}>{data.data[i].win}</Text>
@@ -45,7 +61,8 @@ export default Table = (data) => {
                         </View>
                     </View>
                 ))
-            }</ScrollView>
+                }
+            </ScrollView>
         </View>
     );
 

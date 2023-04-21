@@ -9,6 +9,7 @@ import { getAuth } from 'firebase/auth'
 export default Group = ({route}) => {
   const [groupName, setGroupName] = useState('');
   const [groupId, setGroupId] = useState('')
+  const [groupCreator, setGroupCreator] = useState('')
   const [playerEmail, setPlayerEmail] = useState('');
   const [playerId, setPlayerId] = useState('')
   const [players, setPlayers] = useState([]);
@@ -29,6 +30,10 @@ export default Group = ({route}) => {
     if( route.params?.id ) {
         setGroupId(route.params.id);
     }
+
+    if( route.params?.creatorId ) {
+        setGroupCreator(route.params.creatorId);
+    }
     
   }, []);
   
@@ -38,17 +43,6 @@ export default Group = ({route}) => {
     }
     }, [groupId]);
 
-    useEffect(() => {
-      if(playerIds && playerIds.length !== 0) {
-        const temp = [];
-        playerIds.map((id) => {
-          getPlayer(id); //tempPlayer ei refressaa nimeä
-          console.log("player in map" + tempPlayer);
-        })
-        //temp.push(docSnap.data())
-        //getPlayers()
-      }
-    }, [playerIds])
   useEffect(() => {
     if(playerIds.length !== 0) {
       const temp = [];
@@ -59,33 +53,19 @@ export default Group = ({route}) => {
     }
   }, [playerIds])
 
-  useEffect(() => {
-    if (playerId && currentUserId) {
-      addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
-        creatorId: currentUserId,
-        groupId: groupId, 
-        groupName: groupName
-      })
-      updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
-        players: arrayUnion(playerId)
-      })
-    }
-    console.log("groupid: " + groupId)
-  }, [playerId])
-
-  useEffect(() => {
-    if (playerId && currentUserId) {
-      addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
-        creatorId: currentUserId,
-        groupId: groupId, 
-        groupName: groupName
-      })
-      updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
-        players: arrayUnion(playerId)
-      })
-    }
-    console.log("groupid: " + groupId)
-  }, [playerId])
+//   useEffect(() => {
+//     if (playerId && currentUserId) {
+//       addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
+//         creatorId: currentUserId,
+//         groupId: groupId, 
+//         groupName: groupName
+//       })
+//       updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
+//         players: arrayUnion(playerId)
+//       })
+//     }
+//     console.log("groupid: " + groupId)
+//   }, [playerId])
 
   useEffect(() => {
     console.log("players in player effect: " + JSON.stringify(players))
@@ -111,7 +91,7 @@ export default Group = ({route}) => {
 
   const getPlayerIds = async () => {
     if(groupId) {
-      const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId); 
+      const docRef = doc(db, USERS_REF + "/" + groupCreator + "/groups", groupId); 
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -140,35 +120,35 @@ export default Group = ({route}) => {
     });
   }
 
-  const addPlayer = async () => {
-    const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
-    const querySnapshot = await getDocs(q);
+//   const addPlayer = async () => {
+//     const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
+//     const querySnapshot = await getDocs(q);
   
-    if(querySnapshot.empty) {
-      console.log("No such user found!")
-    }
-    else {
-        /* const data = querySnapshot.data()
-        setPlayerId(data.id)
-        console.log("Username data: " + data.name + " => " + data.id) */
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        setPlayerId(doc.id);
-        setPlayerName(data.name);
-        console.log("Username data: " + data.name + " => " + doc.id);
-        //setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
-      });
-      getPlayerIds()
-    }
-  }  
+//     if(querySnapshot.empty) {
+//       console.log("No such user found!")
+//     }
+//     else {
+//         /* const data = querySnapshot.data()
+//         setPlayerId(data.id)
+//         console.log("Username data: " + data.name + " => " + data.id) */
+//       querySnapshot.forEach((doc) => {
+//         const data = doc.data();
+//         setPlayerId(doc.id);
+//         setPlayerName(data.name);
+//         console.log("Username data: " + data.name + " => " + doc.id);
+//         //setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
+//       });
+//       getPlayerIds()
+//     }
+//   }  
     
   return (
       <View style={styles.container}>
           <Header />
           <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
-          <Text style={[styles.title, {marginBottom: 25}]}>GROUP NAME: {groupName}</Text>
-          <Text style={[styles.text, {marginBottom: 5}]}>Add new player to {groupName}</Text>     
+          <Text style={[styles.title, {marginBottom: 25}]}>SHARED GROUP NAME: {groupName}</Text>
+          {/* <Text style={[styles.text, {marginBottom: 5}]}>Add new player to {groupName}</Text>     
           <TextInput 
               style={[styles.textInput, {marginBottom: 10}]}
               placeholder='Player email'
@@ -183,7 +163,7 @@ export default Group = ({route}) => {
               style={styles.buttonSettings}
               >
               <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
-          </Pressable>
+          </Pressable> */}
       <Text style={[styles.title, {marginTop: 30}]}>PLAYERS</Text>   
         {players.map((key,i) => (
           <View key={i} style={[styles.gameButton]}>

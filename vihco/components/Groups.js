@@ -8,102 +8,99 @@ import Header from './Header';
 import { getAuth } from 'firebase/auth'
 
 export default function Groups({navigation}) {
-    const [groupname, setGroupname] = useState('')
-    const [groupId, setGroupId] = useState('')
-    const [groups, setGroups] = useState([]);
-    const [currentUserId, setCurrentUserId] = useState('')
-    const [addingGroup, setAddingGroup] = useState(false)
-    const [myGroups, setMyGroups] = useState([])
+  const [groupname, setGroupname] = useState('')
+  const [groupId, setGroupId] = useState('')
+  const [groups, setGroups] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState('')
+  const [addingGroup, setAddingGroup] = useState(false)
+  const [sharedGroups, setSharedGroups] = useState([])
+  const [sharedGroupNames, setSharedGroupNames] = useState([])
 
-    const auth = getAuth()
+  const auth = getAuth()
 
-    useEffect(() => {
-        setCurrentUserId(auth.currentUser.uid)
-    }, [])
-    
-    useEffect(() => {
-      console.log("id: " + currentUserId);
-      if(currentUserId !== "") {
-        getData()
-      }
-    }, [currentUserId]);
+  useEffect(() => {
+      setCurrentUserId(auth.currentUser.uid)
+  }, [])
+  
+  useEffect(() => {
+    console.log("id: " + currentUserId);
+    if(currentUserId !== "") {
+      getData()
+      getSharedGroups()
+    }
+  }, [currentUserId]);
 
-    
- /*    const addData = async () => {
+  useEffect(() => {
+    if(sharedGroups.length === sharedGroupNames.length) {
+      console.log("shared group names already set")
+      console.log("sharedgroupnames: " +sharedGroupNames);
+    }else {
       const temp = []
-      groups.map((group) => {
-        onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
-          temp.push(doc.data().name);
-        });
+      sharedGroups.map((group) => {
+        console.log(group.id);
+        const groupData  = {
+          name: group.groupName,
+          groupId: group.groupId,
+          creatorId: group.creatorId
+        }
+        temp.push(groupData);
       })
-      setMyGroups(temp)
-    } */
-
-
-    /// TARKISTA IDN AVULLA >ETTÄ LISTALLE PÄÄSEE VAAN YHDEN KERRAN
-    const getData = async () => {
-      const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
-      const querySnapshot = await getDocs(q);
-      
-      if(querySnapshot.empty) {
-        console.log("No groups found!")
-      }
-      else {
-        onSnapshot(q, (querySnapshot) => {
-          setGroups(querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          })));
-        })
-      }
-
-      /* const getSharedGroups = async () => {
-        const q = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"))
-        const querySnapshot = await getDocs(q);
-        
-        if(querySnapshot.empty) {
-          console.log("No groups found!")
-        }
-        else {
-          onSnapshot(q, (querySnapshot) => {
-            setSharedGroups(querySnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            })));
-          })
-        } */
-
-      // const temp = []
-      
-      // groups.map((group) => {
-      //   onSnapshot(doc(db, GROUPS_REF, group.id), (doc) => {
-      //     temp.push(doc.data().name);
-      //     console.log("Current data: ", doc.data());
-          
-      //   });
-
-      //   console.log("temp" + temp[0]);
-      //   console.log("mygroups: "+myGroups[0] + myGroups[1])
-      // })
-      // setMyGroups(temp)
+      setSharedGroupNames(temp)
     }
+  }, [sharedGroups])
+  
 
-    const addNewGroup = async () => {
-      setAddingGroup(false)
-      try {
-          if(groupname !== "") {
-            const groupAdded = await addDoc(collection(db, USERS_REF + "/" + currentUserId + "/groups"), {
-              name: groupname,
-              admins: [currentUserId]
-            });
-            console.log("group added with id: " + groupAdded.id);
-            setGroupId(groupAdded.id);
-            getData();
-          }
-        }catch (error) {
-          console.log(error.message);
-        }
+  const getData = async () => {
+    const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
+    const querySnapshot = await getDocs(q);
+    
+    if(querySnapshot.empty) {
+      console.log("No groups found!")
     }
+    else {
+      onSnapshot(q, (querySnapshot) => {
+        setGroups(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+      })
+    }
+  }
+
+  const getSharedGroups = async () => {
+    const q = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"))
+    const querySnapshot = await getDocs(q);
+    
+    if(querySnapshot.empty) {
+      console.log("No shared groups found!")
+    }
+    else {
+      onSnapshot(q, (querySnapshot) => {
+        setSharedGroups(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+      })
+    }
+  }
+
+  const addNewGroup = async () => {
+    setAddingGroup(false)
+    try {
+        if(groupname !== "") {
+          const groupAdded = await addDoc(collection(db, USERS_REF + "/" + currentUserId + "/groups"), {
+            name: groupname,
+            admins: [currentUserId], 
+            players: [currentUserId]
+          });
+          console.log("group added with id: " + groupAdded.id);
+          setGroupId(groupAdded.id);
+          getData();
+        }
+      }catch (error) {
+        console.log(error.message);
+      }
+  }
 
   return (
     <View style={styles.container}>
@@ -111,7 +108,7 @@ export default function Groups({navigation}) {
         <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
         
-      <Text style={styles.title}>GROUPS</Text>
+      <Text style={[styles.title, {marginBottom: 10}]}>CREATED GROUPS</Text>
       {groups.map((key, i) => (
           <Pressable
             key={i}
@@ -122,16 +119,6 @@ export default function Groups({navigation}) {
           </Pressable>
         ))
         }
-        <Text style={styles.title}> MY GROUPS</Text>
-      {/* {myGroups.map((key, i) => (
-          <Pressable
-            key={i}
-            style={styles.gameButton}
-          >
-              <Text style={styles.gameText}>{myGroups[i]}</Text>
-          </Pressable>
-        ))
-        } */}
         { !addingGroup ?
           <Pressable
             style={styles.addGameButton}
@@ -169,6 +156,17 @@ export default function Groups({navigation}) {
               </View>
             </View>
           </Pressable>
+        }
+             <Text style={[styles.title, {marginVertical: 10}]}>SHARED GROUPS</Text>
+      {sharedGroupNames.map((key, i) => (
+          <Pressable
+            key={i}
+            style={styles.gameButton}
+            onPress={() => navigation.navigate('GroupShared', {group: sharedGroupNames[i].name, id: sharedGroupNames[i].groupId, creatorId: sharedGroupNames[i].creatorId})}
+          >
+              <Text style={styles.gameText}>{sharedGroupNames[i].name}</Text>
+          </Pressable>
+        ))
         }
       </ScrollView>
     </View>

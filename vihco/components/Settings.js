@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Text, View, ScrollView, Pressable, Button, TextInput } from 'react-native';
+import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
+import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc } from 'firebase/firestore';
 import styles from '../styles/style';
-import { Text, View, Button, Pressable, ScrollView } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Header from './Header';
 import { logOut } from './Auth';
 import Logo from './Logo';
 /* import DropDownPicker from 'react-native-dropdown-picker'; */
-import { doc, getDoc } from 'firebase/firestore';
-import { collection, query, onSnapshot } from 'firebase/firestore';
-import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
 import { Picker } from '@react-native-picker/picker';
 import GroupPicker from './GroupPicker';
+import { getAuth } from 'firebase/auth'
 
 
 export default function Settings({ navigation }) {
@@ -21,17 +23,70 @@ export default function Settings({ navigation }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([0]);
   const [items, setItems] = useState([]);
+  const [groupname, setGroupname] = useState('')
+  const [groupId, setGroupId] = useState('')
+  const [currentUserId, setCurrentUserId] = useState('')
+  const [addingGroup, setAddingGroup] = useState(false)
+  const [sharedGroups, setSharedGroups] = useState([])
+  const [sharedGroupNames, setSharedGroupNames] = useState([])
+  const [myGroups, setMyGroups] = useState([])
+
+  const auth = getAuth()
 
   useEffect(() => {
-    const q = query(collection(db, GROUPS_REF));
-    onSnapshot(q, (querySnapshot) => {
-      setGroups(querySnapshot.docs.map(doc => ({
+    setCurrentUserId(auth.currentUser.uid)
+  }, [])
+
+  useEffect(() => {
+    console.log("id: " + currentUserId);
+    if(currentUserId !== "") {
+      getData()
+    }
+  }, [currentUserId]);
+
+  
+  const getData = async () => {
+    const q1 = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
+    onSnapshot(q1, (querySnapshot) => {
+      setMyGroups(querySnapshot.docs.map(doc => ({
         label: doc.data().name,
         value: doc.id
       })));
     });
+
+    
+
+    const q2 = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"));
+    onSnapshot(q2, (querySnapshot) => {
+      setSharedGroups(querySnapshot.docs.map(doc => ({
+        label: doc.data().groupName,
+        value: doc.id
+      })));
+    });
+    setGroups(myGroups.concat(sharedGroups))
     console.log('groups:', groups);
-  }, []);
+  }
+
+//   const temp = [...groups];
+//   const q2 = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"))
+//   const querySnapshot2 = await getDocs(q2);
+  
+//   if(querySnapshot2.empty) {
+//     console.log("No shared groups found!")
+//   }
+//   else {
+//     onSnapshot(q2, (querySnapshot) => {
+//       setSharedGroups(querySnapshot.docs.map(doc => ({
+//         id: doc.id,
+//         ...doc.data()
+//       })));
+//     })
+//   }
+//   temp.push(sharedGroupNames);
+//   setGroups(temp)
+//   console.log(groups)
+// }
+
 
 
 

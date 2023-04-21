@@ -41,7 +41,7 @@ export default Games = ({navigation}) => {
     });
   }
 
-  const getPlayers = async () => {
+  const getPlayers = async (newGameId) => {
   //if(currentGroupId) {
     const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", "H4Kr3DEiMmJLVhEktjWm"); 
     const docSnap = await getDoc(docRef);
@@ -50,23 +50,33 @@ export default Games = ({navigation}) => {
     if (docSnap.exists()) {
         const data = docSnap.data().players
         playerIds = data;
+        console.log("playerids: " + playerIds)
     } else {
         console.log("Player ids not found!");
     }
     playerIds.map((id) => {
-      getPlayer(id);
+      getPlayer(id, newGameId);
     })
   }
 
-  const getPlayer = async (id) => {
+  const getPlayer = async (id, gameId) => {
     const docRef = doc(db, USERS_REF, id)
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      let temp = [...newGamePlayers];
+      const gamesRef = USERS_REF + "/" + currentUserId + "/groups/H4Kr3DEiMmJLVhEktjWm/games"
+      addDoc(collection(db, gamesRef + "/" + gameId + "/users"), {
+        name: docSnap.data().name,
+        loss: 0,
+        win: 0,
+        userId: id
+      })
+      console.log(JSON.stringify(docSnap.data()))
+      /* let temp = [...newGamePlayers];
       const data = docSnap.data()
       temp.push(data);
       setNewGamePlayers(temp);
+      console.log("newplayers: " + JSON.stringify(newGamePlayers)) */
     } else {
         console.log("Player ids not found!");
     }
@@ -82,14 +92,14 @@ export default Games = ({navigation}) => {
           name: newGameName
         }).then(function(docRef) {
           const gameId = docRef.id;
-          getPlayers().then(
-          newGamePlayers.map(player => (
+          getPlayers(gameId)
+          /* newGamePlayers.map(player => (
             addDoc(collection(db, gamesRef + "/" + gameId + "/users"), {
               name: player.name,
               loss: 0,
               win: 0
             })
-          )))
+          )) */
         });
       }
       getGames();
