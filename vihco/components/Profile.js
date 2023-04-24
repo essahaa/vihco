@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
-import { db, USERS_REF,GROUPS_REF, auth } from '../firebase/Config';
+import { db, USERS_REF, auth } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
