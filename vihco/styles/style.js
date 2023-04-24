@@ -31,7 +31,6 @@ export default StyleSheet.create({
         color: 'white',
         fontFamily: 'timeburnerBold',
         fontSize: 20,
-        fontWeight: 'bold'
     },
     textInput: {
         backgroundColor: 'white',
