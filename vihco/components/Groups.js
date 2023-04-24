@@ -138,7 +138,7 @@ export default function Groups({ navigation }) {
               onPress={() => navigation.navigate('Group', { group: group.name, id: group.id })}
             >
               <View 
-              style={{flexDirection:'row'}}>
+              style={{flexDirection:'row', marginTop: 10}}>
                 <Text style={styles.gameText}>
                   {group.name}                </Text>
                 {group.admins.includes(currentUserId) && (
