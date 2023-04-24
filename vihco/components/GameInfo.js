@@ -8,12 +8,30 @@ import { useNavigation } from '@react-navigation/native';
 
 export default GameInfo = ({name, data, id,groupId}) => {
     const [winData, setWinData] = useState(data);
+    const [wins, setWins] = useState();
 
     const navigation = useNavigation();
 
     useEffect(() => {
         setWinData(data);
+        
+        console.log("windata: " + JSON.stringify(data))
     }, [data]);
+
+    useEffect(() => {
+        if(winData) {
+            countPlayedGames()
+        }
+    }, [winData])
+    
+
+    const countPlayedGames = () => {
+        let sum = 0;
+        winData.map((data) => {
+            sum = sum + data.win;
+        })
+        setWins(sum);
+    }
     
     return (
         <>
@@ -48,7 +66,7 @@ export default GameInfo = ({name, data, id,groupId}) => {
         </View>
         <View style={{flexDirection: 'row'}}>
             <View style={[styles.flexLeft, {paddingLeft: 35}]}>
-                <Text style={styles.text}>Games played: </Text>
+                <Text style={styles.text}>Games played: {wins}</Text>
             </View>
         </View>
         <View style={styles.table}>

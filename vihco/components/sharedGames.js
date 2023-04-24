@@ -13,7 +13,7 @@ export default sharedGames = (groupId) => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log("ids in sharedGames: " + groupId.userId + " " + groupId.groupId)
+        //console.log("ids in sharedGames: " + groupId.userId + " " + groupId.groupId)
 
         if(groupId !== "") {
           getGames();
@@ -24,8 +24,8 @@ export default sharedGames = (groupId) => {
     const getGames = async () => {
         const q = doc(db, USERS_REF + "/" + groupId.userId + "/sharedGroups", groupId.groupId )
         const docSnap = await getDoc(q);
-        console.log("ids in sharedGames: " + groupId.userId)
-        console.log("docsnap: " + JSON.stringify(docSnap.data()))
+        //console.log("ids in sharedGames: " + groupId.userId)
+        //console.log("docsnap: " + JSON.stringify(docSnap.data()))
 
         if (docSnap.exists()) {
             //console.log("playerdata:", docSnap.data().players);
@@ -33,7 +33,7 @@ export default sharedGames = (groupId) => {
             setCreatorId(creatorId);
             const realGroupId = docSnap.data().groupId
             setRealGropId(realGroupId);
-            console.log("sharedGroupids: " + creatorId + " " + realGroupId)
+            //console.log("sharedGroupids: " + creatorId + " " + realGroupId)
             const q2 = query(collection(db, USERS_REF + "/" + creatorId + "/groups/" + realGroupId + "/games"))
             onSnapshot(q2, (querySnapshot) => {
                 setGames(querySnapshot.docs.map(doc => ({
