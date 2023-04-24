@@ -61,8 +61,8 @@ export default Group = ({route}) => {
   }, [playerIds])
 
   useEffect(() => {
+    getSharedGroups();
     if (playerId && currentUserId) {
-      setSharedGroups();
       let ids = [];
       sharedGroups.map((group) => {
         ids.push(group.groupId)
