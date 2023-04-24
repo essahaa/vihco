@@ -6,6 +6,7 @@ import styles from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
 import { getAuth } from 'firebase/auth'
+import { Alert } from 'react-native';
 
 export default function Groups({ navigation }) {
   const [groupname, setGroupname] = useState('')
@@ -101,29 +102,49 @@ export default function Groups({ navigation }) {
       console.log(error.message);
     }
   }
-  const deleteGroup = async (groupId) => {
-    const groupRef = doc(db, USERS_REF + "/" + currentUserId + "/groups/" + groupId);
+ 
 
-    try {
-      const group = await getDoc(groupRef);
+const deleteGroup = async (groupId) => {
+  const groupRef = doc(db, USERS_REF + "/" + currentUserId + "/groups/" + groupId);
 
-      if (group.exists()) {
-        const groupData = group.data();
+  try {
+    const group = await getDoc(groupRef);
 
-        if (groupData.admins.includes(currentUserId)) {
-          await deleteDoc(groupRef);
-          setGroups((prevGroups) => prevGroups.filter((group) => group.id !== groupId));
-          console.log("Group deleted successfully!");
-        } else {
-          console.log("You are not authorized to delete this group!");
-        }
+    if (group.exists()) {
+      const groupData = group.data();
+
+      if (groupData.admins.includes(currentUserId)) {
+        Alert.alert(
+          "Delete Group",
+          "Are you sure you want to delete this group?",
+          [
+            {
+              text: "Cancel",
+              style: "cancel"
+            },
+            {
+              text: "Delete",
+              onPress: async () => {
+                await deleteDoc(groupRef);
+                setGroups((prevGroups) => prevGroups.filter((group) => group.id !== groupId));
+                console.log("Group deleted successfully!");
+              },
+              style: "destructive"
+            }
+          ]
+        );
       } else {
-        console.log("The group you are trying to delete does not exist!");
+        console.log("You are not authorized to delete this group!");
       }
-    } catch (error) {
-      console.log(error.message);
+    } else {
+      console.log("The group you are trying to delete does not exist!");
     }
-  };
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
 
 
   return (
@@ -134,11 +155,11 @@ export default function Groups({ navigation }) {
         {groups.map((group, i) => (
           <View key={i} style={styles.groupContainer}>
             <Pressable
-              style={[styles.gameButton, {justifyContent: 'center', paddingTop: -10}]}
+              style={[styles.gameButton, { justifyContent: 'center', paddingTop: -10 }]}
               onPress={() => navigation.navigate('Group', { group: group.name, id: group.id })}
             >
-              <View 
-              style={{flexDirection:'row'}}>
+              <View
+                style={{ flexDirection: 'row' }}>
                 <Text style={styles.gameText}>
                   {group.name}                </Text>
                 {group.admins.includes(currentUserId) && (
