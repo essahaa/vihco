@@ -85,20 +85,22 @@ export default Register = ({navigation}) => {
             <View style={[{flex: 1},{alignItems:'center'}]}>
                 <Pressable
                     onPress={() => handlePress()}
-                    style={styles.buttonPrimary}
+                    style={[styles.buttonPrimary,{marginBottom:110}]}
                 >
                     
                     <Text style={[styles.buttonText, {fontSize: 20}]}>REGISTER</Text>
                 </Pressable>
-            </View>
-            </KeyboardAwareScrollView>
-            <Text style={styles.text}>Already have an account?</Text>
+                <Text style={styles.text}>Already have an account?</Text>
             <Pressable
                 onPress={() => navigation.navigate('Login')}
                 style={styles.buttonSecondary}
             >
                 <Text style={[styles.buttonText, {fontSize: 18}]}>LOGIN</Text>
             </Pressable>
+            </View>
+            
+            </KeyboardAwareScrollView>
+            
         </View>
     )
 }

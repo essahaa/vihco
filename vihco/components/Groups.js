@@ -224,7 +224,7 @@ export default function Groups({ navigation }) {
             </View>
           </Pressable>
         )}
-        <Text style={[styles.title, { marginVertical: 10 }]}>SHARED GROUPS</Text>
+        <Text style={[styles.title, { marginVertical: 10 }]}>JOINED GROUPS</Text>
         {sharedGroupNames.map((sharedGroup, i) => (
           <Pressable
             key={i}

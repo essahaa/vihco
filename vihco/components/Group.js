@@ -16,6 +16,7 @@ export default Group = ({route}) => {
   const [playerIds, setPlayerIds] = useState([]);
   const [tempPlayer, setTempPlayer] = useState();
   const [playerName, setPlayerName] = useState('');
+  const [sharedGroups, setSharedGroups] = useState([]);
 
   const auth = getAuth();
   
@@ -61,28 +62,23 @@ export default Group = ({route}) => {
 
   useEffect(() => {
     if (playerId && currentUserId) {
-      addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
-        creatorId: currentUserId,
-        groupId: groupId, 
-        groupName: groupName
+      getSharedGroups();
+      let ids = [];
+      sharedGroups.map((group) => {
+        ids.push(group.groupId)
       })
-      updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
-        players: arrayUnion(playerId)
-      })
-    }
-    console.log("groupid: " + groupId)
-  }, [playerId])
-
-  useEffect(() => {
-    if (playerId && currentUserId) {
-      addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
-        creatorId: currentUserId,
-        groupId: groupId, 
-        groupName: groupName
-      })
-      updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
-        players: arrayUnion(playerId)
-      })
+      if(ids.includes(groupId)) {
+        console.log("user already in group")
+      }else {
+        addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
+          creatorId: currentUserId,
+          groupId: groupId, 
+          groupName: groupName
+        })
+        updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
+          players: arrayUnion(playerId)
+        })
+      }
     }
     console.log("groupid: " + groupId)
   }, [playerId])
@@ -108,6 +104,22 @@ export default Group = ({route}) => {
     }
   }, [tempPlayer])
     
+  const getSharedGroups = async () => {
+    const q = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"))
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No shared groups found!")
+    }
+    else {
+      onSnapshot(q, (querySnapshot) => {
+        setSharedGroups(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+      })
+    }
+  }
 
   const getPlayerIds = async () => {
     if(groupId) {

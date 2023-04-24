@@ -1,10 +1,10 @@
-import { Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView, Pressable } from 'react-native';
 import Header from './Header';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
-import { db, USERS_REF,GROUPS_REF, auth } from '../firebase/Config';
+import { db, USERS_REF, auth } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
@@ -18,6 +18,9 @@ export default function Profile({navigation}) {
   const [value, setValue] = useState([0]);
   const [items, setItems] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [myGroups, setMyGroups] = useState([])
+  const [sharedGroups, setSharedGroups] = useState([])
+  const [currentGroupId, setCurrentGroupId] = useState('');
 
   const auth = getAuth();
 
@@ -79,6 +82,34 @@ export default function Profile({navigation}) {
     }
 }
 
+const getData = async () => {
+  const q1 = query(collection(db, USERS_REF + "/" + userId + "/groups"))
+  onSnapshot(q1, (querySnapshot) => {
+    setMyGroups(querySnapshot.docs.map(doc => ({
+      label: doc.data().name,
+      value: doc.id
+    })));
+  });
+
+  const q2 = query(collection(db, USERS_REF + "/" + userId + "/sharedGroups"));
+  onSnapshot(q2, (querySnapshot) => {
+    setSharedGroups(querySnapshot.docs.map(doc => ({
+      label: doc.data().groupName,
+      value: doc.id
+    })));
+  });
+    if (sharedGroups.length == 0) {
+      setGroups(myGroups)
+    }else {
+      setGroups(myGroups.concat(sharedGroups))
+    }
+
+    if(currentGroupId === '') {
+      setCurrentGroupId(myGroups[0].value)
+    }
+
+}
+
   return (
     <View style={[styles.container, {paddingTop:-20}]}>
     <Header />
@@ -96,9 +127,11 @@ export default function Profile({navigation}) {
     </View>
   
     <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:3}]}>
-    <GroupPicker groups={groups} onSelect={selectedValue => console.log(selectedValue)} />
+      <Pressable onPress={() => getData()}>
+          <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue)} />
+      </Pressable>
 
-</View>
+    </View>
 
 
   
