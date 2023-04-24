@@ -77,12 +77,12 @@ export default StyleSheet.create({
         textShadowRadius: 1
     },
     gameButton: {
+        justifyContent: 'center',
         backgroundColor: '#4E9BB0',
         width: 325,
         height: 70,
         marginVertical: 8,
         paddingHorizontal: 20,
-        paddingTop: 10,
         borderRadius: 10
     },
     addGameButton: {

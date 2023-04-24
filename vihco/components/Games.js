@@ -7,6 +7,7 @@ import Header from './Header';
 import styles from '../styles/style';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
+import SharedGames from './sharedGames';
 
 export default Games = ({navigation}) => {
   const [groups, setGroups] = useState([]);
@@ -40,11 +41,16 @@ export default Games = ({navigation}) => {
 
   useEffect(() => {
     if(currentGroupId !== "") {
-      //checkIsGroupShared();
+      checkIsGroupShared();
       getGames();
     }
     console.log("juu")
   }, [currentGroupId])
+
+  useEffect(() => {
+    console.log("isgroupshared: " + groupIsShared)
+  }, [groupIsShared])
+  
 
   /* useEffect(() => {
     if(groupIsShared !== null) {
@@ -54,8 +60,16 @@ export default Games = ({navigation}) => {
   
   
   const checkIsGroupShared = () => {
-    if(sharedGroups.includes(currentGroupId)) {
+    console.log("groupid in if " + currentGroupId)
+    console.log("sharedGroups: " + JSON.stringify(sharedGroups))
+    let ids = [];
+    sharedGroups.map((group) => {
+      ids.push(group.value);
+    })
+    console.log("ids: " + ids)
+    if(ids.includes(currentGroupId)) {
       setGroupIsShared(true);
+      console.log("inside if")
     }else {
       setGroupIsShared(false);
     }
@@ -77,14 +91,15 @@ export default Games = ({navigation}) => {
         value: doc.id
       })));
     });
-    //if (sharedGroups.length == 0) {
-      setGroups(myGroups)
+      if (sharedGroups.length == 0) {
+        setGroups(myGroups)
+      }else {
+        setGroups(myGroups.concat(sharedGroups))
+      }
+
       if(currentGroupId === '') {
         setCurrentGroupId(myGroups[0].value)
       }
-    //}// else {
-    //setGroups(myGroups.concat(sharedGroups))
-    //}     console.log('groups:', groups);
 
   }
 
@@ -173,10 +188,13 @@ export default Games = ({navigation}) => {
         <Text style={styles.title}>GAMES</Text>
         <View style={styles.dropdown}>
           <Pressable onPress={() => getData()}>
-            <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue.value)} />
+            <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue)} />
           </Pressable>
         </View>
       </View>
+      {groupIsShared ?
+        <SharedGames groupId={currentGroupId} userId={currentUserId}/>
+      :
       <ScrollView 
         contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}
@@ -185,7 +203,7 @@ export default Games = ({navigation}) => {
           <Pressable
             key={i}
             style={styles.gameButton}
-            onPress={() => navigation.navigate('Game', {game: games[i].name, id: games[i].id, groupId: currentGroupId})}
+            onPress={() => navigation.navigate('Game', {game: games[i].name, id: games[i].id, groupId: currentGroupId, userId: currentUserId})}
           >
               <Text style={styles.gameText}>{games[i].name}</Text>
           </Pressable>
@@ -230,6 +248,7 @@ export default Games = ({navigation}) => {
           </Pressable>
         }
       </ScrollView>
+    }
     </View>
   );
 }
