@@ -102,10 +102,23 @@ export default function Groups({ navigation }) {
       console.log(error.message);
     }
   }
- 
 
 const deleteGroup = async (groupId) => {
   const groupRef = doc(db, USERS_REF + "/" + currentUserId + "/groups/" + groupId);
+
+  const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId); 
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+      const data = docSnap.data().players
+      console.log("data: " + data)
+      data.map((id) => {
+        deleteSharedGroup(id, groupId);
+      })
+      //setPlayerIds(data);
+  } else {
+      console.log("Player ids not found!");
+  }
 
   try {
     const group = await getDoc(groupRef);
@@ -144,7 +157,14 @@ const deleteGroup = async (groupId) => {
   }
 };
 
+const deleteSharedGroup = async (userId, groupId) => {
+  const q = query(collection(db, USERS_REF + "/" + userId + "/sharedGroups"), where("groupId", "==", groupId));
 
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    deleteDoc(doc.ref);
+  });
+}
 
 
   return (
