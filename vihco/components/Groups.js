@@ -134,7 +134,7 @@ export default function Groups({ navigation }) {
         {groups.map((group, i) => (
           <View key={i} style={styles.groupContainer}>
             <Pressable
-              style={styles.gameButton}
+              style={[styles.gameButton, {justifyContent: 'center', paddingTop: -10}]}
               onPress={() => navigation.navigate('Group', { group: group.name, id: group.id })}
             >
               <View 
