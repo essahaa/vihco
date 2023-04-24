@@ -20,7 +20,9 @@ export default Game = ({route}) => {
     const auth = getAuth();
 
     useEffect(() => {
-        setCurrentUserId(auth.currentUser.uid)
+        if( currentUserId === '' && route.params?.userId ) {
+            setCurrentUserId(route.params.userId);
+        }
 
         if( gameName === '' && route.params?.game ) {
             setGameName(route.params.game);
@@ -47,7 +49,8 @@ export default Game = ({route}) => {
             });
         }
         if(addingScoreData.length === 0 && gameId) {
-            const q = query(collection(db, "/games/" + gameId + "/users"))
+            const gamesRef = USERS_REF + "/" + currentUserId + "/groups/" + currentGroupId + "/games/"
+            const q = query(collection(db, gamesRef + gameId + "/users"))
             onSnapshot(q, (querySnapshot) => {
                 setAddingScoreData(querySnapshot.docs.map(doc => ({
                     id: doc.id,
@@ -73,7 +76,8 @@ export default Game = ({route}) => {
     }
 
     const inc = async (userId, field, value) => {
-        const userRef = doc(db, "/games/" + gameId + "/users", userId);
+        const gamesRef = USERS_REF + "/" + currentUserId + "/groups/" + currentGroupId + "/games/"
+        const userRef = doc(db, gamesRef + gameId + "/users", userId);
 
         if(field == "win") {
             await updateDoc(userRef, {
