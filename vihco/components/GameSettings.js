@@ -126,15 +126,15 @@ export default GameSettings = ({navigation, route}) => {
                     >
                     <Text style={[styles.buttonText, {fontSize: 16, textAlign: 'center'}]}>SAVE NEW NAME</Text>
                 </Pressable>
-                <Pressable
+                {/* <Pressable
                     onPress={() => resetScores()}
                     style={[styles.buttonSettings, {marginTop: 60}]}
                     >
                     <Text style={[styles.buttonTextSettings, {paddingVertical: 5}]}>RESET SCORES</Text>
-                </Pressable>
+                </Pressable> */}
                 <Pressable
                     onPress={handleDeletePress}
-                    style={[styles.buttonLogout, {marginTop: 20}]}
+                    style={[styles.buttonLogout, {marginTop: 100}]}
                     >
                     <Text style={styles.buttonTextLogout}>DELETE GAME</Text>
                 </Pressable>
