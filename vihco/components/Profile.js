@@ -3,11 +3,12 @@ import Header from './Header';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc, where } from 'firebase/firestore';
 import { db, USERS_REF, auth } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
+import style from '../styles/style';
 
 export default function Profile({navigation}) {
 
@@ -21,6 +22,8 @@ export default function Profile({navigation}) {
   const [myGroups, setMyGroups] = useState([])
   const [sharedGroups, setSharedGroups] = useState([])
   const [currentGroupId, setCurrentGroupId] = useState('');
+  const [playerData, setPlayerData] = useState([])
+  const [tempData, setTempData] = useState()
 
   const auth = getAuth();
 
@@ -31,42 +34,93 @@ export default function Profile({navigation}) {
   
   useEffect(() => {
     if(userId!==""){
-      const q = query(collection(db, USERS_REF+"/"+userId+"/groups"));
-    onSnapshot(q, (querySnapshot) => {
-      setGroups(querySnapshot.docs.map(doc => ({
-        label: doc.data().name,
-        value: doc.id
-      })));
-    });
-    console.log('groups:', groups);
-    }
-    
-  }, []);
-
-  useEffect(()=>{
-    console.log(games);
-  },[games])
-
-  useEffect(() => {
-    if(userId!==""){
-      const gameref=USERS_REF+"/"+userId+"/groups/02ol7IiIn4WrxwV1IQrC/games"
-    const q = query(collection(db, gameref))
-    onSnapshot(q, (querySnapshot) => {
-      setGames(querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })));
-    });
-    console.log(games);
-    }
-  }, []);
-
-  useEffect(() => {
-    if(userId!==""){
       getUsername()
+      const q = query(collection(db, USERS_REF+"/"+userId+"/groups"));
+      onSnapshot(q, (querySnapshot) => {
+        setGroups(querySnapshot.docs.map(doc => ({
+          label: doc.data().name,
+          value: doc.id
+        })));
+      });
+      console.log('groups:', groups);
     }
+  }, [userId]);
+
+
+  useEffect(() => {
+    if(userId!=="" && currentGroupId !== ""){
+      console.log("currentgroupid "+currentGroupId);
+      const gameref = USERS_REF + "/" +userId+ "/groups/" + currentGroupId + "/games"
+      const q = query(collection(db, gameref))
+      onSnapshot(q, (querySnapshot) => {
+        setGames(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+      });
     
-  }, [userId])
+    console.log("games: "+games);
+    }
+  }, [currentGroupId]);
+
+  useEffect(() => {
+    getGameData()
+  }, [games])
+
+  useEffect(() => {
+    console.log("useeffect: " + JSON.stringify(tempData));
+    if (!tempData) {
+      console.log("tempdata no")
+    } 
+    else {
+      let ids = [];
+      playerData.map((player) => {
+        ids.push(player.id)
+      })
+      console.log("ids: " + ids);
+      if(ids.includes(tempData[0].id)) {
+        console.log("already game")
+      }else {
+      const temp = [...playerData]
+      const player = {
+        id: tempData[0].id,
+        name: tempData[0].name,
+        gameName: tempData[0].gameName,
+        userId: tempData[0].userId,
+        win: tempData[0].win,
+        loss: tempData[0].loss
+      }
+      temp.push(player)
+      setPlayerData(temp)
+      }
+    }
+      
+      console.log("playerdata use effect: " + JSON.stringify(playerData));
+    
+  }, [tempData])
+  
+  
+
+  const getGameData = async () => {
+    
+    games.map((game) => {
+      const gamesRef = USERS_REF + "/" + userId + "/groups/" + currentGroupId + "/games/" + game.id + "/users"
+      const q = query(collection(db, gamesRef), where("userId", "==", userId))
+      
+      
+      onSnapshot(q, (querySnapshot) => {
+        setTempData(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          gameName: game.name,
+          ...doc.data()
+        })));
+      });
+    })
+    
+    console.log("temp playerdata "+ JSON.stringify(tempData));
+    
+    
+  }
 
   const getUsername = async () => {
     const docRef = doc(db, USERS_REF, userId); 
@@ -107,14 +161,15 @@ const getData = async () => {
     if(currentGroupId === '') {
       setCurrentGroupId(myGroups[0].value)
     }
-
 }
 
   return (
+    
     <View style={[styles.container, {paddingTop:-20}]}>
     <Header />
+    
     <View style={{backgroundColor:'#4e9bb0', width:'100%', marginTop:-30}}>
-      <Text style={[styles.gameHeader, {textAlign: 'center'}]}>My profile</Text>
+      <Text style={[styles.gameHeader, {textAlign: 'center', marginTop: 10}]}>My profile</Text>
       
       <View>
         <LinearGradient  colors={['#4e9bb0' , '#112126']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
@@ -125,35 +180,45 @@ const getData = async () => {
         </LinearGradient>
       </View>
     </View>
-  
-    <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:3}]}>
+ 
+    <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:3,marginBottom:10}]}>
       <Pressable onPress={() => getData()}>
           <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue)} />
       </Pressable>
 
     </View>
-
+    <ScrollView>
 
   
-    <View >
+    <View>
+  
       <Text style={[styles.title, {textAlign: "center",marginTop:30}]}>My game statistics</Text>
-      <ScrollView contentContainerStyle={styles.scrollview}
-      style={{marginBottom: 20}}>
-        {games.map((key,i) => (
-          <View style={[styles.gameButton, {height: 120}]}>
-            <Text style={styles.gameText} key={i}>{games[i].name}</Text>
+      
+      
+        {playerData.map((key,i) => (
+          <View  key={i} style={[styles.gameButton, {height: 120}]}>
+            <Text style={[styles.gameText,{marginTop:7}]}>{playerData[i].gameName}</Text>
+          
+
             <View style={styles.flexRight}>
-              <Text>wins</Text>
-              <Text>losses</Text>
-              <Text>win/loss ratio</Text>
+              <Text style={[style.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
+              <Text style={[style.gameText,{fontSize:15}]}>Losses {playerData[i].loss}</Text>
+              <Text style={[style.gameText,{fontSize:15}]}>
+                Win/Loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
+              </Text>
             </View>
             
+            
           </View>
-              
+             
         ))
-        }
-      </ScrollView>
+        } 
+     
+    
+      
+   
     </View>
+    </ScrollView>
   </View>
   
   );
