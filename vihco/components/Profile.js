@@ -25,7 +25,7 @@ export default function Profile({navigation}) {
   const [currentGroupId, setCurrentGroupId] = useState('');
   const [playerData, setPlayerData] = useState([])
   const [tempData, setTempData] = useState()
-  const [groupIsShared, setGroupIsShared] = useState()
+  const [groupIsShared, setGroupIsShared] = useState(false)
 
   const auth = getAuth();
 
@@ -44,15 +44,19 @@ export default function Profile({navigation}) {
 
 
   useEffect(() => {
-    if(userId!=="" && currentGroupId !== ""){
-      checkIsGroupShared()
-      console.log("currentgroupid "+currentGroupId);
-      getGames()
+    if(groupIsShared) {
+      setGroupIsShared(false)
     }
+    if(userId!=="" && currentGroupId !== ""){
+      console.log("group is shared in useeffect" + groupIsShared);
+      checkIsGroupShared()
+    }
+    console.log("currentgroupid "+currentGroupId);
   }, [currentGroupId]);
 
   useEffect(() => {
     console.log("isgroupshared: " + groupIsShared)
+    
   }, [groupIsShared])
 
   useEffect(() => {
@@ -104,10 +108,12 @@ export default function Profile({navigation}) {
       console.log("inside if")
     }else {
       setGroupIsShared(false);
+      getGames()
     }
   };
   
   const getGames = async () => {
+    setGames([])
     const gameref = USERS_REF + "/" +userId+ "/groups/" + currentGroupId + "/games"
       const q = query(collection(db, gameref))
       onSnapshot(q, (querySnapshot) => {
@@ -121,7 +127,7 @@ export default function Profile({navigation}) {
   }
 
   const getGameData = async () => {
-    
+    setPlayerData([])
     games.map((game) => {
       const gamesRef = USERS_REF + "/" + userId + "/groups/" + currentGroupId + "/games/" + game.id + "/users"
       const q = query(collection(db, gamesRef), where("userId", "==", userId))
@@ -156,8 +162,6 @@ export default function Profile({navigation}) {
 }
 
 const getData = async () => {
-  setGames([])
-  setPlayerData([])
   const q1 = query(collection(db, USERS_REF + "/" + userId + "/groups"))
   onSnapshot(q1, (querySnapshot) => {
     setMyGroups(querySnapshot.docs.map(doc => ({

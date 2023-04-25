@@ -19,7 +19,7 @@ export default sharedGames = (groupId) => {
           getGames();
         }
         //console.log("juu")
-      }, [])
+      }, [groupId.groupId])
 
     const getGames = async () => {
         const q = doc(db, USERS_REF + "/" + groupId.userId + "/sharedGroups", groupId.groupId )

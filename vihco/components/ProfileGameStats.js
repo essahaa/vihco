@@ -16,27 +16,32 @@ export default ProfileGameStats = (groupId) => {
 
     useEffect(() => {
         if(groupId !== "") {
-          getGames();
+            setPlayerData([])
+            getGames();
         }
-      }, [])
+      }, [groupId.groupId])
 
       useEffect(() => {
         getGameData()
       }, [games])
 
       useEffect(() => {
-        if (!tempData) {
+        if (!tempData || tempData.length == 0) {
           console.log("tempdata no")
+          
         } 
         else {
           let ids = [];
+          console.log("tempdata: " + JSON.stringify(tempData));
           playerData.map((player) => {
+            console.log("player: "+ JSON.stringify(player))
             ids.push(player.id)
           })
-          console.log("ids: " + ids);
+          console.log("ids: " + JSON.stringify(ids));
           if(ids.includes(tempData[0].id)) {
             console.log("already game")
           }else {
+            
           const temp = [...playerData]
           const player = {
             id: tempData[0].id,
