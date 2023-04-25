@@ -34,11 +34,13 @@ export default ProfileGameStats = (groupId) => {
         } 
         else {
           let ids = [];
+          console.log("useeffect playerdata map "+JSON.stringify(playerData));
+          console.log("useeffect tempdata map "+JSON.stringify(tempData));
           playerData.map((player) => {
             ids.push(player.id)
           })
           console.log("ids: " + ids);
-          if(ids.includes(tempData[0].id)) {
+          if(ids.includes(tempData.id)) {
             console.log("already game")
           }else {
           const temp = [...playerData]
@@ -88,23 +90,19 @@ export default ProfileGameStats = (groupId) => {
     const getGameData = async () => {
     
         games.map((game) => {
-            console.log("get game data ids: "+ creatorId + " group id " + realGroupId + " game id " + game.id + " current user " + groupId.userId);
+            console.log("get game data ids: "+ creatorId + " group id " + realGroupId + " gamename " + game.name + " current user " + groupId.userId);
           const gamesRef = USERS_REF + "/" + creatorId + "/groups/" + realGroupId + "/games/" + game.id + "/users"
           const q = query(collection(db, gamesRef), where("userId", "==", groupId.userId))
           
           
           onSnapshot(q, (querySnapshot) => {
             setTempData(querySnapshot.docs.map(doc => ({
-              id: doc.id,
+              id: game.id,
               gameName: game.name,
               ...doc.data()
             })));
           });
         })
-        
-        console.log("temp playerdata in profilestats "+ JSON.stringify(tempData));
-        
-        
       }
 
   return (
