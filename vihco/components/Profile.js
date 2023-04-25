@@ -47,7 +47,7 @@ export default function Profile({navigation}) {
 
 
   useEffect(() => {
-    if(userId!==""){
+    if(userId!=="" && currentGroupId !== ""){
       console.log("currentgroupid "+currentGroupId);
       const gameref = USERS_REF + "/" +userId+ "/groups/" + currentGroupId + "/games"
       const q = query(collection(db, gameref))
@@ -168,7 +168,7 @@ const getData = async () => {
     <Header />
     
     <View style={{backgroundColor:'#4e9bb0', width:'100%', marginTop:-30}}>
-      <Text style={[styles.gameHeader, {textAlign: 'center'}]}>My profile</Text>
+      <Text style={[styles.gameHeader, {textAlign: 'center', marginTop: 10}]}>My profile</Text>
       
       <View>
         <LinearGradient  colors={['#4e9bb0' , '#112126']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
