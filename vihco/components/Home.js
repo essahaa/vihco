@@ -2,17 +2,19 @@ import styles from '../styles/style';
 import { useEffect, useState } from 'react';
 import { doc, getDoc } from "firebase/firestore";
 import { db, USERS_REF } from '../firebase/Config';
-import { onAuthStateChanged, getAuth, getIdToken } from "firebase/auth";
-import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { Text, View, ScrollView, Pressable } from 'react-native';
 import Logo from './Logo3';
 import Header3 from './Header3';
+import LoadingScreen from './LoadingScreen';
 
-
-export default function Home({navigation, route}) {
+export default function Home({navigation}) {
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   const [username, setUsername] = useState('')
   const [userUid, setUserUid] = useState('')
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
 
   const auth = getAuth()
 
@@ -23,6 +25,27 @@ export default function Home({navigation, route}) {
       }
     });
   }, [])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowLoadingScreen(false);
+    }, 5000);
+  
+    return () => clearTimeout(timeout);
+  }, []);
+
+  fetchData = async () => {
+    const querySnapshot = await db.collection('USERS_REF').get();
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    setData(data);
+    setIsLoading(false);
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
 
   useEffect(() => {
     getUserData()
@@ -57,13 +80,14 @@ export default function Home({navigation, route}) {
     <View style={[styles.container]}>
       <Header3/>
       <Logo />
-      <View style={[styles.listTop, {marginTop: 0}]}>  
-        <Text style={[styles.title, {fontSize: 24}, {textAlign: 'center', flex: 1}]}>Welcome, <Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}>{username} <Text style={[{ color: '#Ffffff' }, {fontSize: 26}, {fontFamily: ''}]}>!</Text></Text></Text>
-      </View>
+      {showLoadingScreen ? ( 
+      <LoadingScreen />
+    ) : (
       <ScrollView 
         contentContainerStyle={styles.scrollview}
         style={{marginBottom: 5}}
       >
+         <Text style={[styles.title, {fontSize: 24}, {textAlign: 'center', flex: 1}]}>Welcome, <Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}>{username} <Text style={[{ color: '#Ffffff' }, {fontSize: 26}, {fontFamily: ''}]}>!</Text></Text></Text>
           <Pressable
             style={[styles.gameButton, {marginVertical: 10}, {justifyContent: 'center'}]}
             onPress={() => navigation.navigate('Profile')}
@@ -83,7 +107,7 @@ export default function Home({navigation, route}) {
               <Text style={[styles.gameText, {textAlign: 'center'}, {marginBottom: 10}, {fontSize: 21}]}>Games</Text>
           </Pressable> 
       </ScrollView>
+    )}
     </View>
-
   );
 }

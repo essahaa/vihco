@@ -14,7 +14,7 @@ const GroupPicker = ({ groups, onSelect }) => {
     return (
         <View>
             <Text
-                style={style.buttonTextSettings}>SELECT GROUP</Text>
+                style={style.buttonTextSettings}>SELECT ACTIVE GROUP</Text>
             {groups && groups.length > 0 ? (
                 <Picker
                     selectedValue={value}

@@ -184,14 +184,13 @@ export default Games = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.listTop}>
-        <Text style={styles.title}>GAMES</Text>
-        <View style={styles.dropdown}>
+        <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginBottom:20, marginTop: 15}]}>
+          <View>
           <Pressable onPress={() => getData()}>
             <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue)} />
           </Pressable>
+          </View>
         </View>
-      </View>
       {groupIsShared ?
         <SharedGames groupId={currentGroupId} userId={currentUserId}/>
       :
