@@ -15,12 +15,9 @@ export default ProfileGameStats = (groupId) => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        console.log("ids in sharedGames: " + groupId.userId + " " + groupId.groupId)
-
         if(groupId !== "") {
           getGames();
         }
-        //console.log("juu")
       }, [])
 
       useEffect(() => {
@@ -28,14 +25,11 @@ export default ProfileGameStats = (groupId) => {
       }, [games])
 
       useEffect(() => {
-        console.log("useeffect: " + JSON.stringify(tempData));
         if (!tempData) {
           console.log("tempdata no")
         } 
         else {
           let ids = [];
-          console.log("useeffect playerdata map "+JSON.stringify(playerData));
-          console.log("useeffect tempdata map "+JSON.stringify(tempData));
           playerData.map((player) => {
             ids.push(player.id)
           })
@@ -55,25 +49,18 @@ export default ProfileGameStats = (groupId) => {
           temp.push(player)
           setPlayerData(temp)
           }
-        }
-          
-          console.log("playerdata use effect: " + JSON.stringify(playerData));
-        
+        }      
       }, [tempData])
 
     const getGames = async () => {
         const q = doc(db, USERS_REF + "/" + groupId.userId + "/sharedGroups", groupId.groupId )
         const docSnap = await getDoc(q);
-        //console.log("ids in sharedGames: " + groupId.userId)
-        //console.log("docsnap: " + JSON.stringify(docSnap.data()))
 
         if (docSnap.exists()) {
-            //console.log("playerdata:", docSnap.data().players);
             const creatorId = docSnap.data().creatorId
             setCreatorId(creatorId);
             const realGroupId = docSnap.data().groupId
             setRealGropId(realGroupId);
-            //console.log("sharedGroupids: " + creatorId + " " + realGroupId)
             const q2 = query(collection(db, USERS_REF + "/" + creatorId + "/groups/" + realGroupId + "/games"))
             onSnapshot(q2, (querySnapshot) => {
                 setGames(querySnapshot.docs.map(doc => ({
@@ -90,10 +77,8 @@ export default ProfileGameStats = (groupId) => {
     const getGameData = async () => {
     
         games.map((game) => {
-            console.log("get game data ids: "+ creatorId + " group id " + realGroupId + " gamename " + game.name + " current user " + groupId.userId);
           const gamesRef = USERS_REF + "/" + creatorId + "/groups/" + realGroupId + "/games/" + game.id + "/users"
           const q = query(collection(db, gamesRef), where("userId", "==", groupId.userId))
-          
           
           onSnapshot(q, (querySnapshot) => {
             setTempData(querySnapshot.docs.map(doc => ({
