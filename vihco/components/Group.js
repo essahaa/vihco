@@ -18,6 +18,7 @@ export default Group = ({route}) => {
   const [playerName, setPlayerName] = useState('');
   const [sharedGroups, setSharedGroups] = useState([]);
   const [admins, setAdmins] = useState([]);
+  const [addingPlayer, setAddingPlayer] = useState(false);
 
   const auth = getAuth();
   
@@ -158,11 +159,22 @@ export default Group = ({route}) => {
   }
 
   const addPlayer = async () => {
+    setAddingPlayer(true);
     const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
     const querySnapshot = await getDocs(q);
   
     if(querySnapshot.empty) {
       console.log("No such user found!")
+      Alert.alert('User not found',
+      "No such user found!"
+      ,[
+          {
+          text: 'OK',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+          }
+      ])
+      setAddingPlayer(false);
     }
     else {
         /* const data = querySnapshot.data()
@@ -175,7 +187,7 @@ export default Group = ({route}) => {
         console.log("Username data: " + data.name + " => " + doc.id);
         //setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
       });
-      getPlayerIds()
+      await getPlayerIds().then(setAddingPlayer(false))
     }
   } 
 
@@ -237,12 +249,20 @@ export default Group = ({route}) => {
               keyboardType='email-address'
               placeholderTextColor='#4E9BB0'
           />
+          {!addingPlayer ?
           <Pressable
               onPress={addPlayer}
               style={styles.buttonSettings}
               >
               <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
           </Pressable>
+          :
+          <Pressable
+              style={[styles.buttonSettings, {backgroundColor: '#f9bb0083'}]}
+              >
+              <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
+          </Pressable>
+          }
       <Text style={[styles.title, {marginTop: 30}]}>PLAYERS</Text>   
         {players.map((key,i) => (
           <View key={i} style={[styles.gameButton, {flexDirection: 'row', alignItems: 'center'}]}>
