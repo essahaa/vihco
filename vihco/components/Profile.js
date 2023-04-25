@@ -163,8 +163,10 @@ const getData = async () => {
 }
 
   return (
+    
     <View style={[styles.container, {paddingTop:-20}]}>
     <Header />
+    
     <View style={{backgroundColor:'#4e9bb0', width:'100%', marginTop:-30}}>
       <Text style={[styles.gameHeader, {textAlign: 'center'}]}>My profile</Text>
       
@@ -177,21 +179,21 @@ const getData = async () => {
         </LinearGradient>
       </View>
     </View>
-  
-    <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:3}]}>
+ 
+    <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:3,marginBottom:10}]}>
       <Pressable onPress={() => getData()}>
           <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue)} />
       </Pressable>
 
     </View>
-
+    <ScrollView>
 
   
     <View >
+  
       <Text style={[styles.title, {textAlign: "center",marginTop:30}]}>My game statistics</Text>
-      <View style={styles.scrollview}>
-      <ScrollView 
-      >
+      
+      
         {playerData.map((key,i) => (
           <View  key={i} style={[styles.gameButton, {height: 120}]}>
             <Text style={styles.gameText}>{playerData[i].gameName}</Text>
@@ -205,12 +207,15 @@ const getData = async () => {
             
             
           </View>
-              
+             
         ))
-        }
-      </ScrollView>
-      </View>
+        } 
+     
+    
+      
+   
     </View>
+    </ScrollView>
   </View>
   
   );
