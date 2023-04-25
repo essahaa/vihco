@@ -228,7 +228,7 @@ const getData = async () => {
   
     <View>
   
-      <Text style={[styles.title, {textAlign: "center",marginTop:30}]}>My game statistics</Text>
+      <Text style={[styles.title, {textAlign: "center",marginTop:20, marginBottom:10}]}>My game statistics</Text>
       {groupIsShared ?
         <ProfileGameStats groupId={currentGroupId} userId={userId} />
       : 
