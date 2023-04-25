@@ -34,7 +34,7 @@ export default ProfileGameStats = (groupId) => {
             ids.push(player.id)
           })
           console.log("ids: " + ids);
-          if(ids.includes(tempData.id)) {
+          if(ids.includes(tempData[0].id)) {
             console.log("already game")
           }else {
           const temp = [...playerData]
