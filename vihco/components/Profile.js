@@ -8,6 +8,7 @@ import { db, USERS_REF, auth } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
+import style from '../styles/style';
 
 export default function Profile({navigation}) {
 
@@ -189,21 +190,21 @@ const getData = async () => {
     <ScrollView>
 
   
-    <View >
+    <View>
   
       <Text style={[styles.title, {textAlign: "center",marginTop:30}]}>My game statistics</Text>
       
       
         {playerData.map((key,i) => (
           <View  key={i} style={[styles.gameButton, {height: 120}]}>
-            <Text style={styles.gameText}>{playerData[i].gameName}</Text>
+            <Text style={[styles.gameText,{marginTop:7}]}>{playerData[i].gameName}</Text>
           
 
             <View style={styles.flexRight}>
-              <Text>wins {playerData[i].win}</Text>
-              <Text>losses {playerData[i].loss}</Text>
-              <Text>
-                win/loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
+              <Text style={[style.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
+              <Text style={[style.gameText,{fontSize:15}]}>Losses {playerData[i].loss}</Text>
+              <Text style={[style.gameText,{fontSize:15}]}>
+                Win/Loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
               </Text>
             </View>
             
