@@ -198,9 +198,11 @@ const getData = async () => {
           
 
             <View style={styles.flexRight}>
-            <Text>wins {playerData[i].win}</Text>
-            <Text>losses {playerData[i].loss}</Text>
-            <Text>win/loss ratio</Text>
+              <Text>wins {playerData[i].win}</Text>
+              <Text>losses {playerData[i].loss}</Text>
+              <Text>
+                win/loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
+              </Text>
             </View>
             
             
