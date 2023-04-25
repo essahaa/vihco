@@ -13,7 +13,7 @@ import Profile from './Profile';
 import Rules from './Rules';
 import EditProfile from './EditProfile';
 import ForgotPassword from './ForgotPassword';
-import ProfileGameStats from '/.ProfileGameStats';
+import ProfileGameStats from './ProfileGameStats';
 import style from '../styles/style';
 
 const Tab = createBottomTabNavigator();
