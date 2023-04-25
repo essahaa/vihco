@@ -29,7 +29,7 @@ export default function Home({navigation}) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowLoadingScreen(false);
-    }, 5000);
+    }, 2500);
   
     return () => clearTimeout(timeout);
   }, []);
@@ -54,7 +54,10 @@ export default function Home({navigation}) {
 
   const getUserData = async () => {
     const currentUser = auth.currentUser;
-    if (!currentUser) {
+    if(currentUser){
+      navigation.navigate('Home')
+    }
+    else{
       console.log("User is not signed in.");
       navigation.navigate("Login");
       return;
