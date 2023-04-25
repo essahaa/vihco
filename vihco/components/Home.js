@@ -29,7 +29,7 @@ export default function Home({navigation}) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowLoadingScreen(false);
-    }, 5000);
+    }, 2500);
   
     return () => clearTimeout(timeout);
   }, []);
@@ -54,7 +54,10 @@ export default function Home({navigation}) {
 
   const getUserData = async () => {
     const currentUser = auth.currentUser;
-    if (!currentUser) {
+    if(currentUser){
+      navigation.navigate('Home')
+    }
+    else{
       console.log("User is not signed in.");
       navigation.navigate("Login");
       return;
@@ -87,7 +90,7 @@ export default function Home({navigation}) {
         contentContainerStyle={styles.scrollview}
         style={{marginBottom: 5}}
       >
-         <Text style={[styles.title, {fontSize: 24}, {textAlign: 'center', flex: 1}]}>Welcome, <Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}>{username} <Text style={[{ color: '#Ffffff' }, {fontSize: 26}, {fontFamily: ''}]}>!</Text></Text></Text>
+         <Text style={[styles.title, {fontSize: 24}, {textAlign: 'center', flex: 1, marginBottom: 20}]}>Welcome, <Text style={[{ color: '#F9BB00' }, {fontSize: 24}]}>{username} <Text style={[{ color: '#Ffffff' }, {fontSize: 26}, {fontFamily: ''}]}>!</Text></Text></Text>
           <Pressable
             style={[styles.gameButton, {marginVertical: 10}, {justifyContent: 'center'}]}
             onPress={() => navigation.navigate('Profile')}

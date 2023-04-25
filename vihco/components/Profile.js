@@ -9,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
 import style from '../styles/style';
+import ProfileGameStats from './ProfileGameStats';
 
 export default function Profile({navigation}) {
 
@@ -24,6 +25,7 @@ export default function Profile({navigation}) {
   const [currentGroupId, setCurrentGroupId] = useState('');
   const [playerData, setPlayerData] = useState([])
   const [tempData, setTempData] = useState()
+  const [groupIsShared, setGroupIsShared] = useState(false)
 
   const auth = getAuth();
 
@@ -33,35 +35,29 @@ export default function Profile({navigation}) {
   }, [])
   
   useEffect(() => {
-    if(userId!==""){
+    if(userId !== ""){
       getUsername()
-      const q = query(collection(db, USERS_REF+"/"+userId+"/groups"));
-      onSnapshot(q, (querySnapshot) => {
-        setGroups(querySnapshot.docs.map(doc => ({
-          label: doc.data().name,
-          value: doc.id
-        })));
-      });
-      console.log('groups:', groups);
+      getData()
+      
     }
   }, [userId]);
 
 
   useEffect(() => {
-    if(userId!=="" && currentGroupId !== ""){
-      console.log("currentgroupid "+currentGroupId);
-      const gameref = USERS_REF + "/" +userId+ "/groups/" + currentGroupId + "/games"
-      const q = query(collection(db, gameref))
-      onSnapshot(q, (querySnapshot) => {
-        setGames(querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })));
-      });
-    
-    console.log("games: "+games);
+    if(groupIsShared) {
+      setGroupIsShared(false)
     }
+    if(userId!=="" && currentGroupId !== ""){
+      console.log("group is shared in useeffect" + groupIsShared);
+      checkIsGroupShared()
+    }
+    console.log("currentgroupid "+currentGroupId);
   }, [currentGroupId]);
+
+  useEffect(() => {
+    console.log("isgroupshared: " + groupIsShared)
+    
+  }, [groupIsShared])
 
   useEffect(() => {
     getGameData()
@@ -98,11 +94,40 @@ export default function Profile({navigation}) {
       console.log("playerdata use effect: " + JSON.stringify(playerData));
     
   }, [tempData])
+
+  const checkIsGroupShared = () => {
+    console.log("groupid in if " + currentGroupId)
+    console.log("sharedGroups: " + JSON.stringify(sharedGroups))
+    let ids = [];
+    sharedGroups.map((group) => {
+      ids.push(group.value);
+    })
+    console.log("ids: " + ids)
+    if(ids.includes(currentGroupId)) {
+      setGroupIsShared(true);
+      console.log("inside if")
+    }else {
+      setGroupIsShared(false);
+      getGames()
+    }
+  };
   
-  
+  const getGames = async () => {
+    setGames([])
+    const gameref = USERS_REF + "/" +userId+ "/groups/" + currentGroupId + "/games"
+      const q = query(collection(db, gameref))
+      onSnapshot(q, (querySnapshot) => {
+        setGames(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+      });
+    
+    console.log("games: "+games);
+  }
 
   const getGameData = async () => {
-    
+    setPlayerData([])
     games.map((game) => {
       const gamesRef = USERS_REF + "/" + userId + "/groups/" + currentGroupId + "/games/" + game.id + "/users"
       const q = query(collection(db, gamesRef), where("userId", "==", userId))
@@ -161,6 +186,7 @@ const getData = async () => {
     if(currentGroupId === '') {
       setCurrentGroupId(myGroups[0].value)
     }
+    console.log('groups:', groups);
 }
 
   return (
@@ -193,26 +219,32 @@ const getData = async () => {
     <View>
   
       <Text style={[styles.title, {textAlign: "center",marginTop:30}]}>My game statistics</Text>
-      
-      
-        {playerData.map((key,i) => (
-          <View  key={i} style={[styles.gameButton, {height: 120}]}>
-            <Text style={[styles.gameText,{marginTop:7}]}>{playerData[i].gameName}</Text>
-          
+      {groupIsShared ?
+        <ProfileGameStats groupId={currentGroupId} userId={userId} />
+      : 
+      <View>
+      {playerData.map((key,i) => (
+        <View  key={i} style={[styles.gameButton, {height: 120}]}>
+          <Text style={[styles.gameText,{marginTop:7}]}>{playerData[i].gameName}</Text>
+        
 
-            <View style={styles.flexRight}>
-              <Text style={[style.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
-              <Text style={[style.gameText,{fontSize:15}]}>Losses {playerData[i].loss}</Text>
-              <Text style={[style.gameText,{fontSize:15}]}>
-                Win/Loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
-              </Text>
-            </View>
-            
-            
+          <View style={styles.flexRight}>
+            <Text style={[style.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
+            <Text style={[style.gameText,{fontSize:15}]}>Losses {playerData[i].loss}</Text>
+            <Text style={[style.gameText,{fontSize:15}]}>
+              Win/Loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
+            </Text>
           </View>
-             
-        ))
-        } 
+          
+          
+        </View>
+           
+      ))
+      } 
+      </View>
+      }
+      
+        
      
     
       
