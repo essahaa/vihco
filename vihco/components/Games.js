@@ -8,6 +8,7 @@ import styles from '../styles/style';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
 import SharedGames from './sharedGames';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default Games = ({navigation}) => {
   const [groups, setGroups] = useState([]);
@@ -27,7 +28,15 @@ export default Games = ({navigation}) => {
   const auth = getAuth();
 
   useEffect(() => {
-    setCurrentUserId(auth.currentUser.uid)
+    onAuthStateChanged(auth, () => {
+      setGroups([]);
+      setGames([]);
+      setMyGroups([]);
+      setSharedGroups([]);
+      setCurrentGroupId('');
+      setCurrentUserId(auth.currentUser.uid)
+    });
+    //setCurrentUserId(auth.currentUser.uid)
     console.log("joo")
   }, []);
 

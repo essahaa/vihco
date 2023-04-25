@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Header from './Header';
 import { getAuth } from 'firebase/auth'
 import { Alert } from 'react-native';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function Groups({ navigation }) {
   const [groupname, setGroupname] = useState('')
@@ -20,14 +21,19 @@ export default function Groups({ navigation }) {
   const auth = getAuth()
 
   useEffect(() => {
-    setCurrentUserId(auth.currentUser.uid)
+    onAuthStateChanged(auth, () => {
+      setGroups([]);
+      setSharedGroups([]);
+      setSharedGroupNames([]);
+      setCurrentUserId(auth.currentUser.uid)
+    });
+    //setCurrentUserId(auth.currentUser.uid)
   }, [])
 
   useEffect(() => {
     console.log("id: " + currentUserId);
     if (currentUserId !== "") {
       getData()
-      getSharedGroups()
     }
   }, [currentUserId]);
 
@@ -67,6 +73,7 @@ export default function Groups({ navigation }) {
         })));
       })
     }
+    getSharedGroups()
   }
   
 

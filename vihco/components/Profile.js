@@ -10,6 +10,7 @@ import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
 import style from '../styles/style';
 import ProfileGameStats from './ProfileGameStats';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function Profile({navigation}) {
 
@@ -30,7 +31,16 @@ export default function Profile({navigation}) {
   const auth = getAuth();
 
   useEffect(() => {
-    setUserId(auth.currentUser.uid)
+    onAuthStateChanged(auth, () => {
+      setGroups([]);
+      setGames([]);
+      setMyGroups([]);
+      setSharedGroups([]);
+      setCurrentGroupId('');
+      setPlayerData([]);
+      setUserId(auth.currentUser.uid)
+    });
+    //setUserId(auth.currentUser.uid)
     console.log("joo")
   }, [])
   
