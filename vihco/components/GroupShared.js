@@ -147,7 +147,7 @@ export default Group = ({route}) => {
           <Header />
           <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
-          <Text style={[styles.title, {marginBottom: 25}]}>SHARED GROUP NAME: {groupName}</Text>
+          <Text style={[styles.title, {marginBottom: 25}]}>GROUP NAME: {groupName}</Text>
           {/* <Text style={[styles.text, {marginBottom: 5}]}>Add new player to {groupName}</Text>     
           <TextInput 
               style={[styles.textInput, {marginBottom: 10}]}
