@@ -107,7 +107,11 @@ return (
         <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
       </TouchableOpacity>
     </View>
-    <Text style={style.headerText}>Cluedo sheet</Text>
+    <View
+    style={[style.flexCenter]}>
+    <Text style={[style.headerText ]}>Cluedo sheet</Text>
+    
+    </View>
     </View>
  
 <View style={styles.category}>
