@@ -72,13 +72,7 @@ export default function Settings({ navigation }) {
   return (
     <View style={styles.overlay}>
       <Logo />
-      <Text style={[styles.text, {marginBottom: 5}]}>Settings</Text>
-      <View style={[styles.dropdown]}>
-        <Pressable onPress={() => getData()}>
-      <GroupPicker groups={groups}  onSelect={selectedValue => console.log("selected: " + selectedValue)} />
-      </Pressable>
-      </View>
-
+      <Text style={[styles.title, {marginBottom: 5}]}>Settings</Text>
       <Pressable
         onPress={() => navigation.navigate('Groups')}
         style={[styles.buttonSettings, { marginTop: 12, zIndex: 0 }]}
