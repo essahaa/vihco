@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { View, Text, Pressable, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc, arrayUnion, updateDoc } from 'firebase/firestore';
+import { View, Text, Pressable, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
+import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc, arrayUnion, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
 import styles from '../styles/style';
 import { getAuth } from 'firebase/auth'
@@ -17,6 +17,8 @@ export default Group = ({route}) => {
   const [tempPlayer, setTempPlayer] = useState();
   const [playerName, setPlayerName] = useState('');
   const [sharedGroups, setSharedGroups] = useState([]);
+  const [admins, setAdmins] = useState([]);
+  const [addingPlayer, setAddingPlayer] = useState(false);
 
   const auth = getAuth();
   
@@ -29,6 +31,10 @@ export default Group = ({route}) => {
 
     if( route.params?.id ) {
         setGroupId(route.params.id);
+    }
+
+    if( route.params?.admins ) {
+      setAdmins(route.params.admins);
     }
     
   }, []);
@@ -153,11 +159,22 @@ export default Group = ({route}) => {
   }
 
   const addPlayer = async () => {
+    setAddingPlayer(true);
     const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
     const querySnapshot = await getDocs(q);
   
     if(querySnapshot.empty) {
       console.log("No such user found!")
+      Alert.alert('User not found',
+      "No such user found!"
+      ,[
+          {
+          text: 'OK',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+          }
+      ])
+      setAddingPlayer(false);
     }
     else {
         /* const data = querySnapshot.data()
@@ -170,9 +187,51 @@ export default Group = ({route}) => {
         console.log("Username data: " + data.name + " => " + doc.id);
         //setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
       });
-      getPlayerIds()
+      await getPlayerIds().then(setAddingPlayer(false))
     }
-  }  
+  } 
+
+  const deletePlayer = async (playerId) => {
+    const groupRef = doc(db, USERS_REF + "/" + currentUserId + "/groups/" + groupId);
+
+    let newPlayers = [];
+    playerIds.map((id) => {
+      if(id !== playerId) {
+        newPlayers.push(id);
+      }
+    })
+
+    deleteSharedGroup(playerId)
+
+    await updateDoc(groupRef, {
+      players: newPlayers
+    }).then(() => {
+      setPlayers([]);
+      getPlayerIds();
+    })
+  }
+  
+  const deleteSharedGroup = async (userId) => {
+    const q = query(collection(db, USERS_REF + "/" + userId + "/sharedGroups"), where("groupId", "==", groupId));
+  
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
+  }
+
+  const handleDeletePress = (id, name) => {
+    Alert.alert('Remove player?',
+    `Are you sure you want to remove player ` + name + ` from ` + groupName + `?`
+    ,[
+        {
+        text: 'CANCEL',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+        },
+        {text: 'REMOVE', onPress: () => deletePlayer(id)},
+    ])
+  }
     
   return (
       <View style={styles.container}>
@@ -190,17 +249,49 @@ export default Group = ({route}) => {
               keyboardType='email-address'
               placeholderTextColor='#4E9BB0'
           />
+          {!addingPlayer ?
           <Pressable
               onPress={addPlayer}
               style={styles.buttonSettings}
               >
               <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
           </Pressable>
+          :
+          <Pressable
+              style={[styles.buttonSettings, {backgroundColor: '#f9bb0083'}]}
+              >
+              <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
+          </Pressable>
+          }
       <Text style={[styles.title, {marginTop: 30}]}>PLAYERS</Text>   
         {players.map((key,i) => (
-          <View key={i} style={[styles.gameButton]}>
+          <View key={i} style={[styles.gameButton, {flexDirection: 'row', alignItems: 'center'}]}>
             <Text style={styles.gameText} >{players[i].name}</Text>
-          </View>      
+            <Text
+            style={[styles.flexRight, {borderRadius:10}]}>
+
+            </Text>
+            <Text
+            style={[styles.flexRight, {borderRadius:10}]}>
+
+            </Text>
+            <Text
+            style={[styles.flexRight, {borderRadius:100}]}>
+
+            </Text>
+          {(admins.includes(currentUserId) && players[i].id !== currentUserId) && (
+            <Pressable
+              style={[styles.flexRight, { borderRadius: 0 }]}
+              onPress={() => handleDeletePress(players[i].id, players[i].name)}
+            >
+              <MaterialCommunityIcons
+                name="trash-can-outline"
+                size={24}
+                color="white"
+              />
+            </Pressable>
+          )} 
+          </View>  
         ))}    
       </ScrollView>        
     </View>

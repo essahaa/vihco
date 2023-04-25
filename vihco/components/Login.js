@@ -20,17 +20,17 @@ export default Login = ({navigation}) => {
             Alert.alert('Password is required');
         }
         else {
-            try {
                 signInWithEmailAndPassword(auth, email, password)
-                onAuthStateChanged(auth, (user) => {
-                    if(user) {
-                        navigation.navigate('Home', {userUid: user.uid});
-                    }
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    navigation.navigate('Home', {userUid: user.uid});
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log('Login failed. ', errorMessage);
+                    Alert.alert('Login failed. ', errorMessage);
                 });
-            }catch(error) {
-                console.log('Login failed. ', error.message);
-                Alert.alert('Login failed. ', error.message);
-            };
         }
     };
 

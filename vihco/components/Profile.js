@@ -8,6 +8,8 @@ import { db, USERS_REF, auth } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
+import style from '../styles/style';
+import ProfileGameStats from './ProfileGameStats';
 
 export default function Profile({navigation}) {
 
@@ -23,6 +25,7 @@ export default function Profile({navigation}) {
   const [currentGroupId, setCurrentGroupId] = useState('');
   const [playerData, setPlayerData] = useState([])
   const [tempData, setTempData] = useState()
+  const [groupIsShared, setGroupIsShared] = useState()
 
   const auth = getAuth();
 
@@ -32,35 +35,25 @@ export default function Profile({navigation}) {
   }, [])
   
   useEffect(() => {
-    if(userId!==""){
+    if(userId !== ""){
       getUsername()
-      const q = query(collection(db, USERS_REF+"/"+userId+"/groups"));
-      onSnapshot(q, (querySnapshot) => {
-        setGroups(querySnapshot.docs.map(doc => ({
-          label: doc.data().name,
-          value: doc.id
-        })));
-      });
-      console.log('groups:', groups);
+      getData()
+      
     }
   }, [userId]);
 
 
   useEffect(() => {
-    if(userId!==""){
+    if(userId!=="" && currentGroupId !== ""){
+      checkIsGroupShared()
       console.log("currentgroupid "+currentGroupId);
-      const gameref = USERS_REF + "/" +userId+ "/groups/" + currentGroupId + "/games"
-      const q = query(collection(db, gameref))
-      onSnapshot(q, (querySnapshot) => {
-        setGames(querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })));
-      });
-    
-    console.log("games: "+games);
+      getGames()
     }
   }, [currentGroupId]);
+
+  useEffect(() => {
+    console.log("isgroupshared: " + groupIsShared)
+  }, [groupIsShared])
 
   useEffect(() => {
     getGameData()
@@ -97,8 +90,35 @@ export default function Profile({navigation}) {
       console.log("playerdata use effect: " + JSON.stringify(playerData));
     
   }, [tempData])
+
+  const checkIsGroupShared = () => {
+    console.log("groupid in if " + currentGroupId)
+    console.log("sharedGroups: " + JSON.stringify(sharedGroups))
+    let ids = [];
+    sharedGroups.map((group) => {
+      ids.push(group.value);
+    })
+    console.log("ids: " + ids)
+    if(ids.includes(currentGroupId)) {
+      setGroupIsShared(true);
+      console.log("inside if")
+    }else {
+      setGroupIsShared(false);
+    }
+  };
   
-  
+  const getGames = async () => {
+    const gameref = USERS_REF + "/" +userId+ "/groups/" + currentGroupId + "/games"
+      const q = query(collection(db, gameref))
+      onSnapshot(q, (querySnapshot) => {
+        setGames(querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })));
+      });
+    
+    console.log("games: "+games);
+  }
 
   const getGameData = async () => {
     
@@ -136,6 +156,8 @@ export default function Profile({navigation}) {
 }
 
 const getData = async () => {
+  setGames([])
+  setPlayerData([])
   const q1 = query(collection(db, USERS_REF + "/" + userId + "/groups"))
   onSnapshot(q1, (querySnapshot) => {
     setMyGroups(querySnapshot.docs.map(doc => ({
@@ -160,6 +182,7 @@ const getData = async () => {
     if(currentGroupId === '') {
       setCurrentGroupId(myGroups[0].value)
     }
+    console.log('groups:', groups);
 }
 
   return (
@@ -168,7 +191,7 @@ const getData = async () => {
     <Header />
     
     <View style={{backgroundColor:'#4e9bb0', width:'100%', marginTop:-30}}>
-      <Text style={[styles.gameHeader, {textAlign: 'center'}]}>My profile</Text>
+      <Text style={[styles.gameHeader, {textAlign: 'center', marginTop: 10}]}>My profile</Text>
       
       <View>
         <LinearGradient  colors={['#4e9bb0' , '#112126']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
@@ -189,29 +212,35 @@ const getData = async () => {
     <ScrollView>
 
   
-    <View >
+    <View>
   
       <Text style={[styles.title, {textAlign: "center",marginTop:30}]}>My game statistics</Text>
-      
-      
-        {playerData.map((key,i) => (
-          <View  key={i} style={[styles.gameButton, {height: 120}]}>
-            <Text style={styles.gameText}>{playerData[i].gameName}</Text>
-          
+      {groupIsShared ?
+        <ProfileGameStats groupId={currentGroupId} userId={userId} />
+      : 
+      <View>
+      {playerData.map((key,i) => (
+        <View  key={i} style={[styles.gameButton, {height: 120}]}>
+          <Text style={[styles.gameText,{marginTop:7}]}>{playerData[i].gameName}</Text>
+        
 
-            <View style={styles.flexRight}>
-              <Text>wins {playerData[i].win}</Text>
-              <Text>losses {playerData[i].loss}</Text>
-              <Text>
-                win/loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
-              </Text>
-            </View>
-            
-            
+          <View style={styles.flexRight}>
+            <Text style={[style.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
+            <Text style={[style.gameText,{fontSize:15}]}>Losses {playerData[i].loss}</Text>
+            <Text style={[style.gameText,{fontSize:15}]}>
+              Win/Loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
+            </Text>
           </View>
-             
-        ))
-        } 
+          
+          
+        </View>
+           
+      ))
+      } 
+      </View>
+      }
+      
+        
      
     
       
