@@ -12,10 +12,13 @@ import styles from './styles/style';
 import Group from './components/Group';
 import GameSettings from './components/GameSettings';
 import GroupShared from './components/GroupShared';
+import { LogBox } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator();
+
+LogBox.ignoreAllLogs();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
