@@ -178,7 +178,7 @@ const deleteSharedGroup = async (userId, groupId) => {
           <View key={i} style={styles.groupContainer}>
             <Pressable
               style={styles.gameButton}
-              onPress={() => navigation.navigate('Group', { group: group.name, id: group.id })}
+              onPress={() => navigation.navigate('Group', { group: group.name, id: group.id, admins: group.admins })}
             >
 <View style={{ flexDirection: 'row' }}>
   <Text style={styles.gameText}>
