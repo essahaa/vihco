@@ -1,11 +1,11 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable, TouchableOpacity, ScrollView } from 'react-native';
-import { collection, onSnapshot, orderBy, query, doc, updateDoc, increment } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, doc, updateDoc, increment, getDoc } from 'firebase/firestore';
 import { db, USERS_REF } from '../firebase/Config';
 import GameInfo from './GameInfo';
 import styles from '../styles/style';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default Game = ({route}) => {
     const [gameName, setGameName] = useState('');
@@ -16,6 +16,8 @@ export default Game = ({route}) => {
     const [buttonState, setButtonState] = useState([]);
     const [currentUserId, setCurrentUserId] = useState('');
     const [currentGroupId, setCurrentGroupId] = useState('');
+    const [admins, setAdmins] = useState([])
+    const [myUserId, setMyUserId] = useState('')
     
     const auth = getAuth();
 
@@ -35,7 +37,21 @@ export default Game = ({route}) => {
         if( route.params?.groupId ) {
             setCurrentGroupId(route.params.groupId);
         }
+
+        onAuthStateChanged(auth, () => {
+            setMyUserId(auth.currentUser.uid)
+        });
     }, []);
+
+    useEffect(() => {
+        if(currentGroupId !== "" && currentUserId !== "")
+        {
+            console.log("myuserid " + myUserId);
+            checkAdmins()
+        }
+        
+    }, [currentGroupId, currentUserId])
+    
     
     useEffect(() => {
         if(winData.length === 0 && gameId) {
@@ -89,18 +105,33 @@ export default Game = ({route}) => {
             });
         } 
     }
+
+    const checkAdmins = async () => {
+        const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", currentGroupId); 
+      const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            console.log("admindata:", docSnap.data().admins);
+            const data = docSnap.data().admins
+            setAdmins(data);
+        } else {
+            console.log("Admin ids not found!");
+        }
+    }
     
     return (
         <View style={styles.container}>
             {!addingScores ?
             <>
             <GameInfo name={gameName} data={winData} id={gameId} groupId={currentGroupId}/>
+            {admins.includes(myUserId) && 
             <Pressable
               z  onPress={() => setAddingScores(true)}
                 style={styles.buttonScores}
             >
                 <Text style={[styles.buttonText, {fontSize: 20}]}>ADD SCORES</Text>
             </Pressable>
+        }
             </>
             :
             <>
@@ -174,12 +205,15 @@ export default Game = ({route}) => {
             </ScrollView>
             </View>
             </View>
-            <Pressable
+            
+                <Pressable
                 onPress={() => setAddingScores(false)}
                 style={styles.buttonScores}
             >
                 <Text style={[styles.buttonText, {fontSize: 20}]}>DONE</Text>
             </Pressable>
+        
+            
             </>
             }
         </View>
