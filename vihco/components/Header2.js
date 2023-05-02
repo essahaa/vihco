@@ -14,7 +14,7 @@ export default Header2 = ({text}) => {
         </View>
       </TouchableOpacity>
     <View style={[styles.flexHeaderCenter]}>
-    <Image style= {{flex:1 , width: undefined, height: undefined, resizeMode: 'contain'}} source={require('../assets/images/logooo.png')}/>
+    <Image style= {{flex:1 , width: undefined, height: undefined, resizeMode: 'contain'}} source={require('../assets/images/logo_valk.png')}/>
     </View>
     <View style={styles.flexHeaderRigth}>
     <TouchableOpacity onPress={() => navigation.navigate('Settings')}>

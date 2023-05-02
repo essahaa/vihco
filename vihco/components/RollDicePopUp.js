@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { View, Modal, StyleSheet , Text} from 'react-native';
+import { View, Modal, StyleSheet , Text, TouchableOpacity} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import style from '../styles/style';
+import { useNavigation } from '@react-navigation/native';
+
 
 const RollDicePopup = ({ visible, onClose }) => {
   const [diceValues, setDiceValues] = useState([1, 1, 1, 1, 1]);
   const [rollsLeft, setRollsLeft] = useState(3);
   const [lockedDice, setLockedDice] = useState([]);
+  const navigation = useNavigation();
+
 
   const rollDice = () => {
     const newDiceValues = diceValues.map((value, index) => {
@@ -42,8 +46,19 @@ const RollDicePopup = ({ visible, onClose }) => {
       animationType="slide"
       onRequestClose={onClose}
     >
+      <View style={[{backgroundColor:'#4E9BB0',paddingVertical: 10,paddingHorizontal: 20,width: '100%'}]}>
+        <TouchableOpacity onPress={() => onClose()}>
+          <View style={styles.flexLeft}>
+            <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
+          </View>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.container}>
+      
+      
         <View style={styles.diceContainer}>
+        
           {diceValues.map((value, index) => (
             <MaterialCommunityIcons
               key={index}

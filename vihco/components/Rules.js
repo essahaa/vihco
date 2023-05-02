@@ -14,6 +14,7 @@ const Rules = ({navigation, route}) => {
   // Define game rules for Yatzi
   let gameRules = {};
   let screenName = "";
+  let showPlayButton = false
   switch (gameName) {
     case 'Yatzi':
       gameRules = {
@@ -27,6 +28,7 @@ const Rules = ({navigation, route}) => {
         ]
       };
       screenName = "Yatzi";
+      showPlayButton = true
       break;
     case 'SevenOfClubs': 
     gameRules = { 
@@ -62,6 +64,7 @@ const Rules = ({navigation, route}) => {
       ]
   };
   screenName = "Cluedo";
+  showPlayButton = true
     break;
   }
   return (
@@ -82,10 +85,13 @@ const Rules = ({navigation, route}) => {
       ))}
       
     </View>
-  </View>
+  </View>{showPlayButton && (
     <Pressable style={styles.buttonPrimary} onPress={() => navigation.navigate(screenName)}>
-          <Text style={styles.button}>Play now!</Text>
-        </Pressable>
+    <Text style={styles.button}>Play now!</Text>
+  </Pressable>
+  )}
+
+    
 </View>
 
 </ScrollView>
