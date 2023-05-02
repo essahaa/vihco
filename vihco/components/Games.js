@@ -15,7 +15,6 @@ export default Games = ({navigation}) => {
   const [games, setGames] = useState([]);
   const [addingGame, setAddingGame] = useState(false); //flag
   const [newGameName, setNewGameName] = useState('');
-  const [newGamePlayers, setNewGamePlayers] = useState([]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState([0]);
   const [items, setItems] = useState([]);
@@ -36,15 +35,12 @@ export default Games = ({navigation}) => {
       setCurrentGroupId('');
       setCurrentUserId(auth.currentUser.uid)
     });
-    //setCurrentUserId(auth.currentUser.uid)
-    console.log("joo")
   }, []);
 
   useEffect(() => {
     if(currentUserId !== "") {
       getData();
       console.log("getting data: " + currentUserId)
-      console.log("mjhbjgku")
     }
   }, [currentUserId])
 
@@ -53,21 +49,13 @@ export default Games = ({navigation}) => {
       checkIsGroupShared();
       getGames();
     }
-    console.log("juu")
-  }, [currentGroupId])
+  }, [currentGroupId, groups])
 
   useEffect(() => {
     console.log("isgroupshared: " + groupIsShared)
   }, [groupIsShared])
   
 
-  /* useEffect(() => {
-    if(groupIsShared !== null) {
-      getGames();
-    }
-  }, [groupIsShared]) */
-  
-  
   const checkIsGroupShared = () => {
     console.log("groupid in if " + currentGroupId)
     console.log("sharedGroups: " + JSON.stringify(sharedGroups))
@@ -78,7 +66,6 @@ export default Games = ({navigation}) => {
     console.log("ids: " + ids)
     if(ids.includes(currentGroupId)) {
       setGroupIsShared(true);
-      console.log("inside if")
     }else {
       setGroupIsShared(false);
     }
@@ -109,11 +96,13 @@ export default Games = ({navigation}) => {
       if(currentGroupId === '') {
         setCurrentGroupId(myGroups[0].value)
       }
-
+      if(currentGroupId !== "") {
+        getGames()
+      }
   }
 
   const getGames = () => {
-    const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups/" + currentGroupId + "/games" ), orderBy("orderId")) //current group id tänne
+    const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups/" + currentGroupId + "/games" ), orderBy("orderId")) 
     onSnapshot(q, (querySnapshot) => {
       setGames(querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -153,11 +142,6 @@ export default Games = ({navigation}) => {
         userId: id
       })
       console.log(JSON.stringify(docSnap.data()))
-      /* let temp = [...newGamePlayers];
-      const data = docSnap.data()
-      temp.push(data);
-      setNewGamePlayers(temp);
-      console.log("newplayers: " + JSON.stringify(newGamePlayers)) */
     } else {
         console.log("Player ids not found!");
     }
