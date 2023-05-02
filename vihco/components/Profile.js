@@ -84,6 +84,7 @@ export default function Profile({navigation}) {
         ids.push(player.id)
       })
       console.log("ids: " + ids);
+      console.log("id in tempdata: " + tempData[0].id)
       if(ids.includes(tempData[0].id)) {
         console.log("already game")
       }else {
