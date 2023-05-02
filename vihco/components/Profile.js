@@ -31,14 +31,16 @@ export default function Profile({navigation}) {
   const auth = getAuth();
 
   useEffect(() => {
-    onAuthStateChanged(auth, () => {
+    onAuthStateChanged(auth, (user) => {
       setGroups([]);
       setGames([]);
       setMyGroups([]);
       setSharedGroups([]);
       setCurrentGroupId('');
       setPlayerData([]);
-      setUserId(auth.currentUser.uid)
+      if(user) {
+        setUserId(auth.currentUser.uid)
+      }
     });
     //setUserId(auth.currentUser.uid)
     console.log("joo")

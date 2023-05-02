@@ -23,7 +23,9 @@ export default Group = ({route}) => {
   const auth = getAuth();
   
   useEffect(() => {
-    setCurrentUserId(auth.currentUser.uid)
+    if(auth.currentUser.uid) {
+      setCurrentUserId(auth.currentUser.uid)
+    }
 
     if( groupName === '' && route.params?.group ) {
       setGroupName(route.params.group);

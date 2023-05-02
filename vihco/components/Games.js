@@ -33,7 +33,7 @@ export default Games = ({navigation}) => {
       setMyGroups([]);
       setSharedGroups([]);
       setCurrentGroupId('');
-      if(auth.currentUser) {
+      if(auth.currentUser.uid) {
         setCurrentUserId(auth.currentUser.uid)
       }
     });

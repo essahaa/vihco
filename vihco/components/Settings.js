@@ -31,44 +31,6 @@ export default function Settings({ navigation }) {
   const [sharedGroupNames, setSharedGroupNames] = useState([])
   const [myGroups, setMyGroups] = useState([])
 
-  const auth = getAuth()
-
-  useEffect(() => {
-    setCurrentUserId(auth.currentUser.uid)
-  }, [])
-
-  useEffect(() => {
-    console.log("id: " + currentUserId);
-    if(currentUserId !== "") {
-      getData()
-    }
-  }, [currentUserId]);
-
-  
-  const getData = async () => {
-    const q1 = query(collection(db, USERS_REF + "/" + currentUserId + "/groups"))
-    onSnapshot(q1, (querySnapshot) => {
-      setMyGroups(querySnapshot.docs.map(doc => ({
-        label: doc.data().name,
-        value: doc.id
-      })));
-    });
-
-    const q2 = query(collection(db, USERS_REF + "/" + currentUserId + "/sharedGroups"));
-    onSnapshot(q2, (querySnapshot) => {
-      setSharedGroups(querySnapshot.docs.map(doc => ({
-        label: doc.data().groupName,
-        value: doc.id
-      })));
-    });
-    if (sharedGroups.length == 0) {
-      setGroups(myGroups)
-    } else {
-    setGroups(myGroups.concat(sharedGroups))
-    }     console.log('groups:', groups);
-
-  }
-
   return (
     <View style={styles.overlay}>
       <Logo />

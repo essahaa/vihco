@@ -25,7 +25,9 @@ export default function Groups({ navigation }) {
       setGroups([]);
       setSharedGroups([]);
       setSharedGroupNames([]);
-      setCurrentUserId(auth.currentUser.uid)
+      if(auth.currentUser.uid) {
+        setCurrentUserId(auth.currentUser.uid)
+      }
     });
   }, [])
 
