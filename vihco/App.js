@@ -18,7 +18,7 @@ SplashScreen.preventAutoHideAsync();
 
 const Stack = createStackNavigator();
 
-LogBox.ignoreAllLogs();
+//LogBox.ignoreAllLogs();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
