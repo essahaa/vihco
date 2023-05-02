@@ -110,6 +110,11 @@ export default StyleSheet.create({
         textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 1
     },
+    buttonTextSettings2: {
+        color: '#112126',
+        fontFamily: 'timeburnerBold',
+        fontSize: 20,
+    },
     buttonTextLogout: {
         color: '#F9BB00',
         fontFamily: 'timeburnerBold',

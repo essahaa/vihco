@@ -234,7 +234,7 @@ export default Group = ({route}) => {
   }
     
   return (
-      <View style={styles.container}>
+      <View style={styles.overlay}>
           <Header />
           <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
@@ -258,15 +258,15 @@ export default Group = ({route}) => {
           </Pressable>
           :
           <Pressable
-              style={[styles.buttonSettings, {backgroundColor: '#f9bb0083'}]}
+              style={[styles.buttonSettings, {backgroundColor: '#f9bb00'}]}
               >
               <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
           </Pressable>
           }
       <Text style={[styles.title, {marginTop: 30}]}>PLAYERS</Text>   
         {players.map((key,i) => (
-          <View key={i} style={[styles.gameButton, {flexDirection: 'row', alignItems: 'center'}]}>
-            <Text style={styles.gameText} >{players[i].name}</Text>
+          <View key={i} style={[styles.gameButton, {backgroundColor: '#f9bb00', flexDirection: 'row', alignItems: 'center'}]}>
+            <Text style={styles.buttonTextSettings2} >{players[i].name}</Text>
             <Text
             style={[styles.flexRight, {borderRadius:10}]}>
 
