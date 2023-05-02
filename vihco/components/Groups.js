@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Pressable, Button, TextInput } from 'react-native';
-import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
+import { db, USERS_REF } from '../firebase/Config';
 import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import styles from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -27,7 +27,6 @@ export default function Groups({ navigation }) {
       setSharedGroupNames([]);
       setCurrentUserId(auth.currentUser.uid)
     });
-    //setCurrentUserId(auth.currentUser.uid)
   }, [])
 
   useEffect(() => {
@@ -40,7 +39,6 @@ export default function Groups({ navigation }) {
   useEffect(() => {
     if (sharedGroups.length === sharedGroupNames.length) {
       console.log("shared group names already set")
-      console.log("sharedgroupnames: " + sharedGroupNames);
     } else {
       const temp = []
       sharedGroups.map((group) => {
@@ -112,29 +110,15 @@ export default function Groups({ navigation }) {
     }
   }
 
-const deleteGroup = async (groupId) => {
-  const groupRef = doc(db, USERS_REF + "/" + currentUserId + "/groups/" + groupId);
+  const deleteGroup = async (groupId) => {
+    const groupRef = doc(db, USERS_REF + "/" + currentUserId + "/groups/", groupId);
 
-  const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId); 
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-      const data = docSnap.data().players
-      console.log("data: " + data)
-      data.map((id) => {
-        deleteSharedGroup(id, groupId);
-      })
-      //setPlayerIds(data);
-  } else {
-      console.log("Player ids not found!");
-  }
-  
     try {
       const group = await getDoc(groupRef);
-  
+
       if (group.exists()) {
         const groupData = group.data();
-  
+
         if (groupData.admins.includes(currentUserId)) {
           Alert.alert(
             "Delete Group",
@@ -147,6 +131,19 @@ const deleteGroup = async (groupId) => {
               {
                 text: "Delete",
                 onPress: async () => {
+                  const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId); 
+                  const docSnap = await getDoc(docRef);
+
+                  if (docSnap.exists()) {
+                      const data = docSnap.data().players
+                      console.log("data: " + data)
+                      data.map((id) => {
+                        deleteSharedGroup(id, groupId);
+                      })
+                      //setPlayerIds(data);
+                  } else {
+                      console.log("Player ids not found!");
+                  }
                   await deleteDoc(groupRef);
                   setGroups((prevGroups) => prevGroups.filter((group) => group.id !== groupId));
                   console.log("Group deleted successfully!");
@@ -164,16 +161,16 @@ const deleteGroup = async (groupId) => {
     } catch (error) {
       console.log(error.message);
     }
-};
+  };
 
-const deleteSharedGroup = async (userId, groupId) => {
-  const q = query(collection(db, USERS_REF + "/" + userId + "/sharedGroups"), where("groupId", "==", groupId));
+  const deleteSharedGroup = async (userId, groupId) => {
+    const q = query(collection(db, USERS_REF + "/" + userId + "/sharedGroups"), where("groupId", "==", groupId));
 
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    deleteDoc(doc.ref);
-  });
-}
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
+  }
 
 
   return (
@@ -187,36 +184,36 @@ const deleteSharedGroup = async (userId, groupId) => {
               style={styles.gameButton}
               onPress={() => navigation.navigate('Group', { group: group.name, id: group.id, admins: group.admins })}
             >
-<View style={{ flexDirection: 'row' }}>
-  <Text style={styles.gameText}>
-    {group.name}
-  </Text>
-  <Text
-  style={[styles.flexRight, {borderRadius:10}]}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={styles.gameText}>
+                  {group.name}
+                </Text>
+                <Text
+                style={[styles.flexRight, {borderRadius:10}]}>
 
-  </Text>
-  <Text
-  style={[styles.flexRight, {borderRadius:10}]}>
+                </Text>
+                <Text
+                style={[styles.flexRight, {borderRadius:10}]}>
 
-  </Text>
-  <Text
-  style={[styles.flexRight, {borderRadius:100}]}>
+                </Text>
+                <Text
+                style={[styles.flexRight, {borderRadius:100}]}>
 
-  </Text>
-  
-  {group.admins.includes(currentUserId) && (
-    <Pressable
-      style={[styles.flexRight, { borderRadius: 0 }]}
-      onPress={() => deleteGroup(group.id)}
-    >
-      <MaterialCommunityIcons
-        name="trash-can-outline"
-        size={24}
-        color="white"
-      />
-    </Pressable>
-  )}
-</View>
+                </Text>
+                
+                {group.admins.includes(currentUserId) && (
+                  <Pressable
+                    style={[styles.flexRight, { borderRadius: 0 }]}
+                    onPress={() => deleteGroup(group.id)}
+                  >
+                    <MaterialCommunityIcons
+                      name="trash-can-outline"
+                      size={24}
+                      color="white"
+                    />
+                  </Pressable>
+                )}
+              </View>
 
 
 
