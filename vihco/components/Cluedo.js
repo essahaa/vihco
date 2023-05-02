@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-nati
 import style from '../styles/style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import Header2 from './Header2';
 
 
 const CluedoSheetScreen = () => {
@@ -101,18 +102,7 @@ return rows;
 
 return (
 <ScrollView contentContainerStyle={styles.container}>
-<View style={{ flexDirection: 'row', marginBottom:10 }}>
-    <View style={{alignSelf:'flex-start'}}>
-      <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
-        <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
-      </TouchableOpacity>
-    </View>
-    <View
-    style={[style.flexCenter]}>
-    <Text style={[style.headerText ]}>Cluedo sheet</Text>
-    
-    </View>
-    </View>
+<Header2/>
  
 <View style={styles.category}>
 <MaterialCommunityIcons name="account" size={24} color="black" />
@@ -141,7 +131,6 @@ return (
 const styles = StyleSheet.create({
 container: {
 alignItems:'center',
-paddingVertical: 5,
 backgroundColor:'#4E9BB0'
 },
 category: {

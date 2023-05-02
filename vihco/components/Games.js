@@ -200,10 +200,10 @@ export default Games = ({navigation}) => {
         {games.map((key, i) => (
           <Pressable
             key={i}
-            style={styles.gameButton}
+            style={[styles.gameButton]}
             onPress={() => navigation.navigate('Game', {game: games[i].name, id: games[i].id, groupId: currentGroupId, userId: currentUserId})}
           >
-              <Text style={styles.gameText}>{games[i].name}</Text>
+              <Text style={[styles.gameText, {textDecorationLine: 'underline'}]}>{games[i].name}</Text>
           </Pressable>
         ))
         }

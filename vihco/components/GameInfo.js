@@ -51,15 +51,20 @@ export default GameInfo = ({name, data, id,groupId}) => {
                                 //style={{backgroundColor: 'white', borderRadius: 100}}
                             />
                         </Pressable> */}
-                        <Pressable style={{marginRight: 10}}>
+                        <Pressable
+                                onPress={() => navigation.navigate("GameSettings", {gameName: name, gameId: id,groupID:groupId})}
+                                style={[styles.buttonEdit, {marginRight: 20}]}>
+                                <Text style={styles.buttonTextSettings}>EDIT GAME</Text>
+                        </Pressable>
+                    {/*     <Pressable style={{marginRight: 10}}>
                             <MaterialCommunityIcons
                                 name='pencil-circle'
-                                color={'#326472'}
+                                color={'#f9bb00'}
                                 size={55}
                                 onPress={() => navigation.navigate("GameSettings", {gameName: name, gameId: id,groupID:groupId})}
                                 //style={{backgroundColor: 'white', borderRadius: 100}}
                             />
-                        </Pressable>
+                        </Pressable> */}
                     </View>
                 </View>
             </View>

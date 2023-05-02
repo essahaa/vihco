@@ -161,6 +161,13 @@ export default StyleSheet.create({
         paddingHorizontal: 50,
         borderRadius: 15
     },
+    buttonEdit: {
+        backgroundColor: '#F9BB00',
+        paddingVertical: 5,
+        paddingHorizontal: 20,
+        borderRadius: 15,
+        
+    },
     dropdown: {
         fontFamily: 'timeburnerBold',
         alignSelf: 'center',

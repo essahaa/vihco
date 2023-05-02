@@ -5,6 +5,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import RollDicePopup from './RollDicePopUp';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import Header2 from './Header2';
 
 const categories = [
   "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes",
@@ -155,13 +156,8 @@ const YahtzeeScoreSheet = () => {
 
   return (
     <View style={styles.container}>
-  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-    <TouchableOpacity onPress={() => navigation.navigate('Sheets')}>
-      <MaterialCommunityIcons style={styles.headerIcon} name="menu-left" size={24} color="white" />
-    </TouchableOpacity>
-      <Text style={style.headerText}>Yahtzee sheet</Text>
-    <View style={{ width: 24 }}></View> 
-  </View>
+      <Header2/>
+  
       
       <FlatList
         data={categories}
@@ -185,9 +181,8 @@ const YahtzeeScoreSheet = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     backgroundColor: '#4E9BB0',
-    
+  
   },
   row: {
     flexDirection: 'row',
