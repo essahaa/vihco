@@ -33,7 +33,9 @@ export default Games = ({navigation}) => {
       setMyGroups([]);
       setSharedGroups([]);
       setCurrentGroupId('');
-      setCurrentUserId(auth.currentUser.uid)
+      if(auth.currentUser) {
+        setCurrentUserId(auth.currentUser.uid)
+      }
     });
   }, []);
 
@@ -54,6 +56,13 @@ export default Games = ({navigation}) => {
   useEffect(() => {
     console.log("isgroupshared: " + groupIsShared)
   }, [groupIsShared])
+
+  useEffect(() => {
+    if(groups.length !== 0 && currentGroupId === '') {
+      setCurrentGroupId(groups[0].value)
+      //console.log(groups[0].value)
+    }
+  }, [groups])
   
 
   const checkIsGroupShared = () => {
@@ -93,9 +102,6 @@ export default Games = ({navigation}) => {
         setGroups(myGroups.concat(sharedGroups))
       }
 
-      if(currentGroupId === '') {
-        setCurrentGroupId(myGroups[0].value)
-      }
       if(currentGroupId !== "") {
         getGames()
       }
@@ -201,6 +207,8 @@ export default Games = ({navigation}) => {
           </Pressable>
         ))
         }
+        {currentGroupId &&
+        <>
         { !addingGame ?
           <Pressable
             style={styles.addGameButton}
@@ -239,6 +247,8 @@ export default Games = ({navigation}) => {
             </View>
           </Pressable>
         }
+        </>
+      }
       </ScrollView>
     }
     </View>

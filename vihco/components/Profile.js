@@ -70,12 +70,23 @@ export default function Profile({navigation}) {
   }, [groupIsShared])
 
   useEffect(() => {
-    getGameData()
-  }, [games])
+    if(currentGroupId) {
+      getGameData()
+    }else {
+      console.log("gamedata no")
+    }
+  }, [games, currentGroupId])
+
+  useEffect(() => {
+    if(groups.length !== 0 && currentGroupId === '') {
+      setCurrentGroupId(groups[0].value)
+      //console.log(groups[0].value)
+    }
+  }, [groups])
 
   useEffect(() => {
     console.log("useeffect: " + JSON.stringify(tempData));
-    if (!tempData) {
+    if (!tempData || tempData.length == 0) {
       console.log("tempdata no")
     } 
     else {
@@ -192,10 +203,6 @@ export default function Profile({navigation}) {
         setGroups(myGroups)
       }else {
         setGroups(myGroups.concat(sharedGroups))
-      }
-
-      if(currentGroupId === '') {
-        setCurrentGroupId(myGroups[0].value)
       }
       console.log('groups:', groups);
   }
