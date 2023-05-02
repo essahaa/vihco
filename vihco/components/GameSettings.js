@@ -106,7 +106,7 @@ export default GameSettings = ({navigation, route}) => {
     }
     
     return (
-        <View style={styles.container}>
+        <View style={styles.overlay}>
             <View>
                 <Header text={name + " settings"}/>
             </View>

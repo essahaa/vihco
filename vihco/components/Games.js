@@ -156,10 +156,17 @@ export default Games = ({navigation}) => {
         const docRef = await addDoc(collection(db, gamesRef), {
           orderId: games.length,
           name: newGameName
-        }).then(() => {
-          const gameId = docRef.id;
-          getPlayers(gameId)
-        });
+        })
+        
+        const gameId = docRef.id;
+        getPlayers(gameId)
+          /* newGamePlayers.map(player => (
+            addDoc(collection(db, gamesRef + "/" + gameId + "/users"), {
+              name: player.name,
+              loss: 0,
+              win: 0
+            })
+          )) */
       }
       getGames();
     }catch (error) {
