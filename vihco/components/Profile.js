@@ -1,6 +1,6 @@
 import { Text, View, ScrollView, Pressable } from 'react-native';
 import Header from './Header';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import styles from '../styles/style';
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc, where } from 'firebase/firestore';
@@ -214,19 +214,19 @@ export default function Profile({navigation}) {
     <Header />
     
     <View style={{backgroundColor:'#4e9bb0', width:'100%', marginTop:-30}}>
-      <Text style={[styles.gameHeader, {textAlign: 'center', marginTop: 10}]}>My profile</Text>
+      {/* <Text style={[styles.gameHeader, {textAlign: 'center'}]}></Text> */}
       
       <View>
         <LinearGradient  colors={['#4e9bb0' , '#112126']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
           <View style={{ flexDirection:'row', alignItems:'center' }}>
-            <MaterialCommunityIcons name="circle" size={150} color="white" />
-            <Text style={[styles.usernameText, {textAlign: 'center', paddingLeft: 10,paddingBottom: 20}]}>{username}</Text>
+            <Ionicons name="person-circle" size={150} color="white" />
+            <Text style={[styles.gameHeader, {textAlign: 'center', paddingLeft:4,paddingBottom: 20}]}>{username}</Text>
           </View>
         </LinearGradient>
       </View>
     </View>
  
-    <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:3,marginBottom:10}]}>
+    <View style={[styles.dropdown, {width:'60%', flexDirection: 'row', justifyContent: 'center',marginTop:6,marginBottom:10}]}>
       <Pressable onPress={() => getData()}>
           <GroupPicker groups={groups} onSelect={selectedValue => setCurrentGroupId(selectedValue)} />
       </Pressable>
@@ -237,7 +237,7 @@ export default function Profile({navigation}) {
   
     <View>
   
-      <Text style={[styles.title, {textAlign: "center",marginTop:20, marginBottom:10}]}>My game statistics</Text>
+      <Text style={[styles.title, {textAlign: "center",marginTop:15, marginBottom:8}]}>My game statistics</Text>
       {groupIsShared ?
         <ProfileGameStats groupId={currentGroupId} userId={userId} />
       : 
