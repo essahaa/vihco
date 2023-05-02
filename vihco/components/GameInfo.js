@@ -39,7 +39,7 @@ export default GameInfo = ({name, data, id,groupId}) => {
         <Header gameName={name} />
             <View style={{flexDirection: 'row'}}>
                 <View style={styles.flexBottom}>
-                    <Text style={styles.gameHeader}>{name}</Text>
+                    <Text style={[styles.gameHeader, {marginLeft: 15}]}>{name}</Text>
                 </View>
                 <View style={[styles.flexRight]}>
                     <View style={{flexDirection: 'row'}}>
@@ -51,7 +51,7 @@ export default GameInfo = ({name, data, id,groupId}) => {
                                 //style={{backgroundColor: 'white', borderRadius: 100}}
                             />
                         </Pressable> */}
-                        <Pressable>
+                        <Pressable style={{marginRight: 10}}>
                             <MaterialCommunityIcons
                                 name='pencil-circle'
                                 color={'#326472'}
@@ -65,7 +65,7 @@ export default GameInfo = ({name, data, id,groupId}) => {
             </View>
         </View>
         <View style={{flexDirection: 'row'}}>
-            <View style={[styles.flexLeft, {paddingLeft: 35}]}>
+            <View style={[styles.flexLeft, {paddingLeft: 15, marginVertical: 10}]}>
                 <Text style={styles.text}>Games played: {wins}</Text>
             </View>
         </View>
