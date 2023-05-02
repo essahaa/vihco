@@ -171,33 +171,42 @@ export default function Profile({navigation}) {
     }
 }
 
-const getData = async () => {
-  const q1 = query(collection(db, USERS_REF + "/" + userId + "/groups"))
-  onSnapshot(q1, (querySnapshot) => {
-    setMyGroups(querySnapshot.docs.map(doc => ({
-      label: doc.data().name,
-      value: doc.id
-    })));
-  });
+  const getData = async () => {
+    const q1 = query(collection(db, USERS_REF + "/" + userId + "/groups"))
+    onSnapshot(q1, (querySnapshot) => {
+      setMyGroups(querySnapshot.docs.map(doc => ({
+        label: doc.data().name,
+        value: doc.id
+      })));
+    });
 
-  const q2 = query(collection(db, USERS_REF + "/" + userId + "/sharedGroups"));
-  onSnapshot(q2, (querySnapshot) => {
-    setSharedGroups(querySnapshot.docs.map(doc => ({
-      label: doc.data().groupName,
-      value: doc.id
-    })));
-  });
-    if (sharedGroups.length == 0) {
-      setGroups(myGroups)
-    }else {
-      setGroups(myGroups.concat(sharedGroups))
-    }
+    const q2 = query(collection(db, USERS_REF + "/" + userId + "/sharedGroups"));
+    onSnapshot(q2, (querySnapshot) => {
+      setSharedGroups(querySnapshot.docs.map(doc => ({
+        label: doc.data().groupName,
+        value: doc.id
+      })));
+    });
+      if (sharedGroups.length == 0) {
+        setGroups(myGroups)
+      }else {
+        setGroups(myGroups.concat(sharedGroups))
+      }
 
-    if(currentGroupId === '') {
-      setCurrentGroupId(myGroups[0].value)
-    }
-    console.log('groups:', groups);
-}
+      if(currentGroupId === '') {
+        setCurrentGroupId(myGroups[0].value)
+      }
+      console.log('groups:', groups);
+  }
+
+  const getRatio = (wins, losses) => {
+    const ratio = (wins/losses).toFixed(2);
+    if(isNaN(ratio)) {
+        return 0;
+    }else if(losses === 0) {
+        return wins;
+    }else return ratio;
+  }
 
   return (
     
@@ -240,9 +249,9 @@ const getData = async () => {
 
           <View style={styles.flexRight}>
             <Text style={[style.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
-            <Text style={[style.gameText,{fontSize:15}]}>Losses {playerData[i].loss}</Text>
+            <Text style={[style.gameText,{fontSize:15}]}>Losses: {playerData[i].loss}</Text>
             <Text style={[style.gameText,{fontSize:15}]}>
-              Win/Loss ratio {(playerData[i].win / playerData[i].loss) ? (playerData[i].win / playerData[i].loss).toFixed(2) : 0}
+              Win/Loss ratio: {getRatio(playerData[i].win, playerData[i].loss)} 
             </Text>
           </View>
           
