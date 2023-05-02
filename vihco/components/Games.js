@@ -203,7 +203,7 @@ export default Games = ({navigation}) => {
             style={[styles.gameButton]}
             onPress={() => navigation.navigate('Game', {game: games[i].name, id: games[i].id, groupId: currentGroupId, userId: currentUserId})}
           >
-              <Text style={[styles.gameText, {textDecorationLine: 'underline'}]}>{games[i].name}</Text>
+              <Text style={[styles.gameText, {textDecorationLine: 'underline', textAlign: 'center'}]}>{games[i].name}</Text>
           </Pressable>
         ))
         }
