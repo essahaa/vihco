@@ -185,7 +185,7 @@ export default function Groups({ navigation }) {
               onPress={() => navigation.navigate('Group', { group: group.name, id: group.id, admins: group.admins })}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.gameText}>
+                <Text style={[styles.gameText, {textDecorationLine: 'underline'}]}>
                   {group.name}
                 </Text>
                 <Text
