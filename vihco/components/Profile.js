@@ -220,7 +220,7 @@ export default function Profile({navigation}) {
         <LinearGradient  colors={['#4e9bb0' , '#112126']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
           <View style={{ flexDirection:'row', alignItems:'center' }}>
             <Ionicons name="person-circle" size={150} color="white" />
-            <Text style={[styles.gameHeader, {textAlign: 'center', paddingLeft:4,paddingBottom: 20}]}>{username}</Text>
+            <Text style={[styles.gameHeader, {textAlign: 'center', paddingLeft:0,paddingBottom: 20}]}>{username}</Text>
           </View>
         </LinearGradient>
       </View>
