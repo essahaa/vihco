@@ -22,6 +22,9 @@ export default function Home({navigation}) {
     onAuthStateChanged(auth, (user) => {
       if(user) {
         setUserUid(user.uid)
+      }else {
+        console.log("User is not signed in.");
+        navigation.navigate("Login");
       }
     });
   }, [])
@@ -48,20 +51,14 @@ export default function Home({navigation}) {
 
 
   useEffect(() => {
-    getUserData()
+    if(userUid !== '') {
+      getUserData()
+    }
   }, [userUid])
   
 
   const getUserData = async () => {
     const currentUser = auth.currentUser;
-    if(currentUser){
-      navigation.navigate('Home')
-    }
-    else{
-      console.log("User is not signed in.");
-      navigation.navigate("Login");
-      return;
-    }
   
     const idToken = await currentUser.getIdToken();
   

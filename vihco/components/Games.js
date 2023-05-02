@@ -169,10 +169,10 @@ export default Games = ({navigation}) => {
     console.log("groupid: " + currentGroupId)
     try {
       if(newGameName.trim() !== "") {
-        await addDoc(collection(db, gamesRef), {
+        const docRef = await addDoc(collection(db, gamesRef), {
           orderId: games.length,
           name: newGameName
-        }).then(function(docRef) {
+        }).then(() => {
           const gameId = docRef.id;
           getPlayers(gameId)
           /* newGamePlayers.map(player => (
