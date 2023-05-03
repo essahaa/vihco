@@ -107,7 +107,7 @@ export default function Groups({ navigation }) {
     }
   }
 
-  const deleteUsers = async (gameId) => {
+  const deleteUsers = async (gameId, groupId) => {
     const userref=USERS_REF+"/"+currentUserId+"/groups/"+groupId+"/games/" + gameId + "/users" 
     const q = query(collection(db,userref))
     const querySnapshot = await getDocs(q);
@@ -156,7 +156,7 @@ export default function Groups({ navigation }) {
                   }
                   onSnapshot(q, (querySnapshot) => {
                       querySnapshot.docs.map(function(game) {
-                          deleteUsers(game.id)
+                          deleteUsers(game.id, groupId)
                           deleteDoc(doc(db, gameref, game.id));
                       });
                   })
