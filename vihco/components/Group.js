@@ -58,15 +58,6 @@ export default Group = ({route}) => {
         //getPlayers()
       }
     }, [playerIds])
-  useEffect(() => {
-    if(playerIds.length !== 0) {
-      const temp = [];
-      playerIds.map((id) => {
-        getPlayer(id); 
-        console.log("player in map" + tempPlayer);
-      })
-    }
-  }, [playerIds])
 
   useEffect(() => {
     if (playerId && currentUserId) {
