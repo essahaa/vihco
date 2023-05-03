@@ -50,7 +50,6 @@ export default Game = ({route}) => {
     useEffect(() => {
         if(currentGroupId !== "" && currentUserId !== "")
         {
-            console.log("myuserid " + myUserId);
             checkAdmins()
         }
         
@@ -115,7 +114,6 @@ export default Game = ({route}) => {
       const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("admindata:", docSnap.data().admins);
             const data = docSnap.data().admins
             setAdmins(data);
         } else {

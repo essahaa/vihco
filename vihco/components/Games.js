@@ -13,11 +13,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 export default Games = ({navigation}) => {
   const [groups, setGroups] = useState([]);
   const [games, setGames] = useState([]);
-  const [addingGame, setAddingGame] = useState(false); //flag
+  const [addingGame, setAddingGame] = useState(false);
   const [newGameName, setNewGameName] = useState('');
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([0]);
-  const [items, setItems] = useState([]);
   const [currentUserId, setCurrentUserId] = useState('');
   const [myGroups, setMyGroups] = useState([])
   const [sharedGroups, setSharedGroups] = useState([])
@@ -44,7 +41,6 @@ export default Games = ({navigation}) => {
   useEffect(() => {
     if(currentUserId !== "") {
       getData();
-      console.log("getting data: " + currentUserId)
     }
   }, [currentUserId])
 
@@ -56,25 +52,17 @@ export default Games = ({navigation}) => {
   }, [currentGroupId, groups])
 
   useEffect(() => {
-    console.log("isgroupshared: " + groupIsShared)
-  }, [groupIsShared])
-
-  useEffect(() => {
     if(groups.length !== 0 && currentGroupId === '') {
       setCurrentGroupId(groups[0].value)
-      //console.log(groups[0].value)
     }
   }, [groups])
   
 
   const checkIsGroupShared = () => {
-    console.log("groupid in if " + currentGroupId)
-    console.log("sharedGroups: " + JSON.stringify(sharedGroups))
     let ids = [];
     sharedGroups.map((group) => {
       ids.push(group.value);
     })
-    console.log("ids: " + ids)
     if(ids.includes(currentGroupId)) {
       setGroupIsShared(true);
     }else {
@@ -120,7 +108,6 @@ export default Games = ({navigation}) => {
   }
 
   const getPlayers = async (newGameId) => {
-  //if(currentGroupId) {
     const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", currentGroupId); 
     const docSnap = await getDoc(docRef);
 
@@ -128,7 +115,6 @@ export default Games = ({navigation}) => {
     if (docSnap.exists()) {
         const data = docSnap.data().players
         playerIds = data;
-        console.log("playerids: " + playerIds)
     } else {
         console.log("Player ids not found!");
     }
@@ -149,7 +135,6 @@ export default Games = ({navigation}) => {
         win: 0,
         userId: id
       })
-      console.log(JSON.stringify(docSnap.data()))
     } else {
         console.log("Player ids not found!");
     }
@@ -158,7 +143,6 @@ export default Games = ({navigation}) => {
   const addGame = async () => {
     const gamesRef = USERS_REF + "/" + currentUserId + "/groups/" + currentGroupId + "/games"
     setAddingGame(false);
-    console.log("groupid: " + currentGroupId)
     try {
       if(newGameName.trim() !== "") {
         const docRef = await addDoc(collection(db, gamesRef), {
@@ -168,13 +152,6 @@ export default Games = ({navigation}) => {
         
         const gameId = docRef.id;
         getPlayers(gameId)
-          /* newGamePlayers.map(player => (
-            addDoc(collection(db, gamesRef + "/" + gameId + "/users"), {
-              name: player.name,
-              loss: 0,
-              win: 0
-            })
-          )) */
       }
       getGames();
     }catch (error) {

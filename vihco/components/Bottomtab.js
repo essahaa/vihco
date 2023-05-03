@@ -14,7 +14,6 @@ import Rules from './Rules';
 import EditProfile from './EditProfile';
 import ForgotPassword from './ForgotPassword';
 import ProfileGameStats from './ProfileGameStats';
-import style from '../styles/style';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +37,6 @@ export default Bottomtab = () => {
       <Tab.Screen name="EditProfile"  component={EditProfile} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="ForgotPassword"  component={ForgotPassword} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
       <Tab.Screen name="ProfileGameStats"  component={ProfileGameStats} options={{tabBarStyle: {display: "none"}, tabBarButton: () => null}}/>
-
     </Tab.Navigator>
   );
 }

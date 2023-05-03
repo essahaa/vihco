@@ -3,7 +3,6 @@ import { View, Text, TextInput, Alert, Pressable } from "react-native";
 import styles from '../styles/style';
 import Logo from "./Logo";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-//import { auth } from "../firebase/Config";
 
 export default Login = ({navigation}) => {
     const [email, setEmail] = useState('');

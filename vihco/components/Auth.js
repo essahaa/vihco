@@ -1,5 +1,5 @@
 import { Alert } from 'react-native';
-import { collection, addDoc, doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, getAuth, signOut } from 'firebase/auth';
 import { db, USERS_REF } from '../firebase/Config';
 
@@ -34,7 +34,6 @@ export const signUp = async (username, email, password) => {
 export const logOut = async () => {
     try {
         await signOut(auth);
-        
     }
     catch (error) {
         console.log('Logout failed. ', error.message);

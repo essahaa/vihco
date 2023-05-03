@@ -3,7 +3,6 @@ import { View, Text, TextInput, FlatList, StyleSheet, Alert, TouchableOpacity} f
 import style from '../styles/style';
 import { FontAwesome5 } from '@expo/vector-icons';
 import RollDicePopup from './RollDicePopUp';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Header2 from './Header2';
 
@@ -105,13 +104,6 @@ const YahtzeeScoreSheet = () => {
         return 0;
     }
   };
-
-
-
-
-
-
-
 
   const calculateTotal = () => {
     let bonus = bonusEarned ? 35 : 0;

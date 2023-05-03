@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import { View, Modal, StyleSheet , Text, TouchableOpacity} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import style from '../styles/style';
-import { useNavigation } from '@react-navigation/native';
-
 
 const RollDicePopup = ({ visible, onClose }) => {
   const [diceValues, setDiceValues] = useState([1, 1, 1, 1, 1]);
   const [rollsLeft, setRollsLeft] = useState(3);
   const [lockedDice, setLockedDice] = useState([]);
-  const navigation = useNavigation();
-
 
   const rollDice = () => {
     const newDiceValues = diceValues.map((value, index) => {

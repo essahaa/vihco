@@ -1,7 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 import styles from "../styles/style";
 import { FontAwesome5 } from '@expo/vector-icons'; 
-import style from "../styles/style";
 
 export default Table = (data) => {
 

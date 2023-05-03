@@ -1,10 +1,10 @@
 import { Text, View, ScrollView, Pressable } from 'react-native';
 import Header from './Header';
-import { MaterialCommunityIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/style';
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc, where } from 'firebase/firestore';
-import { db, USERS_REF, auth } from '../firebase/Config';
+import { collection, onSnapshot, query, doc, getDoc, where } from 'firebase/firestore';
+import { db, USERS_REF } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
 import { getAuth } from 'firebase/auth';
@@ -12,14 +12,11 @@ import style from '../styles/style';
 import ProfileGameStats from './ProfileGameStats';
 import { onAuthStateChanged } from 'firebase/auth';
 
-export default function Profile({navigation}) {
+export default function Profile() {
 
   const [games, setGames] = useState([]);
   const [username, setUsername] = useState('');
   const [userId, setUserId] = useState('')
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState([0]);
-  const [items, setItems] = useState([]);
   const [groups, setGroups] = useState([]);
   const [myGroups, setMyGroups] = useState([])
   const [sharedGroups, setSharedGroups] = useState([])
@@ -44,15 +41,12 @@ export default function Profile({navigation}) {
         setUserId('');
       }
     });
-    //setUserId(auth.currentUser.uid)
-    console.log("joo")
   }, [])
   
   useEffect(() => {
     if(userId !== ""){
       getUsername()
       getData()
-      
     }
   }, [userId]);
 
@@ -62,16 +56,9 @@ export default function Profile({navigation}) {
       setGroupIsShared(false)
     }
     if(userId!=="" && currentGroupId !== ""){
-      console.log("group is shared in useeffect" + groupIsShared);
       checkIsGroupShared()
     }
-    console.log("currentgroupid "+currentGroupId);
   }, [currentGroupId]);
-
-  useEffect(() => {
-    console.log("isgroupshared: " + groupIsShared)
-    
-  }, [groupIsShared])
 
   useEffect(() => {
     if(currentGroupId) {
@@ -84,12 +71,10 @@ export default function Profile({navigation}) {
   useEffect(() => {
     if(groups.length !== 0 && currentGroupId === '') {
       setCurrentGroupId(groups[0].value)
-      //console.log(groups[0].value)
     }
   }, [groups])
 
   useEffect(() => {
-    console.log("useeffect: " + JSON.stringify(tempData));
     if (!tempData || tempData.length == 0) {
       console.log("tempdata no")
     } 
@@ -98,8 +83,6 @@ export default function Profile({navigation}) {
       playerData.map((player) => {
         ids.push(player.id)
       })
-      console.log("ids: " + ids);
-      console.log("id in tempdata: " + tempData[0].id)
       if(ids.includes(tempData[0].id)) {
         console.log("already game")
       }else {
@@ -116,22 +99,15 @@ export default function Profile({navigation}) {
       setPlayerData(temp)
       }
     }
-      
-      console.log("playerdata use effect: " + JSON.stringify(playerData));
-    
   }, [tempData])
 
   const checkIsGroupShared = () => {
-    console.log("groupid in if " + currentGroupId)
-    console.log("sharedGroups: " + JSON.stringify(sharedGroups))
     let ids = [];
     sharedGroups.map((group) => {
       ids.push(group.value);
     })
-    console.log("ids: " + ids)
     if(ids.includes(currentGroupId)) {
       setGroupIsShared(true);
-      console.log("inside if")
     }else {
       setGroupIsShared(false);
       getGames()
@@ -148,8 +124,6 @@ export default function Profile({navigation}) {
           ...doc.data()
         })));
       });
-    
-    console.log("games: "+games);
   }
 
   const getGameData = async () => {
@@ -157,8 +131,7 @@ export default function Profile({navigation}) {
     games.map((game) => {
       const gamesRef = USERS_REF + "/" + userId + "/groups/" + currentGroupId + "/games/" + game.id + "/users"
       const q = query(collection(db, gamesRef), where("userId", "==", userId))
-      
-      
+
       onSnapshot(q, (querySnapshot) => {
         setTempData(querySnapshot.docs.map(doc => ({
           id: doc.id,
@@ -167,10 +140,6 @@ export default function Profile({navigation}) {
         })));
       });
     })
-    
-    console.log("temp playerdata "+ JSON.stringify(tempData));
-    
-    
   }
 
   const getUsername = async () => {
@@ -178,10 +147,8 @@ export default function Profile({navigation}) {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-        console.log("Username data:", docSnap.data());
         const data = docSnap.data()
         setUsername(data.name)
-        
     } else {
         console.log("No such user found!");
     }
@@ -208,7 +175,6 @@ export default function Profile({navigation}) {
       }else {
         setGroups(myGroups.concat(sharedGroups))
       }
-      console.log('groups:', groups);
   }
 
   const getRatio = (wins, losses) => {
@@ -221,13 +187,9 @@ export default function Profile({navigation}) {
   }
 
   return (
-    
     <View style={[styles.container, {paddingTop:-20}]}>
     <Header />
-    
     <View style={{backgroundColor:'#4e9bb0', width:'100%', marginTop:-30}}>
-      {/* <Text style={[styles.gameHeader, {textAlign: 'center'}]}></Text> */}
-      
       <View>
         <LinearGradient  colors={['#4e9bb0' , '#112126']} locations={[0.6,0.4]} start={[0, 0]} end={[0, 1]} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 15 }}>
           <View style={{ flexDirection:'row', alignItems:'center' }}>
@@ -274,12 +236,6 @@ export default function Profile({navigation}) {
       } 
       </View>
       }
-      
-        
-     
-    
-      
-   
     </View>
     </ScrollView>
   </View>

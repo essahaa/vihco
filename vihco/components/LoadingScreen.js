@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 import styles from '../styles/style';
+
 const LoadingScreen = () => {
   return (
     <View style={{  alignItems: 'center', justifyContent: 'center'}}>

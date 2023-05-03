@@ -1,6 +1,5 @@
-import { Text, View, Pressable, Button } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
 import styles from '../styles/style';
-import Rules from './Rules';
 import Header from './Header';
 
 export default function Sheets({navigation}) {

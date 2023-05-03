@@ -4,21 +4,26 @@ import { updateDoc, doc, query, collection, onSnapshot, deleteDoc } from 'fireba
 import styles from '../styles/style';
 import Header from './Header';
 import { db, USERS_REF } from '../firebase/Config';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default GameSettings = ({navigation, route}) => {
     const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [newName, setNewName] = useState('');
-    const [users, setUsers] = useState([]);
     const [currentUserId, setCurrentUserId] = useState('');
     const [currentGroupId, setCurrentGroupId]=useState('')
 
     const auth = getAuth();
 
-  useEffect(() => {
-    setCurrentUserId(auth.currentUser.uid)
-  }, []);
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if(user) {
+                setCurrentUserId(auth.currentUser.uid)
+            }else {
+                setCurrentUserId('');
+            }
+        });
+    }, []);
 
     useEffect(() => {
         if( name === '' && route.params?.gameName ) {
@@ -31,7 +36,7 @@ export default GameSettings = ({navigation, route}) => {
         if( currentGroupId === '' && route.params?.groupID ) {
             setCurrentGroupId(route.params.groupID);
         }
-      
+        
     }, [route.params.gameName]);
 
     const changeName = async () => {
@@ -51,25 +56,6 @@ export default GameSettings = ({navigation, route}) => {
             console.log(error.message);
         }
     }
-    
-    /* const resetScores = async () => {
-        try {
-            const q = query(collection(db, "/games/" + id + "/users"))
-            onSnapshot(q, (querySnapshot) => {
-                querySnapshot.docs.map((user) => ({
-                    updateDoc(doc(db, "/games/" + id + "/users", user.id), {
-                        win: 0,
-                        loss: 0
-                    })
-            }))}).then(
-            Alert.alert('Scores reset',
-            "Success", [
-                {text: 'OK', onPress: () => navigation.navigate("Games")},
-            ]))
-        }catch (error) {
-            console.log(error.message);
-        }
-    } */
 
     const deleteGame = async () => {
         try {
@@ -126,12 +112,6 @@ export default GameSettings = ({navigation, route}) => {
                     >
                     <Text style={[styles.buttonText, {fontSize: 16, textAlign: 'center'}]}>SAVE NEW NAME</Text>
                 </Pressable>
-                {/* <Pressable
-                    onPress={() => resetScores()}
-                    style={[styles.buttonSettings, {marginTop: 60}]}
-                    >
-                    <Text style={[styles.buttonTextSettings, {paddingVertical: 5}]}>RESET SCORES</Text>
-                </Pressable> */}
                 <Pressable
                     onPress={handleDeletePress}
                     style={[styles.buttonLogout, {marginTop: 100}]}

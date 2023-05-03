@@ -13,8 +13,6 @@ export default function Home({navigation}) {
 
   const [username, setUsername] = useState('')
   const [userUid, setUserUid] = useState('')
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState([]);
 
   const auth = getAuth()
 
@@ -53,12 +51,10 @@ export default function Home({navigation}) {
     const docSnap = await getDoc(docRef, { 'idToken': idToken });
   
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       const data = docSnap.data()
       const username = data.name
       setUsername(username)
     } else {
-      // doc.data() will be undefined in this case
       console.log("No such document!");
     }
   }

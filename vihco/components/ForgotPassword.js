@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Pressable } from "react-native";
-import { getAuth, sendPasswordResetEmail, signInWithEmailAndPassword} from "firebase/auth";
-import { auth, firestore, db, USERS_REF } from "../firebase/Config";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import styles from "../styles/style";
 import Logo from "./Logo";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { collection, doc, updateDoc } from "@firebase/firestore";
 
 export default ForgotPassword = ({ navigation }) => {
     const auth = getAuth();
