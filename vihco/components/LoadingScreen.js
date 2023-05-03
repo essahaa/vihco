@@ -6,7 +6,7 @@ const LoadingScreen = () => {
     <View style={{  alignItems: 'center', justifyContent: 'center'}}>
       <ActivityIndicator size="large" color="#4e9bb0" />
       <View style={{flexDirection:'row'}}>
-      <Text style={styles.text}>Loading</Text><Text style={[styles.text,{color:'#F9BB00'}]}> Vihco</Text>
+      <Text style={[styles.text, {fontSize: 25}]}>Loading</Text><Text style={[styles.text,{fontSize: 25},{color:'#F9BB00'}]}> Vihco</Text>
       </View>
     </View>
   );
