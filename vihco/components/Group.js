@@ -19,6 +19,7 @@ export default Group = ({route}) => {
   const [sharedGroups, setSharedGroups] = useState([]);
   const [admins, setAdmins] = useState([]);
   const [addingPlayer, setAddingPlayer] = useState(false);
+  const [games, setGames] = useState([])
 
   const auth = getAuth();
   
@@ -37,40 +38,36 @@ export default Group = ({route}) => {
 
     if( route.params?.admins ) {
       setAdmins(route.params.admins);
-    }
-    
+    } 
   }, []);
-  
+
   useEffect(() => {
     if(groupId) {
       getPlayerIds();
     }
-    }, [groupId]);
+    if(currentUserId && groupId) {
+      getGames()
+    }
+  }, [groupId]);
 
-    useEffect(() => {
-      if(playerIds && playerIds.length !== 0) {
-        const temp = [];
-        playerIds.map((id) => {
-          getPlayer(id); //tempPlayer ei refressaa nimeä
-          console.log("player in map" + tempPlayer);
-        })
-        //temp.push(docSnap.data())
-        //getPlayers()
-      }
-    }, [playerIds])
   useEffect(() => {
-    if(playerIds.length !== 0) {
-      const temp = [];
+    console.log("games " + JSON.stringify(games));
+  }, [games])
+  
+  useEffect(() => {
+    if(playerIds && playerIds.length !== 0) {
       playerIds.map((id) => {
         getPlayer(id); 
-        console.log("player in map" + tempPlayer);
       })
     }
   }, [playerIds])
-
+  
   useEffect(() => {
     if (playerId && currentUserId) {
       getSharedGroups();
+      getPlayer(playerId)
+      const player = tempPlayer
+      console.log("player in add player " + JSON.stringify(player) + " playerId " + playerId);
       let ids = [];
       sharedGroups.map((group) => {
         ids.push(group.groupId)
@@ -86,11 +83,26 @@ export default Group = ({route}) => {
         updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
           players: arrayUnion(playerId)
         })
+        
+        
       }
     }
     console.log("groupid: " + groupId)
   }, [playerId])
 
+  useEffect(() => {
+    if(playerId !== "" && playerName !== "") {
+      games.map((game) => {
+        addDoc(collection(db, USERS_REF + "/" + currentUserId + "/groups/" + groupId + "/games/" + game.id + "/users"), {
+          loss: 0,
+          name: playerName, 
+          userId: playerId, 
+          win: 0
+        })
+      })
+    }
+  }, [playerName])
+  
   useEffect(() => {
     console.log("players in player effect: " + JSON.stringify(players))
   }, [players])
@@ -106,7 +118,7 @@ export default Group = ({route}) => {
       }else {
         const temp = [...players];
         temp.push(tempPlayer);
-        console.log("tempplayereffect: " + tempPlayer)
+        console.log("tempplayereffect: " + JSON.stringify(tempPlayer))
         setPlayers(temp);
       }
     }
@@ -127,6 +139,16 @@ export default Group = ({route}) => {
         })));
       })
     }
+  }
+
+  const getGames = () => {
+    const q = query(collection(db, USERS_REF + "/" + currentUserId + "/groups/" + groupId + "/games" ), orderBy("orderId")) 
+    onSnapshot(q, (querySnapshot) => {
+      setGames(querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })));
+    });
   }
 
   const getPlayerIds = async () => {
