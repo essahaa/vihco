@@ -24,7 +24,7 @@ export default Bottomtab = () => {
        initialRouteName='Home'
       screenOptions={{headerShown: false, tabBarActiveBackgroundColor: '#4e9bb0', tabBarInactiveBackgroundColor: '#326472', tabBarStyle:{borderTopWidth:0}, tabBarInactiveTintColor: '#ffffff', tabBarActiveTintColor: '#ffffff'}}
     >
-      <Tab.Screen name="Home"  component={Home} options={{ tabBarIcon:()=> <Ionicons name="home" size={21} color="white" />}}/>
+      <Tab.Screen name="Home"  component={Home} options={{ tabBarIcon:()=> <Ionicons name="home" size={20} color="white" />}}/>
       <Tab.Screen name="Groups"  component={Groups} options={{tabBarIcon:()=> <MaterialCommunityIcons name="account-group" size={24} color="white" />}}/>
       <Tab.Screen name="Games"  component={Games} options={{tabBarIcon:()=> <MaterialCommunityIcons name="cards-playing" size={24} color="white" />}}/>
       <Tab.Screen name="Sheets"  component={Sheets} options={{tabBarIcon:()=> <MaterialIcons name="article" size={23} color="white" />}}/>
