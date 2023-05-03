@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, Alert, Pressable } from "react-native";
 import styles from '../styles/style';
 import Logo from "./Logo";
-import { getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, browserLocalPersistence } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 //import { auth } from "../firebase/Config";
 
 export default Login = ({navigation}) => {
@@ -23,10 +23,12 @@ export default Login = ({navigation}) => {
                 signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     const user = userCredential.user;
-                    navigation.navigate('Home', {userUid: user.uid});
+                    setTimeout(() => {
+                        loadingScreen(user)
+                    }, 1500); 
+                    setLoading(true)
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
                     const errorMessage = error.message;
                     console.log('Login failed. ', errorMessage);
                     Alert.alert('Login failed. ', errorMessage);
@@ -34,8 +36,12 @@ export default Login = ({navigation}) => {
         }
     };
 
+    const loadingScreen = (user) => {
+        navigation.navigate('Home', {userUid: user.uid});
+        setLoading(false)
+    }
+
     return (
-        
         <View style={styles.overlay}>
             <Logo />
             <Text style={styles.text}>Login to your account</Text>
