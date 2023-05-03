@@ -271,7 +271,10 @@ export default function Groups({ navigation }) {
               })
             }
           >
-            <Text style={styles.gameText}>{sharedGroup.name}</Text>
+            <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.gameText}>{sharedGroup.name}<Text>  </Text>  
+                  <MaterialIcons name="arrow-forward-ios" size={16} color="white" /></Text>
+            </View>
           </Pressable>
         ))}
       </ScrollView>
