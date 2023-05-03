@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
 import { db, USERS_REF } from '../firebase/Config';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, SimpleLineIcons, MaterialIcons } from '@expo/vector-icons';
 import Header from './Header';
 import styles from '../styles/style';
 import GroupPicker from './GroupPicker';
@@ -179,10 +179,12 @@ export default Games = ({navigation}) => {
         {games.map((key, i) => (
           <Pressable
             key={i}
-            style={[styles.gameButton]}
+            style={[styles.gameButton, {flex: 1}]}
             onPress={() => navigation.navigate('Game', {game: games[i].name, id: games[i].id, groupId: currentGroupId, userId: currentUserId})}
           >
-              <Text style={[styles.gameText, {textDecorationLine: 'underline', textAlign: 'center'}]}>{games[i].name}</Text>
+              <Text style={[styles.gameText, {marginRight: 10}]}>{games[i].name}<Text>  </Text> 
+              <MaterialIcons style={[styles.flexRight]} name="arrow-forward-ios" size={18} color="white" />
+              </Text> 
           </Pressable>
         ))
         }

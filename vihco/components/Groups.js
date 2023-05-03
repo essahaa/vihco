@@ -3,7 +3,7 @@ import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
 import { db, USERS_REF } from '../firebase/Config';
 import { collection, onSnapshot, query, addDoc, where, getDocs, getDoc, doc, deleteDoc } from 'firebase/firestore';
 import styles from '../styles/style';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import Header from './Header';
 import { getAuth } from 'firebase/auth'
 import { Alert } from 'react-native';
@@ -183,13 +183,16 @@ export default function Groups({ navigation }) {
               onPress={() => navigation.navigate('Group', { group: group.name, id: group.id, admins: group.admins })}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.gameText, {textDecorationLine: 'underline'}]}>
-                  {group.name}
+                <Text style={[styles.gameText]}>
+                  {group.name}<Text>  </Text>  
+                  <MaterialIcons name="arrow-forward-ios" size={16} color="white" />
                 </Text>
+
                 <Text
                 style={[styles.flexRight, {borderRadius:10}]}>
 
                 </Text>
+
                 <Text
                 style={[styles.flexRight, {borderRadius:10}]}>
 
@@ -262,7 +265,10 @@ export default function Groups({ navigation }) {
               })
             }
           >
-            <Text style={styles.gameText}>{sharedGroup.name}</Text>
+            <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.gameText}>{sharedGroup.name}<Text>  </Text>  
+                  <MaterialIcons name="arrow-forward-ios" size={16} color="white" /></Text>
+            </View>
           </Pressable>
         ))}
       </ScrollView>
