@@ -1,13 +1,6 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState, useEffect } from 'react';
 import { View, Text, Pressable, ScrollView, SafeAreaView } from 'react-native';
-import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { db } from '../firebase/Config';
 import styles from '../styles/style';
 import Header2 from './Header2';
-
-import Table from './Table';
-
 
 const Rules = ({navigation, route}) => {
     const gameName = route.params?.gameName;

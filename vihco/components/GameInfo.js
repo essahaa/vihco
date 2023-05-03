@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import styles from '../styles/style';
@@ -6,7 +5,7 @@ import Table from './Table';
 import Header from './Header';
 import { useNavigation } from '@react-navigation/native';
 
-export default GameInfo = ({name, data, id,groupId}) => {
+export default GameInfo = ({name, data, id, groupId}) => {
     const [winData, setWinData] = useState(data);
     const [wins, setWins] = useState();
 
@@ -14,8 +13,6 @@ export default GameInfo = ({name, data, id,groupId}) => {
 
     useEffect(() => {
         setWinData(data);
-        
-        console.log("windata: " + JSON.stringify(data))
     }, [data]);
 
     useEffect(() => {
@@ -43,28 +40,11 @@ export default GameInfo = ({name, data, id,groupId}) => {
                 </View>
                 <View style={[styles.flexRight]}>
                     <View style={{flexDirection: 'row'}}>
-                        {/* <Pressable>
-                            <MaterialCommunityIcons
-                                name='account-circle'
-                                color={'#326472'}
-                                size={55}
-                                //style={{backgroundColor: 'white', borderRadius: 100}}
-                            />
-                        </Pressable> */}
                         <Pressable
                                 onPress={() => navigation.navigate("GameSettings", {gameName: name, gameId: id,groupID:groupId})}
                                 style={[styles.buttonEdit, {marginRight: 20}]}>
                                 <Text style={styles.buttonTextSettings}>EDIT GAME</Text>
                         </Pressable>
-                    {/*     <Pressable style={{marginRight: 10}}>
-                            <MaterialCommunityIcons
-                                name='pencil-circle'
-                                color={'#f9bb00'}
-                                size={55}
-                                onPress={() => navigation.navigate("GameSettings", {gameName: name, gameId: id,groupID:groupId})}
-                                //style={{backgroundColor: 'white', borderRadius: 100}}
-                            />
-                        </Pressable> */}
                     </View>
                 </View>
             </View>

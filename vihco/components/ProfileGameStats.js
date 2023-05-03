@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Text, ScrollView, Pressable, View } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import styles from '../styles/style';
 import { query, onSnapshot, doc, getDoc, where, collection } from 'firebase/firestore';
 import { db, USERS_REF } from '../firebase/Config';
-import { useNavigation } from '@react-navigation/native';
 
 export default ProfileGameStats = (groupId) => {
   const [games, setGames] = useState([]);
@@ -11,8 +10,6 @@ export default ProfileGameStats = (groupId) => {
   const [realGroupId, setRealGropId] = useState('');
   const [playerData, setPlayerData] = useState([])
   const [tempData, setTempData] = useState()
-
-  const navigation = useNavigation();
 
   useEffect(() => {
       if(groupId !== "") {
@@ -28,20 +25,15 @@ export default ProfileGameStats = (groupId) => {
     useEffect(() => {
       if (!tempData || tempData.length == 0) {
         console.log("tempdata no")
-        
       } 
       else {
         let ids = [];
-        console.log("tempdata: " + JSON.stringify(tempData));
         playerData.map((player) => {
-          console.log("player: "+ JSON.stringify(player))
           ids.push(player.id)
         })
-        console.log("ids: " + JSON.stringify(ids));
         if(ids.includes(tempData[0].id)) {
           console.log("already game")
         }else {
-          
         const temp = [...playerData]
         const player = {
           id: tempData[0].id,
@@ -62,25 +54,23 @@ export default ProfileGameStats = (groupId) => {
       const docSnap = await getDoc(q);
 
       if (docSnap.exists()) {
-          const creatorId = docSnap.data().creatorId
-          setCreatorId(creatorId);
-          const realGroupId = docSnap.data().groupId
-          setRealGropId(realGroupId);
-          const q2 = query(collection(db, USERS_REF + "/" + creatorId + "/groups/" + realGroupId + "/games"))
-          onSnapshot(q2, (querySnapshot) => {
-              setGames(querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-              })));
-            });
+        const creatorId = docSnap.data().creatorId
+        setCreatorId(creatorId);
+        const realGroupId = docSnap.data().groupId
+        setRealGropId(realGroupId);
+        const q2 = query(collection(db, USERS_REF + "/" + creatorId + "/groups/" + realGroupId + "/games"))
+        onSnapshot(q2, (querySnapshot) => {
+            setGames(querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            })));
+          });
       } else {
           console.log("shared group not found");
       }
-      console.log("games" +JSON.stringify(games));
   }
 
   const getGameData = async () => {
-  
       games.map((game) => {
         const gamesRef = USERS_REF + "/" + creatorId + "/groups/" + realGroupId + "/games/" + game.id + "/users"
         const q = query(collection(db, gamesRef), where("userId", "==", groupId.userId))

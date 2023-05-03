@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert, Button, Pressable } from "react-native";
-// import { signUp } from "./Auth";
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "../firebase/Config";
+import { View, Text, TextInput, Alert, Pressable } from "react-native";
 import styles from '../styles/style';
 import { signUp } from "./Auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/Config";
 import Logo from "./Logo";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-
-// import styles from '../style/style';
 
 export default Register = ({navigation}) => {
     const [username, setUsername] = useState('');

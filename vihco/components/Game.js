@@ -38,9 +38,11 @@ export default Game = ({route}) => {
             setCurrentGroupId(route.params.groupId);
         }
 
-        onAuthStateChanged(auth, () => {
-            if(auth.currentUser) {
+        onAuthStateChanged(auth, (user) => {
+            if(user) {
                 setMyUserId(auth.currentUser.uid)
+            }else {
+                setMyUserId('');
             }
         });
     }, []);
@@ -48,7 +50,6 @@ export default Game = ({route}) => {
     useEffect(() => {
         if(currentGroupId !== "" && currentUserId !== "")
         {
-            console.log("myuserid " + myUserId);
             checkAdmins()
         }
         
@@ -113,7 +114,6 @@ export default Game = ({route}) => {
       const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("admindata:", docSnap.data().admins);
             const data = docSnap.data().admins
             setAdmins(data);
         } else {

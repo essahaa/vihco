@@ -1,11 +1,10 @@
 import * as SplashScreen from 'expo-splash-screen';
 import 'react-native-gesture-handler';
-import { useState, useCallback } from 'react';
-import { Text, View } from 'react-native';
+import { useCallback } from 'react';
+import { View } from 'react-native';
 import Bottomtab from './components/Bottomtab';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
-//import Games from './Games';
 import Game from './components/Game';
 import { useFonts } from 'expo-font';
 import styles from './styles/style';

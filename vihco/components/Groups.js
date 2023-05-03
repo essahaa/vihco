@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Text, View, ScrollView, Pressable, Button, TextInput } from 'react-native';
+import { Text, View, ScrollView, Pressable, TextInput, Alert } from 'react-native';
 import { db, USERS_REF } from '../firebase/Config';
-import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, addDoc, where, getDocs, getDoc, doc, deleteDoc } from 'firebase/firestore';
 import styles from '../styles/style';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import Header from './Header';
-import { getAuth } from 'firebase/auth'
-import { Alert } from 'react-native';
-import { onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function Groups({ navigation }) {
   const [groupname, setGroupname] = useState('')
-  const [groupId, setGroupId] = useState('')
   const [groups, setGroups] = useState([]);
   const [currentUserId, setCurrentUserId] = useState('')
   const [addingGroup, setAddingGroup] = useState(false)
@@ -21,18 +18,19 @@ export default function Groups({ navigation }) {
   const auth = getAuth()
 
   useEffect(() => {
-    onAuthStateChanged(auth, () => {
+    onAuthStateChanged(auth, (user) => {
       setGroups([]);
       setSharedGroups([]);
       setSharedGroupNames([]);
-      if(auth.currentUser.uid) {
+      if(user) {
         setCurrentUserId(auth.currentUser.uid)
+      }else {
+        setCurrentUserId('');
       }
     });
   }, [])
 
   useEffect(() => {
-    console.log("id: " + currentUserId);
     if (currentUserId !== "") {
       getData()
     }
@@ -44,7 +42,6 @@ export default function Groups({ navigation }) {
     } else {
       const temp = []
       sharedGroups.map((group) => {
-        console.log(group.id);
         const groupData = {
           name: group.groupName,
           groupId: group.groupId,
@@ -98,13 +95,11 @@ export default function Groups({ navigation }) {
     setAddingGroup(false)
     try {
       if (groupname !== "") {
-        const groupAdded = await addDoc(collection(db, USERS_REF + "/" + currentUserId + "/groups"), {
+        await addDoc(collection(db, USERS_REF + "/" + currentUserId + "/groups"), {
           name: groupname,
           admins: [currentUserId],
           players: [currentUserId]
         });
-        console.log("group added with id: " + groupAdded.id);
-        setGroupId(groupAdded.id);
         getData();
       }
     } catch (error) {
@@ -142,7 +137,6 @@ export default function Groups({ navigation }) {
                       data.map((id) => {
                         deleteSharedGroup(id, groupId);
                       })
-                      //setPlayerIds(data);
                   } else {
                       console.log("Player ids not found!");
                   }
@@ -187,13 +181,16 @@ export default function Groups({ navigation }) {
               onPress={() => navigation.navigate('Group', { group: group.name, id: group.id, admins: group.admins })}
             >
               <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.gameText, {textDecorationLine: 'underline'}]}>
-                  {group.name}
+                <Text style={[styles.gameText]}>
+                  {group.name}<Text>  </Text>  
+                  <MaterialIcons name="arrow-forward-ios" size={16} color="white" />
                 </Text>
+
                 <Text
                 style={[styles.flexRight, {borderRadius:10}]}>
 
                 </Text>
+
                 <Text
                 style={[styles.flexRight, {borderRadius:10}]}>
 
@@ -266,7 +263,10 @@ export default function Groups({ navigation }) {
               })
             }
           >
-            <Text style={styles.gameText}>{sharedGroup.name}</Text>
+            <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.gameText}>{sharedGroup.name}<Text>  </Text>  
+                  <MaterialIcons name="arrow-forward-ios" size={16} color="white" /></Text>
+            </View>
           </Pressable>
         ))}
       </ScrollView>
