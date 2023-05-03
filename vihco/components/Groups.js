@@ -107,6 +107,16 @@ export default function Groups({ navigation }) {
     }
   }
 
+  const deleteUsers = async (gameId) => {
+    const userref=USERS_REF+"/"+currentUserId+"/groups/"+groupId+"/games/" + gameId + "/users" 
+    const q = query(collection(db,userref))
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
+  }
+
   const deleteGroup = async (groupId) => {
     const groupRef = doc(db, USERS_REF + "/" + currentUserId + "/groups/", groupId);
 
@@ -128,8 +138,12 @@ export default function Groups({ navigation }) {
               {
                 text: "Delete",
                 onPress: async () => {
+                  const gameref=USERS_REF+"/"+currentUserId+"/groups/"+groupId+"/games"
                   const docRef = doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId); 
+                  const q = query(collection(db,gameref))
                   const docSnap = await getDoc(docRef);
+                  const querySnapshot = await getDocs(q);
+                  
 
                   if (docSnap.exists()) {
                       const data = docSnap.data().players
@@ -140,6 +154,14 @@ export default function Groups({ navigation }) {
                   } else {
                       console.log("Player ids not found!");
                   }
+                  onSnapshot(q, (querySnapshot) => {
+                      querySnapshot.docs.map(function(game) {
+                          deleteUsers(game.id)
+                          deleteDoc(doc(db, gameref, game.id));
+                      });
+                  })
+                    
+                  
                   await deleteDoc(groupRef);
                   setGroups((prevGroups) => prevGroups.filter((group) => group.id !== groupId));
                   console.log("Group deleted successfully!");
