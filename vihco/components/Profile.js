@@ -40,6 +40,8 @@ export default function Profile({navigation}) {
       setPlayerData([]);
       if(user) {
         setUserId(auth.currentUser.uid)
+      }else {
+        setUserId('');
       }
     });
     //setUserId(auth.currentUser.uid)

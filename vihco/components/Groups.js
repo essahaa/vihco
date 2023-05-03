@@ -21,12 +21,14 @@ export default function Groups({ navigation }) {
   const auth = getAuth()
 
   useEffect(() => {
-    onAuthStateChanged(auth, () => {
+    onAuthStateChanged(auth, (user) => {
       setGroups([]);
       setSharedGroups([]);
       setSharedGroupNames([]);
-      if(auth.currentUser.uid) {
+      if(user) {
         setCurrentUserId(auth.currentUser.uid)
+      }else {
+        setCurrentUserId('');
       }
     });
   }, [])
