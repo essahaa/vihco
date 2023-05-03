@@ -1,27 +1,18 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
-import { View, Text, Pressable, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import { collection, onSnapshot, orderBy, query, addDoc, where, getDocs, data, getDoc, doc, setDoc, arrayUnion, updateDoc } from 'firebase/firestore';
-import { db, GROUPS_REF, USERS_REF } from '../firebase/Config';
+import { View, Text, ScrollView } from 'react-native';
+import { getDoc, doc } from 'firebase/firestore';
+import { db, USERS_REF } from '../firebase/Config';
 import styles from '../styles/style';
-import { getAuth } from 'firebase/auth'
 
 export default Group = ({route}) => {
   const [groupName, setGroupName] = useState('');
   const [groupId, setGroupId] = useState('')
   const [groupCreator, setGroupCreator] = useState('')
-  const [playerEmail, setPlayerEmail] = useState('');
-  const [playerId, setPlayerId] = useState('')
   const [players, setPlayers] = useState([]);
-  const [currentUserId, setCurrentUserId] = useState('');
   const [playerIds, setPlayerIds] = useState([]);
   const [tempPlayer, setTempPlayer] = useState();
-  const [playerName, setPlayerName] = useState('');
-
-  const auth = getAuth();
   
   useEffect(() => {
-    setCurrentUserId(auth.currentUser.uid)
 
     if( groupName === '' && route.params?.group ) {
       setGroupName(route.params.group);
@@ -45,31 +36,11 @@ export default Group = ({route}) => {
 
   useEffect(() => {
     if(playerIds.length !== 0) {
-      const temp = [];
       playerIds.map((id) => {
         getPlayer(id); 
-        console.log("player in map" + tempPlayer);
       })
     }
   }, [playerIds])
-
-//   useEffect(() => {
-//     if (playerId && currentUserId) {
-//       addDoc(collection(db, USERS_REF + "/" + playerId + "/sharedGroups"), {
-//         creatorId: currentUserId,
-//         groupId: groupId, 
-//         groupName: groupName
-//       })
-//       updateDoc(doc(db, USERS_REF + "/" + currentUserId + "/groups", groupId), {
-//         players: arrayUnion(playerId)
-//       })
-//     }
-//     console.log("groupid: " + groupId)
-//   }, [playerId])
-
-  useEffect(() => {
-    console.log("players in player effect: " + JSON.stringify(players))
-  }, [players])
   
   useEffect(() => {
     if(tempPlayer) {
@@ -82,7 +53,6 @@ export default Group = ({route}) => {
       }else {
         const temp = [...players];
         temp.push(tempPlayer);
-        console.log("tempplayereffect: " + tempPlayer)
         setPlayers(temp);
       }
     }
@@ -95,7 +65,6 @@ export default Group = ({route}) => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-          console.log("playerdata:", docSnap.data().players);
           const data = docSnap.data().players
           setPlayerIds(data);
       } else {
@@ -108,7 +77,6 @@ export default Group = ({route}) => {
     const docRef = doc(db, USERS_REF, playerId); 
     await getDoc(docRef).then((data) => {
       if (data.exists()) {
-        console.log("player in getplayers:", data.data().name);
         const player = {
           name: data.data().name,
           id: playerId
@@ -119,28 +87,6 @@ export default Group = ({route}) => {
       }
     });
   }
-
-//   const addPlayer = async () => {
-//     const q = query(collection(db, USERS_REF), where("email", "==", playerEmail));
-//     const querySnapshot = await getDocs(q);
-  
-//     if(querySnapshot.empty) {
-//       console.log("No such user found!")
-//     }
-//     else {
-//         /* const data = querySnapshot.data()
-//         setPlayerId(data.id)
-//         console.log("Username data: " + data.name + " => " + data.id) */
-//       querySnapshot.forEach((doc) => {
-//         const data = doc.data();
-//         setPlayerId(doc.id);
-//         setPlayerName(data.name);
-//         console.log("Username data: " + data.name + " => " + doc.id);
-//         //setPlayers(prevPlayers => [...prevPlayers, { id: doc.id, name: data.name }]);
-//       });
-//       getPlayerIds()
-//     }
-//   }  
     
   return (
       <View style={styles.overlay}>
@@ -148,22 +94,6 @@ export default Group = ({route}) => {
           <ScrollView contentContainerStyle={styles.scrollview}
         style={{marginBottom: 20}}>
           <Text style={[styles.title, {marginBottom: 25}]}>GROUP NAME: {groupName}</Text>
-          {/* <Text style={[styles.text, {marginBottom: 5}]}>Add new player to {groupName}</Text>     
-          <TextInput 
-              style={[styles.textInput, {marginBottom: 10}]}
-              placeholder='Player email'
-              value={playerEmail}
-              onChangeText={(playerEmail) => setPlayerEmail(playerEmail.trim())}
-              autoCapitalize="none"
-              keyboardType='email-address'
-              placeholderTextColor='#4E9BB0'
-          />
-          <Pressable
-              onPress={addPlayer}
-              style={styles.buttonSettings}
-              >
-              <Text style={[styles.buttonTextSettings, {fontSize: 20}]}>ADD</Text>
-          </Pressable> */}
       <Text style={[styles.title, {marginTop: 30}]}>PLAYERS</Text>   
         {players.map((key,i) => (
           <View key={i} style={[styles.gameButton, {backgroundColor: '#f9bb00'}]}>
