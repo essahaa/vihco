@@ -1,11 +1,10 @@
-import { View,TouchableOpacity  } from 'react-native';
+import { View,TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../styles/style';
-import { Image } from 'react-native';
 
 export default Header = () => {
-  
+
   const navigation = useNavigation();
 
   return (

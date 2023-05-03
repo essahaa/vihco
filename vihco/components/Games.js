@@ -2,13 +2,12 @@ import { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
 import { collection, onSnapshot, orderBy, query, addDoc, doc, getDoc } from 'firebase/firestore';
 import { db, USERS_REF } from '../firebase/Config';
-import { MaterialCommunityIcons, SimpleLineIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import Header from './Header';
 import styles from '../styles/style';
 import GroupPicker from './GroupPicker';
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import SharedGames from './sharedGames';
-import { onAuthStateChanged } from 'firebase/auth';
 
 export default Games = ({navigation}) => {
   const [groups, setGroups] = useState([]);

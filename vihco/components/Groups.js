@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Text, View, ScrollView, Pressable, TextInput } from 'react-native';
+import { Text, View, ScrollView, Pressable, TextInput, Alert } from 'react-native';
 import { db, USERS_REF } from '../firebase/Config';
 import { collection, onSnapshot, query, addDoc, where, getDocs, getDoc, doc, deleteDoc } from 'firebase/firestore';
 import styles from '../styles/style';
 import { MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
 import Header from './Header';
-import { getAuth } from 'firebase/auth'
-import { Alert } from 'react-native';
-import { onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function Groups({ navigation }) {
   const [groupname, setGroupname] = useState('')

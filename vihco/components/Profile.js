@@ -7,10 +7,8 @@ import { collection, onSnapshot, query, doc, getDoc, where } from 'firebase/fire
 import { db, USERS_REF } from '../firebase/Config';
 import { LinearGradient } from 'expo-linear-gradient';
 import GroupPicker from './GroupPicker';
-import { getAuth } from 'firebase/auth';
-import style from '../styles/style';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import ProfileGameStats from './ProfileGameStats';
-import { onAuthStateChanged } from 'firebase/auth';
 
 export default function Profile() {
 
@@ -222,9 +220,9 @@ export default function Profile() {
         
 
           <View style={styles.flexRight}>
-            <Text style={[style.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
-            <Text style={[style.gameText,{fontSize:15}]}>Losses: {playerData[i].loss}</Text>
-            <Text style={[style.gameText,{fontSize:15}]}>
+            <Text style={[styles.gameText,{fontSize:15}]}>Wins: {playerData[i].win}</Text>
+            <Text style={[styles.gameText,{fontSize:15}]}>Losses: {playerData[i].loss}</Text>
+            <Text style={[styles.gameText,{fontSize:15}]}>
               Win/Loss ratio: {getRatio(playerData[i].win, playerData[i].loss)} 
             </Text>
           </View>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import styles from '../styles/style';
 import { logOut } from './Auth';
