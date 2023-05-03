@@ -37,19 +37,6 @@ export default function Home({navigation}) {
     return () => clearTimeout(timeout);
   }, []);
 
-  fetchData = async () => {
-    const querySnapshot = await db.collection('USERS_REF').get();
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    setData(data);
-    setIsLoading(false);
-  };
-  
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-
-
   useEffect(() => {
     if(userUid !== '') {
       getUserData()

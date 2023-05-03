@@ -27,14 +27,16 @@ export default Games = ({navigation}) => {
   const auth = getAuth();
 
   useEffect(() => {
-    onAuthStateChanged(auth, () => {
+    onAuthStateChanged(auth, (user) => {
       setGroups([]);
       setGames([]);
       setMyGroups([]);
       setSharedGroups([]);
       setCurrentGroupId('');
-      if(auth.currentUser.uid) {
+      if(user) {
         setCurrentUserId(auth.currentUser.uid)
+      }else {
+        setCurrentUserId('');
       }
     });
   }, []);

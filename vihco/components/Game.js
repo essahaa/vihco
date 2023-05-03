@@ -38,9 +38,11 @@ export default Game = ({route}) => {
             setCurrentGroupId(route.params.groupId);
         }
 
-        onAuthStateChanged(auth, () => {
-            if(auth.currentUser) {
+        onAuthStateChanged(auth, (user) => {
+            if(user) {
                 setMyUserId(auth.currentUser.uid)
+            }else {
+                setMyUserId('');
             }
         });
     }, []);
