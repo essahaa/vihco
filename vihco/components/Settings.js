@@ -15,12 +15,6 @@ export default function Settings({ navigation }) {
       <Logo />
       <Text style={[styles.title, {marginBottom: 5}]}>Settings</Text>
       <Pressable
-        onPress={() => navigation.navigate('Groups')}
-        style={[styles.buttonSettings, { marginTop: 12, zIndex: 0 }]}
-      >
-        <Text style={styles.buttonTextSettings}>EDIT GROUPS</Text>
-      </Pressable>
-      <Pressable
         onPress={() => navigation.navigate('EditProfile')}
         style={[styles.buttonSettings, { marginTop: 12 }]}
       >
